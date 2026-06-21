@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Тема окна до отрисовки Compose. Реальная темизация приложения — в Compose
+        (Material 3, светлая/тёмная), см. задачу T-03.
+    -->
+    <style name="Theme.ShoppingList" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
