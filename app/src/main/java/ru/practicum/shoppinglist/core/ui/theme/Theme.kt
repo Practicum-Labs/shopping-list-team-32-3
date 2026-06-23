@@ -18,11 +18,11 @@ val LightColors = lightColorScheme(
     secondaryFixed = MaterialLightPrimary,
 
     background = SchemesLightBackground,
+    onBackground = MaterialLightOnSurface,
 
     surface = MaterialLightSurface,
     onSurface = MaterialLightOnSurface,
     onSurfaceVariant = MaterialLightOnSurfaceVariant,
-    inverseOnSurface = MaterialLightOnSurface,
     surfaceContainer = MaterialLightSurfaceContainer,
     surfaceContainerLow = MaterialLightSurfaceContainerLow,
     surfaceContainerLowest = MaterialLightSurfaceContainerLowest,
@@ -49,11 +49,11 @@ private val DarkColors = darkColorScheme(
     secondaryFixed = MaterialDarkMediumContrastSecondary,
 
     background = SchemesDarkBackground,
+    onBackground = MaterialDarkMediumContrastOnSurface,
 
     surface = MaterialDarkMediumContrastSurface,
     onSurface = MaterialDarkOnSurface,
     onSurfaceVariant = MaterialDarkOnSurfaceVariant,
-    inverseOnSurface = MaterialDarkMediumContrastOnSurface,
     surfaceContainer = MaterialDarkMediumContrastSurfaceContainer,
     surfaceContainerLow = MaterialDarkMediumContrastSurfaceContainerLow,
     surfaceContainerLowest = MaterialDarkSurfaceContainerLowest,
