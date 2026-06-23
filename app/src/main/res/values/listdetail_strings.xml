@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="listdetail_unit_liter">л</string>
+    <string name="listdetail_unit_milliliter">мл</string>
+    <string name="listdetail_unit_pack">уп</string>
+    <string name="listdetail_unit_packet">пач</string>
+    <string name="listdetail_unit_piece">шт</string>
+    <string name="listdetail_unit_kilogram">кг</string>
+    <string name="listdetail_unit_gram">г</string>
+</resources>
