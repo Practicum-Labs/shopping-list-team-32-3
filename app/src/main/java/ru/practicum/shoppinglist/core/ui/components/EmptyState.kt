@@ -43,7 +43,7 @@ fun EmptyState(
         Column(
             verticalArrangement = Arrangement.spacedBy(Dimens.padding8, Alignment.CenterVertically),
 
-            ) {
+        ) {
             Text(
                 text = stringResource(titleId),
                 modifier = Modifier
@@ -61,8 +61,6 @@ fun EmptyState(
                 textAlign = TextAlign.Center
             )
         }
-
-
     }
 }
 
