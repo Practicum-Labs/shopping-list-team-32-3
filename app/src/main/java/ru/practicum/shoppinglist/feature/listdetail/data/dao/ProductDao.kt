@@ -12,25 +12,31 @@ import ru.practicum.shoppinglist.feature.listdetail.data.entity.ProductEntity
 interface ProductDao {
     fun observeByList(listId: Long): Flow<List<ProductEntity>>
 
-    @Query("""
+    @Query(
+        """        
         SELECT * FROM products 
         WHERE listId = :listId 
         ORDER BY position ASC, id ASC
-    """)
+        """
+    )
     fun observeByListOrderedByPosition(listId: Long): Flow<List<ProductEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM products 
         WHERE listId = :listId 
         ORDER BY name COLLATE NOCASE ASC, position ASC
-    """)
+        """
+    )
     fun observeByListOrderedByName(listId: Long): Flow<List<ProductEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM products 
         WHERE listId = :listId 
         ORDER BY isPurchased ASC, position ASC
-    """)
+        """
+    )
     fun observeByListOrderedByStatus(listId: Long): Flow<List<ProductEntity>>
 
     @Update
