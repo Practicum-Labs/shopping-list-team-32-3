@@ -1,0 +1,28 @@
+package ru.practicum.shoppinglist.feature.lists.ui
+
+import ru.practicum.shoppinglist.core.mvi.UiEffect
+import ru.practicum.shoppinglist.core.mvi.UiIntent
+import ru.practicum.shoppinglist.core.mvi.UiState
+import ru.practicum.shoppinglist.feature.lists.domain.models.ShoppingList
+
+interface ListsContract {
+
+    data class State(
+        val lists: List<ShoppingList> = emptyList(),
+        val isLoading: Boolean = true,
+        val activeSheet: Sheet? = null,
+        val query: String = "",
+        val error: String? = null,
+    ) : UiState
+
+    sealed interface Sheet
+
+    sealed interface Intent : UiIntent {
+        data object Load : Intent
+        data class OpenList(val id: Long) : Intent
+    }
+
+    sealed interface Effect : UiEffect {
+        data class OpenList(val id: Long) : Effect
+    }
+}
