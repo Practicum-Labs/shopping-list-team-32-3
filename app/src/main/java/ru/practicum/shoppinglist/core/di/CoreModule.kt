@@ -1,7 +1,5 @@
 package ru.practicum.shoppinglist.core.di
 
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.room.Room
 import org.koin.dsl.module
 import ru.practicum.shoppinglist.core.data.database.AppDatabase
