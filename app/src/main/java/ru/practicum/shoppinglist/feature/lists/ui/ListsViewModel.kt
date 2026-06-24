@@ -1,6 +1,7 @@
 package ru.practicum.shoppinglist.feature.lists.ui
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -14,6 +15,8 @@ class ListsViewModel(
     initial = ListsContract.State(),
 ) {
 
+    private var observeJob: Job? = null
+
     init {
         observeLists()
     }
@@ -26,12 +29,13 @@ class ListsViewModel(
     }
 
     private fun observeLists() {
-        repository.observeLists()
+        observeJob?.cancel()
+        observeJob = repository.observeLists()
             .onEach { lists ->
-                setState { copy(lists = lists, isLoading = false) }
+                setState { copy(lists = lists, isLoading = false, error = null) }
             }
             .catch {
-                setState { copy(isLoading = false) }
+                setState { copy(isLoading = false, error = it.message) }
             }
             .launchIn(viewModelScope)
     }

@@ -12,6 +12,7 @@ interface ListsContract {
         val isLoading: Boolean = true,
         val activeSheet: Sheet? = null,
         val query: String = "",
+        val error: String? = null,
     ) : UiState
 
     sealed interface Sheet
