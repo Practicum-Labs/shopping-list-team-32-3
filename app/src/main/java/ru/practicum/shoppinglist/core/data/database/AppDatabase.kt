@@ -3,6 +3,7 @@ package ru.practicum.shoppinglist.core.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import ru.practicum.shoppinglist.feature.listdetail.data.dao.ProductDao
 import ru.practicum.shoppinglist.feature.listdetail.data.entity.ProductEntity
 import ru.practicum.shoppinglist.feature.lists.data.dao.ListDao
 import ru.practicum.shoppinglist.feature.lists.data.entity.ListEntity
@@ -11,4 +12,5 @@ import ru.practicum.shoppinglist.feature.lists.data.entity.ListEntity
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun listDao(): ListDao
+    abstract fun productDao(): ProductDao
 }

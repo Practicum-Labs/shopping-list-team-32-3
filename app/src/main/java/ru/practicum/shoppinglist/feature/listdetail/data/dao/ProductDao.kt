@@ -10,7 +10,8 @@ import ru.practicum.shoppinglist.feature.listdetail.data.entity.ProductEntity
 
 @Dao
 interface ProductDao {
-    fun observeByList(listId: Long): Flow<List<ProductEntity>>
+    fun observeByList(listId: Long): Flow<List<ProductEntity>> =
+        observeByListOrderedByPosition(listId)
 
     @Query(
         """        

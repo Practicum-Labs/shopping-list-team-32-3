@@ -13,7 +13,7 @@ interface ListDao {
     fun observeAll(): Flow<List<ListEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(list: ListEntity)
+    suspend fun upsert(list: ListEntity): Long
 
     @Query("UPDATE lists SET name = :newName WHERE id = :listId")
     suspend fun rename(listId: Long, newName: String)
