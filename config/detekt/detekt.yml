@@ -200,7 +200,7 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', 'AppPreview']
   UseIfEmptyOrIfBlank:
     active: true
   UseIsNullOrEmpty:
