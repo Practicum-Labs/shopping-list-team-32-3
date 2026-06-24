@@ -26,6 +26,9 @@ coroutines = "1.10.2"
 # Serialization (type-safe navigation)
 kotlinxSerialization = "1.7.0"
 
+# SplashScreen
+splashscreen = "1.0.1"
+
 # Quality
 detekt = "1.23.8"
 
@@ -66,6 +69,9 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 
 # Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+#SplashScreen
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 
 # Detekt (ktlint-обёртка для ruleset formatting)
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }

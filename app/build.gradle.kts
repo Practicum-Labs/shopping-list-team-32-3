@@ -94,6 +94,9 @@ dependencies {
     // Serialization (type-safe navigation)
     implementation(libs.kotlinx.serialization.json)
 
+    //SplashScreen
+    implementation(libs.core.splashscreen)
+
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
