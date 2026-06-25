@@ -14,8 +14,6 @@ import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
 import ru.practicum.shoppinglist.feature.lists.domain.api.ListsRepository
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
-import java.io.IOException
-import kotlin.coroutines.cancellation.CancellationException
 
 class ListDetailViewModel(
     private val savedStateHandle: SavedStateHandle,
