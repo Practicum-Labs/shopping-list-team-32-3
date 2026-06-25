@@ -97,14 +97,10 @@ class ListDetailViewModel(
                 val listId = currentState().listId
                 productsRepository.addProduct(listId, name, quantity, unit)
                 sendEffect(ListDetailContract.Effect.ShowToast("Товар добавлен"))
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
@@ -114,14 +110,10 @@ class ListDetailViewModel(
             try {
                 productsRepository.updateProduct(product)
                 sendEffect(ListDetailContract.Effect.ShowToast("Товар обновлён"))
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
@@ -131,14 +123,10 @@ class ListDetailViewModel(
             try {
                 productsRepository.deleteProduct(productId)
                 sendEffect(ListDetailContract.Effect.ShowToast("Товар удалён"))
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
@@ -147,14 +135,10 @@ class ListDetailViewModel(
         viewModelScope.launch {
             try {
                 productsRepository.setPurchased(productId, isPurchased)
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
@@ -164,14 +148,10 @@ class ListDetailViewModel(
             try {
                 productsRepository.clearPurchased(listId)
                 sendEffect(ListDetailContract.Effect.ShowToast("Покупки очищены"))
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
@@ -180,26 +160,19 @@ class ListDetailViewModel(
         viewModelScope.launch {
             try {
                 val listId = currentState().listId
-                // Сохраняем режим сортировки
                 listRepository.setSortMode(listId, sortMode)
 
-                // Обновляем состояние
                 setState {
                     copy(sortMode = sortMode)
                 }
 
-                // Переподписываемся с новой сортировкой
                 loadList(listId)
 
                 sendEffect(ListDetailContract.Effect.ShowToast("Сортировка: ${sortMode.name}"))
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
@@ -209,14 +182,10 @@ class ListDetailViewModel(
             try {
                 val listId = currentState().listId
                 productsRepository.reorderProducts(listId, fromPosition, toPosition)
-            } catch (e: IOException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
             } catch (e: SQLiteException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
             } catch (e: IllegalArgumentException) {
                 sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
-            } catch (e: CancellationException) {
-                throw e
             }
         }
     }
