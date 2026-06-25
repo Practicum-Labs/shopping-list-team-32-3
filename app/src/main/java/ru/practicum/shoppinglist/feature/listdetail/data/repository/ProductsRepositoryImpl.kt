@@ -8,7 +8,7 @@ import ru.practicum.shoppinglist.feature.listdetail.data.toDomainList
 import ru.practicum.shoppinglist.feature.listdetail.data.toEntity
 import ru.practicum.shoppinglist.feature.listdetail.domain.api.ProductsRepository
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
-import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
 class ProductsRepositoryImpl(
@@ -31,7 +31,7 @@ class ProductsRepositoryImpl(
         listId: Long,
         name: String,
         quantity: Double?,
-        unit: Unit?
+        unit: ProductUnit?
     ) {
         val maxPosition = dao.getMaxPosition(listId) ?: -1
         val product = Product(

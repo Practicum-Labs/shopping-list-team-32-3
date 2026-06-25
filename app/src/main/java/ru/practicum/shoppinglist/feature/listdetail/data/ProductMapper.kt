@@ -2,14 +2,14 @@ package ru.practicum.shoppinglist.feature.listdetail.data
 
 import ru.practicum.shoppinglist.feature.listdetail.data.entity.ProductEntity
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
-import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 
 fun ProductEntity.toDomain(): Product = Product(
     id = id,
     listId = listId,
     name = name,
     quantity = quantity,
-    unit = unit?.let { Unit.valueOf(it) },
+    unit = unit?.let { ProductUnit.valueOf(it) },
     isPurchased = isPurchased,
     position = position
 )

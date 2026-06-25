@@ -1,18 +1,18 @@
 package ru.practicum.shoppinglist.core.data.database
 
 import androidx.room.TypeConverter
-import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
 class Converters {
     @TypeConverter
-    fun fromUnitToString(unit: Unit?): String? {
+    fun fromUnitToString(unit: ProductUnit?): String? {
         return unit?.toString()
     }
 
     @TypeConverter
-    fun fromStringToUnit(value: String?): Unit? {
-        return value?.let { Unit.valueOf(it) }
+    fun fromStringToUnit(value: String?): ProductUnit? {
+        return value?.let { ProductUnit.valueOf(it) }
     }
 
     @TypeConverter

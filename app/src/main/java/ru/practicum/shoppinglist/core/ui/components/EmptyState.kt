@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -29,8 +28,8 @@ fun EmptyState(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(Dimens.padding48, Alignment.CenterVertically),
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(Dimens.padding48),
 
     ) {
         Image(

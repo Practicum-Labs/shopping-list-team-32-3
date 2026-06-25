@@ -1,6 +1,6 @@
 package ru.practicum.shoppinglist.feature.listdetail.domain.models
 
-enum class Unit {
+enum class ProductUnit {
     L,
     ML,
     PACK,

@@ -7,4 +7,7 @@
     <string name="listdetail_unit_piece">шт</string>
     <string name="listdetail_unit_kilogram">кг</string>
     <string name="listdetail_unit_gram">г</string>
+
+    <string name="listdetail_empty_state_title">В списке покупок пока пусто</string>
+    <string name="listdetail_empty_state_description">Нажмите на кнопку + ниже,\nчтобы добавить товары</string>
 </resources>

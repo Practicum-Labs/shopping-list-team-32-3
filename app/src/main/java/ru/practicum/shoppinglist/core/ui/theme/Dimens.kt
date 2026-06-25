@@ -8,11 +8,14 @@ object Dimens {
     val padding8 = 8.dp
     val padding9 = 9.dp
     val padding12 = 12.dp
+    val padding14 = 14.dp
     val padding16 = 16.dp
     val padding24 = 24.dp
     val padding32 = 32.dp
     val padding44 = 44.dp
     val padding48 = 48.dp
+    val padding56 = 56.dp
+    val padding120 = 120.dp
 
     val radius12 = 12.dp
     val radius28 = 28.dp
