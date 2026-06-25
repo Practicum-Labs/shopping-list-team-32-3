@@ -114,7 +114,19 @@ fun ListDetailScreen(
                 } else {
                     LazyColumn {
                         items(state.value.products, key = { it.id }) { product ->
-                            ProductCard(product, {}, {})
+                            ProductCard(
+                                product,
+                                onClick = {},
+                                onCheck = {
+                                    viewModel.onIntent(
+                                        ListDetailContract.Intent.TogglePurchased(
+                                            productId = product.id,
+                                            isPurchased = !product.isPurchased
+
+                                        )
+                                    )
+                                }
+                            )
                         }
                     }
                 }
