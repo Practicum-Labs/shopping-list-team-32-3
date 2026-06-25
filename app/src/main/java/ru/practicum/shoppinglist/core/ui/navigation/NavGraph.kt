@@ -9,8 +9,8 @@ import ru.practicum.shoppinglist.feature.lists.ui.ListsScreen
 import ru.practicum.shoppinglist.feature.onboarding.ui.OnboardingScreen
 
 @Composable
-fun NavGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = Screen.Onboarding) {
+fun NavGraph(navController: NavHostController, passedOnboarding: Boolean) {
+    NavHost(navController, startDestination = if (passedOnboarding) Screen.Lists else Screen.Onboarding) {
         composable<Screen.Onboarding> {
             OnboardingScreen {
                 navController.navigate(Screen.Lists)
