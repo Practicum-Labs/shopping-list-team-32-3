@@ -1,5 +1,6 @@
 package ru.practicum.shoppinglist.feature.listdetail.ui
 
+import android.database.sqlite.SQLiteException
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -13,6 +14,8 @@ import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
 import ru.practicum.shoppinglist.feature.lists.domain.api.ListsRepository
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
+import java.io.IOException
+import kotlin.coroutines.cancellation.CancellationException
 
 class ListDetailViewModel(
     private val savedStateHandle: SavedStateHandle,
@@ -95,7 +98,13 @@ class ListDetailViewModel(
                 productsRepository.addProduct(listId, name, quantity, unit)
                 sendEffect(ListDetailContract.Effect.ShowToast("Товар добавлен"))
             } catch (e: Exception) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка: ${e.message}"))
+                when (e) {
+                    is IOException -> sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
+                    is SQLiteException -> sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
+                    is IllegalArgumentException -> sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                    is CancellationException -> throw e
+                    else -> sendEffect(ListDetailContract.Effect.ShowToast("Неизвестная ошибка: ${e.message}"))
+                }
             }
         }
     }
@@ -106,7 +115,13 @@ class ListDetailViewModel(
                 productsRepository.updateProduct(product)
                 sendEffect(ListDetailContract.Effect.ShowToast("Товар обновлён"))
             } catch (e: Exception) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка: ${e.message}"))
+                when (e) {
+                    is IOException -> sendEffect(ListDetailContract.Effect.ShowToast("Ошибка сети: ${e.message}"))
+                    is SQLiteException -> sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
+                    is IllegalArgumentException -> sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                    is CancellationException -> throw e
+                    else -> sendEffect(ListDetailContract.Effect.ShowToast("Неизвестная ошибка: ${e.message}"))
+                }
             }
         }
     }
@@ -175,5 +190,4 @@ class ListDetailViewModel(
             }
         }
     }
-
 }
