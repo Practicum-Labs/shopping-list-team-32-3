@@ -17,9 +17,11 @@ fun NavGraph(navController: NavHostController, passedOnboarding: Boolean) {
             }
         }
         composable<Screen.Lists> {
-            ListsScreen {
-                navController.navigate(Screen.ListDetail(1))
-            }
+            ListsScreen(
+                onNavigateToDetail = { id ->
+                    navController.navigate(Screen.ListDetail(id))
+                },
+            )
         }
         composable<Screen.ListDetail> {
             // val args = it.toRoute<Screen.ListDetail>()
