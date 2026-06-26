@@ -25,6 +25,20 @@ class ListsViewModel(
         when (intent) {
             is ListsContract.Intent.Load -> observeLists()
             is ListsContract.Intent.OpenList -> openList(intent.id)
+            is ListsContract.Intent.OpenAddSheet ->
+                setState { copy(activeSheet = ListsContract.Sheet.AddList) }
+            is ListsContract.Intent.DismissSheet ->
+                setState { copy(activeSheet = null) }
+            is ListsContract.Intent.CreateList -> createList(intent.name)
+        }
+    }
+
+    private fun createList(name: String) {
+        val trimmed = name.trim()
+        if (trimmed.isBlank()) return
+        viewModelScope.launch {
+            repository.create(trimmed)
+            setState { copy(activeSheet = null) }
         }
     }
 

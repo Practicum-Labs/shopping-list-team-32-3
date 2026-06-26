@@ -56,15 +56,8 @@ private fun ListsContent(
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.lists_title)) })
         },
-        bottomBar = {
-            // TODO: временная заглушка для перехода на экран деталей — удалить.
-            Button(onClick = { onNavigateToDetail(1) }) {
-                Text("ListsScreen stub, click to detail")
-            }
-        },
         floatingActionButton = {
-            // Создание списка появится в T-22.
-            AddFab(onClick = {})
+            AddFab(onClick = { onIntent(ListsContract.Intent.OpenAddSheet) })
         },
     ) { padding ->
         when {
@@ -99,5 +92,12 @@ private fun ListsContent(
                 }
             }
         }
+    }
+
+    if (state.activeSheet is ListsContract.Sheet.AddList) {
+        AddListSheet(
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onCreate = { onIntent(ListsContract.Intent.CreateList(it)) },
+        )
     }
 }
