@@ -32,6 +32,7 @@ interface ListDetailContract {
 
     sealed interface Effect : UiEffect {
         data class ShowToast(val message: String) : Effect
+        data class ShowToastRes(val stringId: Int, val message: String = "") : Effect
         object NavigateBack : Effect
         data class NavigateToProductDetail(val productId: Long) : Effect
     }

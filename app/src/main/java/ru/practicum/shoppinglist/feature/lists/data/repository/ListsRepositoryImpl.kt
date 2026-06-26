@@ -1,7 +1,9 @@
 package ru.practicum.shoppinglist.feature.lists.data.repository
 
+import android.database.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.feature.lists.data.dao.ListDao
 import ru.practicum.shoppinglist.feature.lists.data.entity.ListEntity
 import ru.practicum.shoppinglist.feature.lists.data.toDomain
@@ -42,6 +44,12 @@ class ListsRepositoryImpl(
         listId: Long,
         sortMode: SortMode
     ) {
-        dao.updateSortMode(listId, sortMode.name)
+        try {
+            dao.updateSortMode(listId, sortMode.name)
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 }
