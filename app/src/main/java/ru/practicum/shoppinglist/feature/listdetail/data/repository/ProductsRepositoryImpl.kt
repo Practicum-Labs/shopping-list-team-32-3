@@ -1,8 +1,10 @@
 package ru.practicum.shoppinglist.feature.listdetail.data.repository
 
+import android.database.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.feature.listdetail.data.dao.ProductDao
 import ru.practicum.shoppinglist.feature.listdetail.data.toDomainList
 import ru.practicum.shoppinglist.feature.listdetail.data.toEntity
@@ -33,43 +35,73 @@ class ProductsRepositoryImpl(
         quantity: Double?,
         unit: ProductUnit?
     ) {
-        val maxPosition = dao.getMaxPosition(listId) ?: -1
-        val product = Product(
-            id = 0,
-            listId = listId,
-            name = name,
-            quantity = quantity,
-            unit = unit,
-            isPurchased = false,
-            position = maxPosition + 1
-        )
-        dao.upsert(product.toEntity())
+        try {
+            val maxPosition = dao.getMaxPosition(listId) ?: -1
+            val product = Product(
+                id = 0,
+                listId = listId,
+                name = name,
+                quantity = quantity,
+                unit = unit,
+                isPurchased = false,
+                position = maxPosition + 1
+            )
+            dao.upsert(product.toEntity())
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 
     override suspend fun updateProduct(product: Product) {
-        dao.update(product.toEntity())
+        try {
+            dao.update(product.toEntity())
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 
     override suspend fun deleteProduct(productId: Long) {
-        dao.delete(productId)
+        try {
+            dao.delete(productId)
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 
     override suspend fun setPurchased(productId: Long, isPurchased: Boolean) {
-        dao.setPurchased(productId, isPurchased)
+        try {
+            dao.setPurchased(productId, isPurchased)
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 
     override suspend fun clearPurchased(listId: Long) {
-        dao.clearPurchased(listId)
+        try {
+            dao.clearPurchased(listId)
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 
     override suspend fun deleteAllProducts(listId: Long) {
-        dao.deleteByList(listId)
-    }
-
-    override suspend fun setSortMode(
-        listId: Long,
-        sortMode: SortMode
-    ) {
+        try {
+            dao.deleteByList(listId)
+        } catch (e: SQLiteException) {
+            throw DataException.Database(e.message.toString())
+        } catch (e: IllegalArgumentException) {
+            throw DataException.InvalidData(e.message.toString())
+        }
     }
 
     override suspend fun reorderProducts(
@@ -77,6 +109,7 @@ class ProductsRepositoryImpl(
         fromPosition: Int,
         toPosition: Int
     ) {
+        if (fromPosition == toPosition) return
     }
 
     override suspend fun copyProductsTo(sourceListId: Long, targetListId: Long) {

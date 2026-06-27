@@ -95,11 +95,13 @@ fun ProductCardPreview() {
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ProductCard(
                 Product.mock1(),
-                {}, {}
+                {},
+                {}
             )
             ProductCard(
                 Product.mock2(),
-                {},{}
+                {},
+                {}
             )
         }
     }
