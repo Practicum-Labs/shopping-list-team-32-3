@@ -13,7 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +35,7 @@ import ru.practicum.shoppinglist.core.ui.components.TopAppBar
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductCard
+import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductSheet
 import ru.practicum.shoppinglist.feature.listdetail.ui.preview.ListDetailPreviewProvider
 
 @Composable
@@ -68,7 +68,7 @@ fun ListDetailScreen(
                 isSheetVisible = false
             }
         ) {
-            Text("TODO")
+            ProductSheet { }
         }
     }
     Scaffold(
@@ -83,7 +83,7 @@ fun ListDetailScreen(
         floatingActionButton = {
             if (!state.value.isLoading) {
                 AddFab(
-                    {},
+                    { isSheetVisible = true },
                     modifier = Modifier.padding(
                         end = Dimens.padding16,
                         bottom = Dimens.padding56

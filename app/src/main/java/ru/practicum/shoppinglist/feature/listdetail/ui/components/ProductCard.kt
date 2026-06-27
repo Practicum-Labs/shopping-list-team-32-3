@@ -90,16 +90,18 @@ fun ProductCard(
 
 @AppPreview
 @Composable
-fun ProductCardPreview() {
+private fun ProductCardPreview() {
     AppTheme {
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ProductCard(
                 Product.mock1(),
-                {}, {}
+                {},
+                {}
             )
             ProductCard(
                 Product.mock2(),
-                {},{}
+                {},
+                {}
             )
         }
     }
