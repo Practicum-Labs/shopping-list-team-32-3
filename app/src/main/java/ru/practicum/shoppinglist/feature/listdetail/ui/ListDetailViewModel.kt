@@ -19,10 +19,11 @@ import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 abstract class ListDetailViewModelBase(
     initial: ListDetailContract.State
 ) : MviViewModel<
-    ListDetailContract.State,
-    ListDetailContract.Intent,
-    ListDetailContract.Effect
-    > (initial)
+        ListDetailContract.State,
+        ListDetailContract.Intent,
+        ListDetailContract.Effect
+        >(initial)
+
 class ListDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val listRepository: ListsRepository,
@@ -39,6 +40,7 @@ class ListDetailViewModel(
         }
     }
 
+    @Suppress("CyclomaticComplexMethod")
     override fun onIntent(intent: ListDetailContract.Intent) {
         when (intent) {
             is ListDetailContract.Intent.Load -> loadList(intent.listId)
@@ -103,7 +105,12 @@ class ListDetailViewModel(
                 }
                 .catch {
                     setState { copy(isLoading = false) }
-                    sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_load_error, it.message.toString()))
+                    sendEffect(
+                        ListDetailContract.Effect.ShowToastRes(
+                            R.string.listdetail_load_error,
+                            it.message.toString()
+                        )
+                    )
                 }
                 .launchIn(viewModelScope)
         }
@@ -166,6 +173,7 @@ class ListDetailViewModel(
             try {
                 productsRepository.clearPurchased(listId)
                 sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_item_cleared))
+                setState { copy(activeSheet = null) }
             } catch (e: DataException.Database) {
                 sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
             } catch (e: DataException.InvalidData) {

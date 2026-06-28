@@ -77,18 +77,7 @@ fun ListDetailScreen(
         }
     }
 
-    when (state.value.activeSheet) {
-        is ListDetailContract.Sheet.Menu -> {
-            ListMenuSheet(
-                currentSortMode = state.value.sortMode,
-                onSortClick = { viewModel.onIntent(ListDetailContract.Intent.OpenSort) },
-                onDeleteAllClick = { viewModel.onIntent(ListDetailContract.Intent.DeleteAllItems) },
-                onClearPurchasedClick = { viewModel.onIntent(ListDetailContract.Intent.ClearPurchased(state.value.listId)) },
-                onDismiss = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }
-            )
-        }
-        else -> {}
-    }
+    ListDetailBottomSheet(state.value, viewModel)
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -119,7 +108,6 @@ fun ListDetailScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-
         ) {
             if (!state.value.isLoading) {
                 if (state.value.products.isEmpty()) {
@@ -154,6 +142,35 @@ fun ListDetailScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ListDetailBottomSheet(
+    state: ListDetailContract.State,
+    viewModel: ListDetailViewModelBase
+) {
+    when (state.activeSheet) {
+        is ListDetailContract.Sheet.Menu -> {
+            ListMenuSheet(
+                currentSortMode = state.sortMode,
+                onSortClick = {
+                    viewModel.onIntent(ListDetailContract.Intent.OpenSort)
+                },
+                onDeleteAllClick = {
+                    viewModel.onIntent(ListDetailContract.Intent.DeleteAllItems)
+                },
+                onClearPurchasedClick = {
+                    viewModel.onIntent(
+                        ListDetailContract.Intent.ClearPurchased(state.listId)
+                    )
+                },
+                onDismiss = {
+                    viewModel.onIntent(ListDetailContract.Intent.CloseSheet)
+                }
+            )
+        }
+        else -> {}
     }
 }
 

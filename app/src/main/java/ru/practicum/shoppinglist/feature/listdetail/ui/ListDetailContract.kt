@@ -17,7 +17,7 @@ interface ListDetailContract {
         val sortMode: SortMode = SortMode.MANUAL
     ) : UiState
 
-    sealed interface Sheet{
+    sealed interface Sheet {
         data object Menu : Sheet
         data object SortSelection : Sheet
     }
@@ -31,6 +31,7 @@ interface ListDetailContract {
         data class ClearPurchased(val listId: Long) : Intent
         data class SetSortMode(val sortMode: SortMode) : Intent
         data class ReorderProducts(val fromPosition: Int, val toPosition: Int) : Intent
+
         data object OpenMenu : Intent
         data object CloseSheet : Intent
         data object OpenSort : Intent
