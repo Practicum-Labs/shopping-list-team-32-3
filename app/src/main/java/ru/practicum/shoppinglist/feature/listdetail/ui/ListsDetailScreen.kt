@@ -14,7 +14,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +34,7 @@ import ru.practicum.shoppinglist.core.ui.components.EmptyState
 import ru.practicum.shoppinglist.core.ui.components.TopAppBar
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
+import ru.practicum.shoppinglist.feature.listdetail.ui.components.ListMenuSheet
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductCard
 import ru.practicum.shoppinglist.feature.listdetail.ui.preview.ListDetailPreviewProvider
 
@@ -46,6 +46,7 @@ fun ListDetailScreen(
     val state = viewModel.state.collectAsStateWithLifecycle()
     var isSheetVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
@@ -57,6 +58,10 @@ fun ListDetailScreen(
                 }
                 is ListDetailContract.Effect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+                is ListDetailContract.Effect.ShowToastRes -> {
+                    val text = context.getString(effect.stringId) + effect.message
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -71,13 +76,31 @@ fun ListDetailScreen(
             Text("TODO")
         }
     }
+
+    when (state.value.activeSheet) {
+        is ListDetailContract.Sheet.Menu -> {
+            ListMenuSheet(
+                currentSortMode = state.value.sortMode,
+                onSortClick = { viewModel.onIntent(ListDetailContract.Intent.OpenSort) },
+                onDeleteAllClick = { viewModel.onIntent(ListDetailContract.Intent.DeleteAllItems) },
+                onClearPurchasedClick = { viewModel.onIntent(ListDetailContract.Intent.ClearPurchased(state.value.listId)) },
+                onDismiss = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }
+            )
+        }
+        else -> {}
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 state.value.listName,
                 onBack,
-                actions = { ListDetailMenuIcon({}) }
+                actions = {
+                    ListDetailMenuIcon(onClick = {
+                        viewModel.onIntent(ListDetailContract.Intent.OpenMenu)
+                    })
+                }
             )
         },
         floatingActionButton = {
@@ -122,7 +145,6 @@ fun ListDetailScreen(
                                         ListDetailContract.Intent.TogglePurchased(
                                             productId = product.id,
                                             isPurchased = !product.isPurchased
-
                                         )
                                     )
                                 }

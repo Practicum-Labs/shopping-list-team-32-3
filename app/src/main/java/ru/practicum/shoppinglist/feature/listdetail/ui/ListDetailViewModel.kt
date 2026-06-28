@@ -24,7 +24,7 @@ abstract class ListDetailViewModelBase(
     ListDetailContract.Effect
     > (initial)
 class ListDetailViewModel(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val listRepository: ListsRepository,
     private val productsRepository: ProductsRepository
 ) : ListDetailViewModelBase(
@@ -59,6 +59,18 @@ class ListDetailViewModel(
                 intent.fromPosition,
                 intent.toPosition
             )
+            is ListDetailContract.Intent.OpenMenu -> {
+                setState { copy(activeSheet = ListDetailContract.Sheet.Menu) }
+            }
+            is ListDetailContract.Intent.CloseSheet -> {
+                setState { copy(activeSheet = null) }
+            }
+            is ListDetailContract.Intent.OpenSort -> {
+                setState { copy(activeSheet = ListDetailContract.Sheet.SortSelection) }
+            }
+            is ListDetailContract.Intent.DeleteAllItems -> {
+                deleteAllItems()
+            }
         }
     }
 
@@ -194,6 +206,10 @@ class ListDetailViewModel(
                 sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
+    }
+
+    private fun deleteAllItems() {
+        setState { copy(activeSheet = null) }
     }
 
     companion object {
