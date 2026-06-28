@@ -47,9 +47,9 @@ class ListsRepositoryImpl(
         try {
             dao.updateSortMode(listId, sortMode.name)
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
         }
     }
 }

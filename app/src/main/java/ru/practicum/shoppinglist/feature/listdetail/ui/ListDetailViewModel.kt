@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.practicum.shoppinglist.R
+import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
 import ru.practicum.shoppinglist.feature.listdetail.domain.api.ProductsRepository
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
-import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.feature.lists.domain.api.ListsRepository
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
@@ -84,7 +84,12 @@ class ListDetailViewModel(
                 }
                 .catch {
                     setState { copy(isLoading = false) }
-                    sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_load_error, it.message.toString()))
+                    sendEffect(
+                        ListDetailContract.Effect.ShowToastRes(
+                            R.string.listdetail_load_error,
+                            it.message.toString()
+                        )
+                    )
                 }
                 .launchIn(viewModelScope)
         }
