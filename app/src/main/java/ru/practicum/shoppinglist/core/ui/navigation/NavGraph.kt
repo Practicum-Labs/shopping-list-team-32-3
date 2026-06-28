@@ -10,17 +10,19 @@ import ru.practicum.shoppinglist.feature.lists.ui.ListsScreen
 import ru.practicum.shoppinglist.feature.onboarding.ui.OnboardingScreen
 
 @Composable
-fun NavGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = Screen.Onboarding) {
+fun NavGraph(navController: NavHostController, passedOnboarding: Boolean) {
+    NavHost(navController, startDestination = if (passedOnboarding) Screen.Lists else Screen.Onboarding) {
         composable<Screen.Onboarding> {
             OnboardingScreen {
                 navController.navigate(Screen.Lists)
             }
         }
         composable<Screen.Lists> {
-            ListsScreen {
-                navController.navigate(Screen.ListDetail(1))
-            }
+            ListsScreen(
+                onNavigateToDetail = { id ->
+                    navController.navigate(Screen.ListDetail(id))
+                },
+            )
         }
         composable<Screen.ListDetail> {
             // val args = it.toRoute<Screen.ListDetail>()

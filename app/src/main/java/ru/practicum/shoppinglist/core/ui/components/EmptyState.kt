@@ -29,7 +29,7 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(Dimens.padding48),
+        verticalArrangement = Arrangement.spacedBy(Dimens.padding48, Alignment.CenterVertically),
 
     ) {
         Image(

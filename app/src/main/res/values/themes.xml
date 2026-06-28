@@ -4,5 +4,8 @@
         Тема окна до отрисовки Compose. Реальная темизация приложения — в Compose
         (Material 3, светлая/тёмная), см. задачу T-03.
     -->
-    <style name="Theme.ShoppingList" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.ShoppingList" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/layer_splashscreen_foreground</item>
+    </style>
 </resources>
