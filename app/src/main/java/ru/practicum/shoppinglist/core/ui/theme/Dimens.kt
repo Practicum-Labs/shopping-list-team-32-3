@@ -24,4 +24,6 @@ object Dimens {
     val icon48 = 48.dp
 
     val border1 = 1.dp
+
+    val elevation12 = 12.dp
 }

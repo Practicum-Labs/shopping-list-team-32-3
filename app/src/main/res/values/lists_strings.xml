@@ -8,4 +8,7 @@
     <string name="lists_alert_delete_title">Удалить все списки?</string>
     <string name="lists_add_label">Название списка</string>
     <string name="lists_add_placeholder">Новый список</string>
+    <string name="lists_add_title">Добавление списка</string>
+    <string name="lists_add_button_create">Создать</string>
+    <string name="lists_add_button_cancel">Отмена</string>
 </resources>
