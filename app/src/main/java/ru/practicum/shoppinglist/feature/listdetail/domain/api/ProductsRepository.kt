@@ -14,7 +14,6 @@ interface ProductsRepository {
     suspend fun setPurchased(productId: Long, isPurchased: Boolean)
     suspend fun clearPurchased(listId: Long)
     suspend fun deleteAllProducts(listId: Long)
-    suspend fun setSortMode(listId: Long, sortMode: SortMode)
     suspend fun reorderProducts(listId: Long, fromPosition: Int, toPosition: Int)
     suspend fun copyProductsTo(sourceListId: Long, targetListId: Long)
 }

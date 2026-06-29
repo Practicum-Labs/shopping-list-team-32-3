@@ -23,4 +23,10 @@ interface ListDao {
 
     @Query("DELETE FROM lists")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM lists WHERE id = :listId LIMIT 1")
+    suspend fun getListById(listId: Long): ListEntity?
+
+    @Query("UPDATE lists SET sortMode = :sortMode WHERE id = :listId")
+    suspend fun updateSortMode(listId: Long, sortMode: String)
 }

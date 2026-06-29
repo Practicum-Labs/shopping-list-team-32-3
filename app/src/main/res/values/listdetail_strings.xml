@@ -7,4 +7,11 @@
     <string name="listdetail_unit_piece">шт</string>
     <string name="listdetail_unit_kilogram">кг</string>
     <string name="listdetail_unit_gram">г</string>
+    <string name="listdetail_list">Список</string>
+    <string name="listdetail_load_error">Ошибка загрузки:</string>
+    <string name="listdetail_sorting">Сортировка:</string>
+    <string name="listdetail_item_added">Товар добавлен</string>
+    <string name="listdetail_item_updated">Товар обновлён</string>
+    <string name="listdetail_item_removed">Товар удалён</string>
+    <string name="listdetail_item_cleared">Покупки очищены</string>
 </resources>
