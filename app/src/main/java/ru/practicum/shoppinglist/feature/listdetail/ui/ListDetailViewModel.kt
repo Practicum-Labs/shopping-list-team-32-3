@@ -91,7 +91,12 @@ class ListDetailViewModel(
                 }
                 .catch {
                     setState { copy(isLoading = false) }
-                    sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_load_error, it.message.toString()))
+                    sendEffect(
+                        ListDetailContract.Effect.ShowToastRes(
+                            R.string.listdetail_load_error,
+                            it.message.toString()
+                        )
+                    )
                 }
                 .launchIn(viewModelScope)
         }

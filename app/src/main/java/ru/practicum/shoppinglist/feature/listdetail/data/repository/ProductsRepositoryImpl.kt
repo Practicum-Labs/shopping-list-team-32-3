@@ -12,6 +12,7 @@ import ru.practicum.shoppinglist.feature.listdetail.domain.api.ProductsRepositor
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
+import java.io.IOException
 
 class ProductsRepositoryImpl(
     private val dao: ProductDao
@@ -48,9 +49,11 @@ class ProductsRepositoryImpl(
             )
             dao.upsert(product.toEntity())
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
+        } catch (e: IOException) {
+            throw DataException.Network(e.message.toString(), e)
         }
     }
 
@@ -58,9 +61,9 @@ class ProductsRepositoryImpl(
         try {
             dao.update(product.toEntity())
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
         }
     }
 
@@ -68,9 +71,9 @@ class ProductsRepositoryImpl(
         try {
             dao.delete(productId)
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
         }
     }
 
@@ -78,9 +81,9 @@ class ProductsRepositoryImpl(
         try {
             dao.setPurchased(productId, isPurchased)
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
         }
     }
 
@@ -88,9 +91,9 @@ class ProductsRepositoryImpl(
         try {
             dao.clearPurchased(listId)
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
         }
     }
 
@@ -98,9 +101,9 @@ class ProductsRepositoryImpl(
         try {
             dao.deleteByList(listId)
         } catch (e: SQLiteException) {
-            throw DataException.Database(e.message.toString())
+            throw DataException.Database(e.message.toString(), e)
         } catch (e: IllegalArgumentException) {
-            throw DataException.InvalidData(e.message.toString())
+            throw DataException.InvalidData(e.message.toString(), e)
         }
     }
 

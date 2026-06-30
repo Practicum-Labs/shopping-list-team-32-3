@@ -58,6 +58,9 @@ fun ListDetailScreen(
                 is ListDetailContract.Effect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
+                is ListDetailContract.Effect.ShowToastRes -> {
+                    Toast.makeText(context, context.getString(effect.stringId), Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
