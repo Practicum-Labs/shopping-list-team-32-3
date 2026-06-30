@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="170" height="150" viewBox="0 0 170 150" role="img" aria-label="Письмо отправлено">
+  <ellipse cx="85" cy="128" rx="72" ry="14" fill="#3A2E22"></ellipse>
+  <rect x="38" y="54" width="94" height="62" rx="12" fill="#F4E6DA" stroke="#19120C" stroke-width="2"></rect>
+  <path d="M40 60l45 31 45-31" fill="none" stroke="#19120C" stroke-width="2" stroke-linecap="round"></path>
+  <path d="M38 60a12 12 0 0 1 12-8h70a12 12 0 0 1 12 8l-47 33Z" fill="#FFDCBB" stroke="#19120C" stroke-width="2" stroke-linejoin="round"></path>
+  <circle cx="121" cy="106" r="16" fill="#4FD17E"></circle>
+  <path d="M114 106l5 5 9-10" stroke="#15240F" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  <line x1="16" y1="74" x2="33" y2="74" stroke="#FFB868" stroke-width="3.5" stroke-linecap="round"></line>
+  <line x1="12" y1="88" x2="29" y2="88" stroke="#FABA73" stroke-width="3.5" stroke-linecap="round"></line>
+</svg>

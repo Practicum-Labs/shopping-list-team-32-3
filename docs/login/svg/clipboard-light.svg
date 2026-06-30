@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="150" viewBox="0 0 168 150" role="img" aria-label="Список с галочками">
+  <ellipse cx="84" cy="132" rx="68" ry="14" fill="#D4C4B5"></ellipse>
+  <rect x="46" y="30" width="78" height="98" rx="14" fill="#FFF8F4" stroke="#211A14" stroke-width="2"></rect>
+  <rect x="66" y="22" width="38" height="11" rx="5.5" fill="#FFDCBB" stroke="#211A14" stroke-width="2"></rect>
+  <rect x="74" y="17" width="22" height="11" rx="4" fill="#845416"></rect>
+  <rect x="58" y="50" width="15" height="15" rx="4" fill="#845416"></rect>
+  <path d="M61 57.5l2.5 2.5 4.5-5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  <rect x="80" y="55" width="30" height="5" rx="2.5" fill="#D4C4B5"></rect>
+  <rect x="58" y="76" width="15" height="15" rx="4" fill="#845416"></rect>
+  <path d="M61 83.5l2.5 2.5 4.5-5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  <rect x="80" y="81" width="24" height="5" rx="2.5" fill="#D4C4B5"></rect>
+  <rect x="58" y="102" width="15" height="15" rx="4" fill="none" stroke="#827568" stroke-width="2"></rect>
+  <rect x="80" y="107" width="20" height="5" rx="2.5" fill="#E7D8C9"></rect>
+  <rect x="104" y="92" width="11" height="42" rx="5.5" fill="#FABA73" transform="rotate(33 109 113)"></rect>
+  <path d="M120 128l5 8 1.5-9Z" fill="#50453A" transform="rotate(33 120 130)"></path>
+</svg>
