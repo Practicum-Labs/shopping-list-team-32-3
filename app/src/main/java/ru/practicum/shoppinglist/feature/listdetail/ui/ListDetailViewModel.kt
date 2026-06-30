@@ -1,6 +1,5 @@
 package ru.practicum.shoppinglist.feature.listdetail.ui
 
-import android.database.sqlite.SQLiteException
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -8,6 +7,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import ru.practicum.shoppinglist.R
+import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
 import ru.practicum.shoppinglist.feature.listdetail.domain.api.ProductsRepository
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
@@ -32,7 +33,7 @@ class ListDetailViewModel(
     private var observeJob: Job? = null
 
     init {
-        val listId = savedStateHandle.get<Long>("listId") ?: -1L
+        val listId = savedStateHandle.get<Long>(LIST_ID) ?: -1L
         if (listId != -1L) {
             onIntent(ListDetailContract.Intent.Load(listId))
         }
@@ -72,7 +73,7 @@ class ListDetailViewModel(
         viewModelScope.launch {
             val shoppingList = listRepository.getListById(listId)
 
-            val listName = shoppingList?.name ?: "Список"
+            val listName = shoppingList?.name ?: R.string.listdetail_list.toString()
             val sortMode = shoppingList?.sortMode ?: SortMode.MANUAL
 
             observeJob?.cancel()
@@ -90,7 +91,12 @@ class ListDetailViewModel(
                 }
                 .catch {
                     setState { copy(isLoading = false) }
-                    sendEffect(ListDetailContract.Effect.ShowToast("Ошибка загрузки: ${it.message}"))
+                    sendEffect(
+                        ListDetailContract.Effect.ShowToastRes(
+                            R.string.listdetail_load_error,
+                            it.message.toString()
+                        )
+                    )
                 }
                 .launchIn(viewModelScope)
         }
@@ -101,11 +107,11 @@ class ListDetailViewModel(
             try {
                 val listId = currentState().listId
                 productsRepository.addProduct(listId, name, quantity, unit)
-                sendEffect(ListDetailContract.Effect.ShowToast("Товар добавлен"))
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_item_added))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
     }
@@ -114,11 +120,11 @@ class ListDetailViewModel(
         viewModelScope.launch {
             try {
                 productsRepository.updateProduct(product)
-                sendEffect(ListDetailContract.Effect.ShowToast("Товар обновлён"))
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_item_updated))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
     }
@@ -127,11 +133,11 @@ class ListDetailViewModel(
         viewModelScope.launch {
             try {
                 productsRepository.deleteProduct(productId)
-                sendEffect(ListDetailContract.Effect.ShowToast("Товар удалён"))
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_item_removed))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
     }
@@ -140,10 +146,10 @@ class ListDetailViewModel(
         viewModelScope.launch {
             try {
                 productsRepository.setPurchased(productId, isPurchased)
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
     }
@@ -152,11 +158,11 @@ class ListDetailViewModel(
         viewModelScope.launch {
             try {
                 productsRepository.clearPurchased(listId)
-                sendEffect(ListDetailContract.Effect.ShowToast("Покупки очищены"))
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_item_cleared))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
     }
@@ -173,11 +179,11 @@ class ListDetailViewModel(
 
                 loadList(listId)
 
-                sendEffect(ListDetailContract.Effect.ShowToast("Сортировка: ${sortMode.name}"))
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_sorting, sortMode.name))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
     }
@@ -187,11 +193,15 @@ class ListDetailViewModel(
             try {
                 val listId = currentState().listId
                 productsRepository.reorderProducts(listId, fromPosition, toPosition)
-            } catch (e: SQLiteException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Ошибка БД: ${e.message}"))
-            } catch (e: IllegalArgumentException) {
-                sendEffect(ListDetailContract.Effect.ShowToast("Неверные данные: ${e.message}"))
+            } catch (e: DataException.Database) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
+            } catch (e: DataException.InvalidData) {
+                sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
+    }
+
+    companion object {
+        const val LIST_ID = "listId"
     }
 }

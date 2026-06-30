@@ -4,6 +4,9 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,6 +34,8 @@ fun AppTextField(
     @StringRes labelId: Int,
     @StringRes placeholderId: Int,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onKeyboardAction: KeyboardActionHandler? = null,
 ) {
     val state = rememberTextFieldState(value)
     LaunchedEffect(state) {
@@ -40,7 +45,7 @@ fun AppTextField(
                 onValueChange(it.toString())
             }
     }
-    AppTextField(state, labelId, placeholderId, modifier)
+    AppTextField(state, labelId, placeholderId, modifier, keyboardOptions, onKeyboardAction)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,11 +55,17 @@ fun AppTextField(
     @StringRes labelId: Int,
     @StringRes placeholderId: Int,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onKeyboardAction: KeyboardActionHandler? = null,
     readOnly: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
+
 ) {
     OutlinedTextField(
         state = state,
+        lineLimits = TextFieldLineLimits.SingleLine,
+        keyboardOptions = keyboardOptions,
+        onKeyboardAction = onKeyboardAction,
         label = {
             Text(
                 stringResource(labelId),

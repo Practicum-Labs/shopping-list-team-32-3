@@ -7,6 +7,7 @@ import ru.practicum.shoppinglist.core.di.coreModule
 import ru.practicum.shoppinglist.feature.listdetail.di.listDetailModule
 import ru.practicum.shoppinglist.feature.lists.di.listsModule
 import ru.practicum.shoppinglist.feature.onboarding.di.onboardingModule
+import ru.practicum.shoppinglist.root.di.rootModule
 
 class App : Application() {
 
@@ -16,6 +17,7 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 coreModule,
+                rootModule,
                 listDetailModule,
                 listsModule,
                 onboardingModule

@@ -2,4 +2,6 @@
 <resources>
     <string name="core_confirm_dialog_cancel">Отмена</string>
     <string name="core_confirm_dialog_delete">Удалить</string>
+    <string name="core_exc_invalid_data">Неверные данные:</string>
+    <string name="core_exc_error_db">Ошибка БД:</string>
 </resources>
