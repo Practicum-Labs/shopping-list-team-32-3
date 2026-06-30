@@ -2,19 +2,19 @@ package ru.practicum.shoppinglist.feature.listdetail.ui.utils
 
 import android.content.Context
 import ru.practicum.shoppinglist.R
-import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 
-class UnitStringMapper {
-    fun map(unit: Unit, context: Context): String {
+class UnitStringMapper(val context: Context) {
+    fun map(unit: ProductUnit): String {
         return context.getString(
             when (unit) {
-                Unit.L -> R.string.listdetail_unit_liter
-                Unit.ML -> R.string.listdetail_unit_milliliter
-                Unit.PACK -> R.string.listdetail_unit_pack
-                Unit.PACKET -> R.string.listdetail_unit_packet
-                Unit.PCS -> R.string.listdetail_unit_piece
-                Unit.KG -> R.string.listdetail_unit_kilogram
-                Unit.G -> R.string.listdetail_unit_gram
+                ProductUnit.L -> R.string.listdetail_unit_liter
+                ProductUnit.ML -> R.string.listdetail_unit_milliliter
+                ProductUnit.PACK -> R.string.listdetail_unit_pack
+                ProductUnit.PACKET -> R.string.listdetail_unit_packet
+                ProductUnit.PCS -> R.string.listdetail_unit_piece
+                ProductUnit.KG -> R.string.listdetail_unit_kilogram
+                ProductUnit.G -> R.string.listdetail_unit_gram
             }
         )
     }

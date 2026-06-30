@@ -29,8 +29,7 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(Dimens.padding48, Alignment.CenterVertically),
-
+        verticalArrangement = Arrangement.spacedBy(Dimens.padding48),
     ) {
         Image(
             painter = painterResource(id = imageId),

@@ -12,15 +12,22 @@ import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
 import ru.practicum.shoppinglist.feature.listdetail.domain.api.ProductsRepository
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
-import ru.practicum.shoppinglist.feature.listdetail.domain.models.Unit
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.lists.domain.api.ListsRepository
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
+abstract class ListDetailViewModelBase(
+    initial: ListDetailContract.State
+) : MviViewModel<
+    ListDetailContract.State,
+    ListDetailContract.Intent,
+    ListDetailContract.Effect
+    > (initial)
 class ListDetailViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val listRepository: ListsRepository,
     private val productsRepository: ProductsRepository
-) : MviViewModel<ListDetailContract.State, ListDetailContract.Intent, ListDetailContract.Effect>(
+) : ListDetailViewModelBase(
     initial = ListDetailContract.State()
 ) {
     private var observeJob: Job? = null
@@ -95,7 +102,7 @@ class ListDetailViewModel(
         }
     }
 
-    private fun addProduct(name: String, quantity: Double?, unit: Unit?) {
+    private fun addProduct(name: String, quantity: Double?, unit: ProductUnit?) {
         viewModelScope.launch {
             try {
                 val listId = currentState().listId
