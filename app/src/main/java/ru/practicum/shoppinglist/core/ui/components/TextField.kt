@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.KeyboardActionHandler
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
@@ -83,7 +85,9 @@ fun AppTextField(
                 color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surface)
-                    .padding(horizontal = Dimens.padding4)
+                    .padding(horizontal = Dimens.padding4),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         placeholder = {
@@ -91,6 +95,8 @@ fun AppTextField(
                 stringResource(placeholderId),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         modifier = modifier,
@@ -110,6 +116,31 @@ private fun AppTextFieldPreview() {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
         ) {
+            Row {
+                AppTextField(
+                    value = "",
+                    {},
+                    R.string.lists_add_label,
+                    R.string.lists_add_placeholder,
+                    Modifier.padding(Dimens.padding16)
+                        .weight(1f)
+                )
+                AppTextField(
+                    state = rememberTextFieldState("123"),
+                    R.string.lists_add_label,
+                    R.string.lists_add_placeholder,
+                    Modifier.padding(Dimens.padding16)
+                        .weight(1f)
+                )
+
+                AppTextField(
+                    state = rememberTextFieldState("123"),
+                    R.string.lists_add_label,
+                    R.string.lists_add_placeholder,
+                    Modifier.padding(Dimens.padding16)
+                        .weight(1f)
+                )
+            }
             AppTextField(
                 value = "",
                 {},

@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,7 +37,7 @@ import ru.practicum.shoppinglist.feature.listdetail.ui.utils.UnitStringMapper
 @Composable
 fun ProductSheet(add: (String, Double, ProductUnit) -> Unit, onDismiss: () -> Unit) {
     val product = rememberTextFieldState("")
-    var quantity = remember { mutableStateOf("") }
+    val quantity = remember { mutableStateOf("") }
     val unit = rememberTextFieldState("")
     var allowAdd by remember { mutableStateOf(false) }
     val mapper = UnitStringMapper(LocalContext.current)
@@ -73,7 +75,7 @@ private fun ProductForm(
     product: TextFieldState,
     quantity: MutableState<String>,
     unit: TextFieldState,
-    units: List<String>
+    units: List<String>,
 ) {
     val expandedProduct = remember { mutableStateOf(false) }
     val expandedUnit = remember { mutableStateOf(false) }
@@ -101,17 +103,22 @@ private fun ProductForm(
             readOnly = false,
             keepIn = 160.dp
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(Dimens.padding16)) {
-            AppTextField(
-                value = quantity.value,
-                onValueChange = { quantity.value = it },
-                labelId = R.string.listdetail_productsheet_quantity_label,
-                placeholderId = R.string.listdetail_productsheet_quantity_label,
-                modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Dimens.padding16),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            key(quantity.value) {
+                AppTextField(
+                    value = quantity.value,
+                    onValueChange = { quantity.value = it },
+                    labelId = R.string.listdetail_productsheet_quantity_label,
+                    placeholderId = R.string.listdetail_productsheet_quantity_label,
+                    modifier = Modifier.weight(1f),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
-            )
+            }
             DropdownTextField(
                 keepIn = 120.dp,
                 state = unit,
@@ -122,8 +129,36 @@ private fun ProductForm(
                 readOnly = true,
                 expanded = expandedUnit,
             )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
+            ) {
+                RoundButton(
+                    R.drawable.ic_listdetail_minus_icon,
+                    {
+                        quantity.value = getQuantity(quantity.value, -1)
+                    },
+                    enabled = quantity.value.isNotEmpty()
+                )
+                RoundButton(
+                    R.drawable.ic_listdetail_plus_icon,
+                    {
+                        quantity.value = getQuantity(quantity.value, 1)
+                    }
+                )
+            }
         }
     }
+}
+
+fun getQuantity(quantity: String, add: Int): String {
+    if (quantity.isNotEmpty()) {
+        val quantityDouble = quantity.toDouble() + add
+        if (quantityDouble > 0) {
+            return quantityDouble.toString()
+        }
+    }
+    return ""
 }
 
 @AppPreview
