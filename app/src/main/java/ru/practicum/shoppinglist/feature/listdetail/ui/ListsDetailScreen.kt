@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,7 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
-import ru.practicum.shoppinglist.core.ui.components.AppModalBottomSheet
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
 import ru.practicum.shoppinglist.core.ui.components.EmptyState
 import ru.practicum.shoppinglist.core.ui.components.TopAppBar
@@ -38,6 +37,7 @@ import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductCard
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductSheet
 import ru.practicum.shoppinglist.feature.listdetail.ui.preview.ListDetailPreviewProvider
 
+@Suppress("CognitiveComplexMethod")
 @Composable
 fun ListDetailScreen(
     viewModel: ListDetailViewModelBase,
@@ -64,76 +64,77 @@ fun ListDetailScreen(
             }
         }
     }
-
-    if (isSheetVisible) {
-        AppModalBottomSheet(
-            onDismiss = {
-                isSheetVisible = false
-            }
-        ) {
-            ProductSheet { }
-        }
-    }
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            TopAppBar(
-                state.value.listName,
-                onBack,
-                actions = { ListDetailMenuIcon({}) }
-            )
-        },
-        floatingActionButton = {
-            if (!state.value.isLoading) {
-                AddFab(
-                    { isSheetVisible = true },
-                    modifier = Modifier.padding(
-                        end = Dimens.padding16,
-                        bottom = Dimens.padding56
-                    )
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.background,
+            topBar = {
+                TopAppBar(
+                    state.value.listName,
+                    onBack,
+                    actions = { ListDetailMenuIcon({}) }
                 )
-            }
-        }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-
-        ) {
-            if (!state.value.isLoading) {
-                if (state.value.products.isEmpty()) {
-                    Column {
-                        EmptyState(
-                            R.drawable.image_listdetail_empty_state,
-                            R.string.listdetail_empty_state_title,
-                            R.string.listdetail_empty_state_description,
-                            modifier = Modifier
-                                .padding(horizontal = Dimens.padding44)
-                                .padding(top = Dimens.padding120)
+            },
+            floatingActionButton = {
+                if (!state.value.isLoading) {
+                    AddFab(
+                        { isSheetVisible = true },
+                        modifier = Modifier.padding(
+                            end = Dimens.padding16,
+                            bottom = Dimens.padding56
                         )
-                        Spacer(modifier = Modifier.height(0.dp).weight(1f))
-                    }
-                } else {
-                    LazyColumn {
-                        items(state.value.products, key = { it.id }) { product ->
-                            ProductCard(
-                                product,
-                                onClick = {},
-                                onCheck = {
-                                    viewModel.onIntent(
-                                        ListDetailContract.Intent.TogglePurchased(
-                                            productId = product.id,
-                                            isPurchased = !product.isPurchased
+                    )
+                }
+            }
+        ) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
 
-                                        )
-                                    )
-                                }
+            ) {
+                if (!state.value.isLoading) {
+                    if (state.value.products.isEmpty()) {
+                        Column {
+                            EmptyState(
+                                R.drawable.image_listdetail_empty_state,
+                                R.string.listdetail_empty_state_title,
+                                R.string.listdetail_empty_state_description,
+                                modifier = Modifier
+                                    .padding(horizontal = Dimens.padding44)
+                                    .padding(top = Dimens.padding120)
                             )
+                            Spacer(modifier = Modifier.height(0.dp).weight(1f))
+                        }
+                    } else {
+                        LazyColumn {
+                            items(state.value.products, key = { it.id }) { product ->
+                                ProductCard(
+                                    product,
+                                    onClick = {},
+                                    onCheck = {
+                                        viewModel.onIntent(
+                                            ListDetailContract.Intent.TogglePurchased(
+                                                productId = product.id,
+                                                isPurchased = !product.isPurchased
+
+                                            )
+                                        )
+                                    }
+                                )
+                            }
                         }
                     }
                 }
             }
+        }
+
+        if (isSheetVisible) {
+            ProductSheet(
+                add = { name, quantity, unit ->
+                    viewModel.onIntent(ListDetailContract.Intent.AddProduct(name, quantity, unit))
+                },
+                onDismiss = { isSheetVisible = false }
+            )
         }
     }
 }

@@ -2,6 +2,8 @@ package ru.practicum.shoppinglist.core.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -59,8 +62,15 @@ fun AppTextField(
     onKeyboardAction: KeyboardActionHandler? = null,
     readOnly: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
+    onFocusChange: ((Boolean) -> Unit)? = null
 
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    LaunchedEffect(isFocused) {
+        onFocusChange?.invoke(isFocused)
+    }
+
     OutlinedTextField(
         state = state,
         lineLimits = TextFieldLineLimits.SingleLine,
@@ -87,7 +97,8 @@ fun AppTextField(
         colors = OutlinedTextFieldDefaults.colors()
             .copy(cursorColor = MaterialTheme.colorScheme.secondary),
         readOnly = readOnly,
-        trailingIcon = trailingIcon
+        trailingIcon = trailingIcon,
+        interactionSource = interactionSource
     )
 }
 
