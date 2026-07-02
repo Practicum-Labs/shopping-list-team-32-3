@@ -1,9 +1,7 @@
-package ru.practicum.shoppinglist.feature.auth.data.repository
+package ru.practicum.shoppinglist.feature.auth.data
 
 import androidx.datastore.core.DataStore
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
 
 class AuthStorage(private val dataStore: DataStore<AuthPreferences>) {
@@ -20,14 +18,19 @@ class AuthStorage(private val dataStore: DataStore<AuthPreferences>) {
         return dataStore.data.first().refreshToken
     }
 
-    suspend fun isLoggedIn(): Boolean {
-        return accessToken() != null
-    }
-
-    suspend fun save(user: Long, access: String, refresh: String){
+    suspend fun save(user: Long, access: String, refresh: String) {
         dataStore.updateData { currentPrefs ->
             currentPrefs.toBuilder()
                 .setUserId(user)
+                .setAccessToken(access)
+                .setRefreshToken(refresh)
+                .build()
+        }
+    }
+
+    suspend fun update(access: String, refresh: String) {
+        dataStore.updateData { currentPrefs ->
+            currentPrefs.toBuilder()
                 .setAccessToken(access)
                 .setRefreshToken(refresh)
                 .build()

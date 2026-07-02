@@ -5,6 +5,7 @@ import com.google.crypto.tink.Aead
 import java.io.InputStream
 import java.io.OutputStream
 
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 class EncryptedAuthSerializer(private val aead: Aead) : Serializer<AuthPreferences> {
 
     override val defaultValue: AuthPreferences = AuthPreferences.getDefaultInstance()

@@ -1,6 +1,5 @@
 package ru.practicum.shoppinglist.core.di
 
-import androidx.datastore.core.Serializer
 import androidx.room.Room
 import com.google.crypto.tink.Aead
 import kotlinx.serialization.json.Json
@@ -11,9 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import ru.practicum.shoppinglist.core.data.database.AppDatabase
 import ru.practicum.shoppinglist.core.data.network.SuccessCheckInterceptor
-import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
 import ru.practicum.shoppinglist.core.data.preferences.CryptoManager
-import ru.practicum.shoppinglist.core.data.preferences.EncryptedAuthSerializer
 import ru.practicum.shoppinglist.core.data.preferences.PreferencesService
 
 private const val DB_NAME = "shoppinglist.db"
