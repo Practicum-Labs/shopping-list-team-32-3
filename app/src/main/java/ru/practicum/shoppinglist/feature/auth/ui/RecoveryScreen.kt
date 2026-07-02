@@ -9,9 +9,8 @@ import androidx.compose.runtime.Composable
 fun RecoveryScreen(onBack: () -> Unit) {
     Column {
         Text("RecoveryScreen")
-        Button(onClick = onBack){
+        Button(onClick = onBack) {
             Text("onBack")
         }
-
     }
 }

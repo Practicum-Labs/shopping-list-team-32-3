@@ -10,16 +10,16 @@ fun LoginScreen(
     onNavigateToRegistration: () -> Unit,
     onNavigateToRecovery: () -> Unit,
     onNavigateToLists: () -> Unit
-){
+) {
     Column {
         Text("LoginScreen")
-        Button(onClick = onNavigateToRegistration){
+        Button(onClick = onNavigateToRegistration) {
             Text("ToRegistration")
         }
-        Button(onClick = onNavigateToRecovery){
+        Button(onClick = onNavigateToRecovery) {
             Text("ToRecovery")
         }
-        Button(onClick = onNavigateToLists){
+        Button(onClick = onNavigateToLists) {
             Text("ToLists")
         }
     }

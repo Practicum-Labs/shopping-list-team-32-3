@@ -37,11 +37,11 @@ val authModule = module {
         AuthStorage(dataStore = get())
     }
 
-    single<AuthNetworkClient>{
+    single<AuthNetworkClient> {
         RetrofitAuthApiNetworkClient(get())
     }
 
-    single<AuthRepository>{
+    single<AuthRepository> {
         AuthRepositoryImpl(get(), get())
     }
 }

@@ -25,7 +25,7 @@ fun NavGraph(navController: NavHostController, initialState: InitialState) {
     ) {
         composable<Screen.Onboarding> {
             OnboardingScreen {
-                navController.navigate(Screen.Login){
+                navController.navigate(Screen.Login) {
                     popUpTo(Screen.Onboarding) { inclusive = true }
                 }
             }
@@ -61,7 +61,7 @@ fun NavGraph(navController: NavHostController, initialState: InitialState) {
             )
         }
         composable<Screen.PasswordRecovery> {
-            RecoveryScreen () {
+            RecoveryScreen {
                 navController.popBackStack()
             }
         }
