@@ -9,5 +9,5 @@ interface AuthNetworkClient {
     suspend fun login(email: String, password: String): NetworkResponse<UserDto?>
     suspend fun refresh(token: String): NetworkResponse<RefreshDto?>
     suspend fun check(token: String): NetworkResponse<Boolean?>
-    suspend fun recovery(email: String): NetworkResponse<String?>
+    suspend fun recovery(email: String): NetworkResponse<Boolean?>
 }
