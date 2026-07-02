@@ -12,12 +12,11 @@ fun RegistrationScreen(
 ) {
     Column {
         Text("RegistrationScreen")
-        Button(onClick = onBack){
+        Button(onClick = onBack) {
             Text("onBack")
         }
-        Button(onClick = onNavigateToLists){
+        Button(onClick = onNavigateToLists) {
             Text("ToLists")
         }
-
     }
 }
