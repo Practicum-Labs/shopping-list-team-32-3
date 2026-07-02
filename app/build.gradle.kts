@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -108,4 +109,26 @@ dependencies {
     // Network
     implementation(libs.retrofit)
     implementation(libs.converter.json)
+
+    // Secure DataStore
+    implementation(libs.datastore)
+    implementation(libs.datastore.tink)
+    implementation(libs.tink.android)
+    implementation(libs.protobuf.javalite)
+
+}
+
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().configureEach {
+            builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
