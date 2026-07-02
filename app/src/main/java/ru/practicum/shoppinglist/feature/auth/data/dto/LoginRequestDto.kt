@@ -1,4 +1,4 @@
-package ru.practicum.shoppinglist.feature.auth.data.repository.dto
+package ru.practicum.shoppinglist.feature.auth.data.dto
 
 data class LoginRequestDto(
     val email: String,

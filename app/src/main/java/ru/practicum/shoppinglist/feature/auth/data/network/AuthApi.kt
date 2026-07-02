@@ -1,13 +1,13 @@
-package ru.practicum.shoppinglist.feature.auth.data.repository.network
+package ru.practicum.shoppinglist.feature.auth.data.network
 
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
-import ru.practicum.shoppinglist.feature.auth.data.repository.dto.LoginRequestDto
-import ru.practicum.shoppinglist.feature.auth.data.repository.dto.RefreshDto
-import ru.practicum.shoppinglist.feature.auth.data.repository.dto.RefreshRequestDto
-import ru.practicum.shoppinglist.feature.auth.data.repository.dto.UserDto
+import ru.practicum.shoppinglist.feature.auth.data.dto.LoginRequestDto
+import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshDto
+import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshRequestDto
+import ru.practicum.shoppinglist.feature.auth.data.dto.UserDto
 
 interface AuthApi {
     @POST("/auth/registration")

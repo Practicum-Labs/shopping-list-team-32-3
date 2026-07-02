@@ -1,10 +1,9 @@
-package ru.practicum.shoppinglist.feature.auth.data.repository.dto
+package ru.practicum.shoppinglist.feature.auth.data.dto
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserDto(
-    val userId: Long,
+data class RefreshDto(
     val accessToken: String,
     val refreshToken: String
 )

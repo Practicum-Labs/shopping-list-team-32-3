@@ -8,8 +8,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
 import ru.practicum.shoppinglist.core.data.preferences.EncryptedAuthSerializer
-import ru.practicum.shoppinglist.feature.auth.data.repository.AuthStorage
-import ru.practicum.shoppinglist.feature.auth.data.repository.network.AuthApi
+import ru.practicum.shoppinglist.feature.auth.data.AuthStorage
+import ru.practicum.shoppinglist.feature.auth.data.network.AuthApi
 import java.io.File
 
 private const val AUTH_FILE = "shoppinglist_datastore/auth_prefs.pb"
@@ -17,7 +17,6 @@ val authModule = module {
     single<AuthApi> {
         get<Retrofit>().create(AuthApi::class.java)
     }
-
 
     single<Serializer<AuthPreferences>> {
         EncryptedAuthSerializer(aead = get())
