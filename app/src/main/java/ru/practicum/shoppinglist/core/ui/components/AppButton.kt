@@ -90,7 +90,6 @@ fun TextButton(
     }
 }
 
-
 @AppPreview
 @Composable
 private fun AppButtonsPreview() {
@@ -103,6 +102,5 @@ private fun AppButtonsPreview() {
             TextButton(R.string.core_confirm_dialog_delete, {})
             TextButton(R.string.core_confirm_dialog_delete, {}, enabled = false)
         }
-
     }
 }

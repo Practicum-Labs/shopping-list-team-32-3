@@ -80,4 +80,3 @@ val ErrorLight = Color(0xFFBA1A1A)
 
 val SuccessDark = Color(0xFF4FD17E)
 val SuccessLight = Color(0xFF2E9E48)
-

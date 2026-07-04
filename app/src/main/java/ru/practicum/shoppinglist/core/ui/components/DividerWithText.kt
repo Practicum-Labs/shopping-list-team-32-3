@@ -20,12 +20,12 @@ import ru.practicum.shoppinglist.core.ui.theme.Dimens
 @Composable
 fun DividerWithText(
     @StringRes textId: Int,
-    color:  Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = MaterialTheme.colorScheme.onSurface,
     background: Color = MaterialTheme.colorScheme.surface,
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         HorizontalDivider(
@@ -47,7 +47,7 @@ fun DividerWithText(
 
 @AppPreview
 @Composable
-private fun DividerWithTextPreview(){
+private fun DividerWithTextPreview() {
     AppTheme {
         DividerWithText(R.string.auth_login_enter_title)
     }

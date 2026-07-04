@@ -23,11 +23,13 @@ object Dimens {
     val radius12 = 12.dp
     val radius28 = 28.dp
 
+    val icon20 = 20.dp
     val icon24 = 24.dp
     val icon32 = 32.dp
     val icon48 = 48.dp
 
     val border1 = 1.dp
+    val border6 = 6.dp
 
     val elevation12 = 12.dp
 }
