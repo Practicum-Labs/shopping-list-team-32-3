@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="listdetail_productsheet_product_label">Товар</string>
+    <string name="listdetail_productsheet_product_placeholder">Добавить новый товар</string>
+    <string name="listdetail_productsheet_quantity_label">Количество</string>
+    <string name="listdetail_productsheet_unit_label">Единицы</string>
+</resources>

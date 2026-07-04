@@ -90,7 +90,7 @@ fun ProductCard(
 
 @AppPreview
 @Composable
-fun ProductCardPreview() {
+private fun ProductCardPreview() {
     AppTheme {
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ProductCard(

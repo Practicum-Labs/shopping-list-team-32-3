@@ -37,6 +37,7 @@ detekt = "1.23.8"
 junit = "4.13.2"
 junitExt = "1.1.5"
 espresso = "3.5.1"
+runtime = "1.11.3"
 
 #Network
 retrofit = "3.0.0"
@@ -93,6 +94,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 #Network
 retrofit =  { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
