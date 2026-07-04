@@ -53,26 +53,16 @@ fun ConfirmDialog(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         titleContentColor = MaterialTheme.colorScheme.onBackground,
         confirmButton = {
-            Button(
-                onClick = onConfirm,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            ) {
-                Text(stringResource(R.string.core_confirm_dialog_delete))
-            }
+            PrimaryButton(
+                R.string.core_confirm_dialog_delete,
+                onConfirm
+            )
         },
         dismissButton = {
-            Button(
-                onClick = onDismiss,
-                colors = ButtonDefaults.textButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            ) {
-                Text(stringResource(R.string.core_confirm_dialog_cancel))
-            }
+            SecondaryButton(
+                R.string.core_confirm_dialog_cancel,
+                onConfirm
+            )
         }
     )
 }
