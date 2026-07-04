@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.PlaylistAdd
@@ -87,9 +86,10 @@ fun AddListSheet(
                         .fillMaxWidth()
                         .focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(
-                        onDone = { if (name.isNotBlank()) onCreate(name) },
-                    ),
+                    onKeyboardAction = { imeAction ->
+                        if (name.isNotBlank()) onCreate(name)
+                        imeAction()
+                    }
                 )
 
                 Row(
