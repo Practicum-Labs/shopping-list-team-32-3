@@ -6,7 +6,7 @@
 
 **Создать ключ командой:**
 
->keytool -genkey -v -keystore ~/keystores/release.keystore -alias release -keyalg RSA -keysize 2048 -validity 25
+>keytool -genkey -v -keystore ~/keystores/release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000
 
 **или через интерфейс:**
 > Build ➔ Generate Signed Bundle / APK / Create new
