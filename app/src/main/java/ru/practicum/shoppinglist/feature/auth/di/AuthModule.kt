@@ -14,6 +14,8 @@ import ru.practicum.shoppinglist.feature.auth.data.network.AuthApi
 import ru.practicum.shoppinglist.feature.auth.data.network.RetrofitAuthApiNetworkClient
 import ru.practicum.shoppinglist.feature.auth.data.repository.AuthRepositoryImpl
 import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
+import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModel
+import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModelBase
 import java.io.File
 
 private const val AUTH_FILE = "shoppinglist_datastore/auth_prefs.pb"
@@ -43,5 +45,9 @@ val authModule = module {
 
     single<AuthRepository> {
         AuthRepositoryImpl(get(), get())
+    }
+
+    factory<LoginViewModelBase> {
+        LoginViewModel(get(), get())
     }
 }

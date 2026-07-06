@@ -2,7 +2,7 @@ package ru.practicum.shoppinglist.core.data.network
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
-class StatusCodeException(code: Int) : IOException(code.toString())
+class StatusCodeException(val code: Int, message: String?) : IOException(message)
 
 class SuccessCheckInterceptor : Interceptor {
     @Throws(IOException::class)
@@ -11,7 +11,7 @@ class SuccessCheckInterceptor : Interceptor {
 
         when (response.isSuccessful) {
             true -> return response
-            else -> throw StatusCodeException(response.code)
+            else -> throw StatusCodeException(response.code, response.body?.string())
         }
     }
 }
