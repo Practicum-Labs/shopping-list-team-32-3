@@ -1,5 +1,6 @@
 package ru.practicum.shoppinglist.feature.auth.data.network
 
+import retrofit2.HttpException
 import retrofit2.Response
 import ru.practicum.shoppinglist.core.data.network.NetworkResponse
 import ru.practicum.shoppinglist.feature.auth.data.AuthNetworkClient
@@ -48,8 +49,10 @@ class RetrofitAuthApiNetworkClient(val api: AuthApi) : AuthNetworkClient {
         return try {
             val response = block()
             NetworkResponse(response.body(), response.code().toString())
+        } catch (e: HttpException) {
+            NetworkResponse(null, e.code().toString(), e.response()?.errorBody()?.string())
         } catch (e: Exception) {
-            NetworkResponse(null, e.message ?: "-1")
+            NetworkResponse(null, "-1", e.message)
         }
     }
 }

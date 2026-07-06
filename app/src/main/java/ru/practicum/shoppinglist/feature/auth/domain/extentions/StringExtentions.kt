@@ -9,7 +9,7 @@ fun String.isValidEmail(): Boolean {
 
 fun String.isValidPassword(): PasswordValidation {
     return PasswordValidation(
-        isLengthValid = this.length >= 6,
+        isLengthValid = this.length > 6,
         hasUppercase = this.any { it.isUpperCase() },
         hasLowercase = this.any { it.isLowerCase() },
         hasDigit = this.any { it.isDigit() },

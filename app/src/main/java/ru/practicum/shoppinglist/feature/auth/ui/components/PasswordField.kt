@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.KeyboardActionHandler
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -32,6 +34,9 @@ fun PasswordField(
     @StringRes labelId: Int = R.string.auth_password_label,
     @StringRes placeholderId: Int = R.string.auth_password_label,
     @StringRes errorTextId: Int? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onKeyboardAction: KeyboardActionHandler? = null,
+    onFocusChange: ((Boolean) -> Unit)? = null,
     hiddenState: MutableState<Boolean> = remember { mutableStateOf(true) }
 ) {
     AppTextField(
@@ -61,7 +66,10 @@ fun PasswordField(
                         .size(Dimens.icon20)
                 )
             }
-        }
+        },
+        keyboardOptions = keyboardOptions,
+        onKeyboardAction = onKeyboardAction,
+        onFocusChange = onFocusChange,
     )
 }
 
