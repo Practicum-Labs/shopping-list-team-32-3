@@ -38,8 +38,8 @@ class AuthRepositoryImpl(
 
     override suspend fun check(): Boolean {
         storage.accessToken()?.let {
-            val response = client.check(it)
-            if (response.data == true || refresh()) {
+            val response = client.check("Bearer $it")
+            if (response.data?.isValid == true || refresh()) {
                 return true
             }
         }

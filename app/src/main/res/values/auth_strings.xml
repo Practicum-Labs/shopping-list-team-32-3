@@ -3,8 +3,9 @@
     <string name="auth_email_label">Email</string>
     <string name="auth_password_label">Пароль</string>
     <string name="auth_email_supporting_label">Некорректный email</string>
-    <string name="auth_register_title">Зарегистрироваться</string>
+    <string name="auth_registration_title">Зарегистрироваться</string>
     <string name="auth_password_strength_label">Надёжность пароля</string>
+    <string name="auth_password_strength_none"></string>
     <string name="auth_password_strength_weak">Ненадежный</string>
     <string name="auth_password_strength_medium">Средний</string>
     <string name="auth_password_strength_strong">Надежный</string>

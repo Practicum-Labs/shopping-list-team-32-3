@@ -4,9 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RefreshDto(
-    @SerialName("access_token")
-    val accessToken: String,
-    @SerialName("refresh_token")
-    val refreshToken: String
+data class CheckDto(
+    @SerialName("is_valid")
+    val isValid: Boolean?,
+    val success: Boolean?,
 )

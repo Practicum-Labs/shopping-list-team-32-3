@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_register_screen_title">Регистрация</string>
+    <string name="auth_register_title">Создайте аккаунт</string>
+    <string name="auth_register_description">Пара секунд — и списки будут с вами на любом устройстве</string>
+    <string name="auth_register_repeat_label">Повторите пароль</string>
+    <string name="auth_register_password_supporting_case">Пароль должен содержать символы в разных регистрах</string>
+    <string name="auth_register_password_supporting_digit">Пароль должен содержать цифры</string>
+    <string name="auth_register_password_supporting_special">Пароль должен содержать спецсимволы</string>
+    <string name="auth_register_repeat_error">Пароли не совпадают</string>
+    <string name="auth_register_server_error">Не удалось зарегистрировать: %s</string>
+</resources>
