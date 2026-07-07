@@ -25,6 +25,9 @@ interface ListsContract {
         data object OpenAddSheet : Intent
         data object DismissSheet : Intent
         data class CreateList(val name: String) : Intent
+        data class RenameList(val id: Long) : Intent
+        data class DuplicateList(val id: Long) : Intent
+        data class RequestDelete(val id: Long) : Intent
     }
 
     sealed interface Effect : UiEffect {
