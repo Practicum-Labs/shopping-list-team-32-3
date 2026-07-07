@@ -6,6 +6,7 @@ import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
 fun ListEntity.toDomain(): ShoppingList = ShoppingList(
     id = id,
+    userId = userId,
     name = name,
     iconKey = iconKey,
     sortMode = runCatching { SortMode.valueOf(sortMode.uppercase()) }
@@ -14,9 +15,10 @@ fun ListEntity.toDomain(): ShoppingList = ShoppingList(
 
 fun ShoppingList.toEntity(): ListEntity = ListEntity(
     id = id,
+    userId = userId,
     name = name,
     iconKey = iconKey,
-    sortMode = sortMode.name.lowercase()
+    sortMode = sortMode.name.lowercase(),
 )
 
 fun List<ListEntity>.toDomainList(): List<ShoppingList> = map { it.toDomain() }

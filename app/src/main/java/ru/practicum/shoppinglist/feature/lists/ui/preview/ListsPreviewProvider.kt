@@ -14,6 +14,24 @@ class ListsPreviewProvider : PreviewParameterProvider<ListsViewModelBase> {
     override val values = sequenceOf(
         ListsViewModelMock(
             ListsContract.State(
+                lists = emptyList(),
+                isLoading = false,
+                activeSheet = null,
+                query = "123",
+                error = null,
+            )
+        ),
+        ListsViewModelMock(
+            ListsContract.State(
+                lists = emptyList(),
+                isLoading = true,
+                activeSheet = null,
+                query = "123",
+                error = null,
+            )
+        ),
+        ListsViewModelMock(
+            ListsContract.State(
                 lists = listOf(ShoppingList.mock()),
                 isLoading = false,
                 activeSheet = null,
