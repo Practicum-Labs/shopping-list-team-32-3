@@ -5,6 +5,7 @@ on:
         branches: [ "main", "develop" ]
     pull_request:
         branches: [ "main", "develop" ]
+        types: ["edited"]
 
 # Отменяем устаревшие запуски на той же ветке/PR, чтобы не гонять лишнее
 concurrency:

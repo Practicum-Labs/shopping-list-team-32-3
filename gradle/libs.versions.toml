@@ -37,6 +37,16 @@ detekt = "1.23.8"
 junit = "4.13.2"
 junitExt = "1.1.5"
 espresso = "3.5.1"
+runtime = "1.11.3"
+
+#Network
+retrofit = "3.0.0"
+
+#Secure DataStore
+datastore = "1.3.0-alpha09"
+tink-android = "1.13.0"
+protobuf-javalite = "4.26.1"
+protobuf = "0.9.4"
 
 [libraries]
 # AndroidX core
@@ -84,6 +94,19 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+
+#Network
+retrofit =  { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-json = {group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+
+#Secure DataStore
+datastore =  { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+datastore-tink =  { group = "androidx.datastore", name = "datastore-tink", version.ref = "datastore" }
+tink-android = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink-android" }
+protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf-javalite" }
+protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf-javalite" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -93,3 +116,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+protobuf =  { id = "com.google.protobuf", version.ref = "protobuf" }
+

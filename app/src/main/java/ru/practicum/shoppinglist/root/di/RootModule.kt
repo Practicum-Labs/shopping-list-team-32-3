@@ -9,5 +9,5 @@ val rootModule = module {
     single<OnboardingRepository> {
         OnboardingRepositoryImpl(get())
     }
-    factory { RootViewModel(get()) }
+    factory { RootViewModel(get(), get()) }
 }

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -56,6 +57,9 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_17
+        freeCompilerArgs.addAll(
+            "-XXLanguage:+PropertyParamAnnotationDefaultTargetMode"
+        )
     }
 }
 
@@ -63,6 +67,7 @@ dependencies {
     // AndroidX core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.runtime)
 
     // Compose
     val composeBom = platform(libs.androidx.compose.bom)
@@ -104,4 +109,30 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Network
+    implementation(libs.retrofit)
+    implementation(libs.converter.json)
+
+    // Secure DataStore
+    implementation(libs.datastore)
+    implementation(libs.datastore.tink)
+    implementation(libs.tink.android)
+    implementation(libs.protobuf.javalite)
+
+}
+
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().configureEach {
+            builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

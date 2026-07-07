@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_login_screen_title">Вход</string>
+    <string name="auth_login_title">С возвращением 👋</string>
+    <string name="auth_login_description">Войдите, чтобы открыть свои списки покупок</string>
+    <string name="auth_login_enter_title">Войти</string>
+    <string name="auth_login_recovery_title">Восстановить пароль</string>
+    <string name="auth_login_divider_label">нет аккаунта?</string>
+    <string name="auth_login_server_error">Не удалось войти: %s</string>
+</resources>

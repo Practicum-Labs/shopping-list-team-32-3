@@ -35,7 +35,11 @@ val LightColors = lightColorScheme(
 
     scrim = MaterialLightScrim,
 
-    onTertiary = MaterialLightOnSurfaceVariant
+    onTertiary = MaterialLightOnSurfaceVariant,
+
+    error = ErrorLight,
+
+    primaryFixed = SuccessLight
 )
 private val DarkColors = darkColorScheme(
     primary = MaterialDarkMediumContrastPrimary,
@@ -66,7 +70,11 @@ private val DarkColors = darkColorScheme(
 
     scrim = MaterialDarkMediumContrastScrim,
 
-    onTertiary = MaterialDarkMediumContrastOnSurfaceVariant
+    onTertiary = MaterialDarkMediumContrastOnSurfaceVariant,
+
+    error = ErrorDark,
+
+    primaryFixed = SuccessDark
 )
 
 @Composable

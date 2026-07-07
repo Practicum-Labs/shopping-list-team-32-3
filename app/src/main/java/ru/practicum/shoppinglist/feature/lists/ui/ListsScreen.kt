@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,6 +15,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -56,15 +58,8 @@ private fun ListsContent(
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.lists_title)) })
         },
-        bottomBar = {
-            // TODO: временная заглушка для перехода на экран деталей — удалить.
-            Button(onClick = { onNavigateToDetail(1) }) {
-                Text("ListsScreen stub, click to detail")
-            }
-        },
         floatingActionButton = {
-            // Создание списка появится в T-22.
-            AddFab(onClick = {})
+            AddFab(onClick = { onIntent(ListsContract.Intent.OpenAddSheet) })
         },
     ) { padding ->
         when {
@@ -80,7 +75,9 @@ private fun ListsContent(
             }
 
             else -> {
+                val listState = rememberLazyListState()
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(
                         top = padding.calculateTopPadding() + Dimens.padding16,
@@ -91,13 +88,24 @@ private fun ListsContent(
                     verticalArrangement = Arrangement.spacedBy(Dimens.padding16),
                 ) {
                     items(state.lists, key = { it.id }) { list ->
-                        ListCard(
+                        SwipeableListCard(
                             list = list,
                             onClick = { onIntent(ListsContract.Intent.OpenList(list.id)) },
+                            onRename = { onIntent(ListsContract.Intent.RenameList(list.id)) },
+                            onDuplicate = { onIntent(ListsContract.Intent.DuplicateList(list.id)) },
+                            onDelete = { onIntent(ListsContract.Intent.RequestDelete(list.id)) },
+                            resetSignal = listState.isScrollInProgress,
                         )
                     }
                 }
             }
         }
+    }
+
+    if (state.activeSheet is ListsContract.Sheet.AddList) {
+        AddListSheet(
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onCreate = { onIntent(ListsContract.Intent.CreateList(it)) },
+        )
     }
 }

@@ -8,4 +8,10 @@ import kotlinx.serialization.Serializable
     @Serializable data object Lists
 
     @Serializable data class ListDetail(val listId: Long)
+
+    @Serializable data object Login
+
+    @Serializable data object Registration
+
+    @Serializable data object PasswordRecovery
 }

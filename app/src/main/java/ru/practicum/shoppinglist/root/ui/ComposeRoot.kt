@@ -17,13 +17,13 @@ fun ComposeRoot(viewModel: RootViewModel, onInit: () -> Unit) {
     val navController = rememberNavController()
     val state = viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(state.value.passedOnboarding) {
-        state.value.passedOnboarding?.let {
+    LaunchedEffect(state.value.initialState) {
+        state.value.initialState?.let {
             onInit()
         }
     }
 
-    state.value.passedOnboarding?.let {
+    state.value.initialState?.let {
         AppTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
                 Box(

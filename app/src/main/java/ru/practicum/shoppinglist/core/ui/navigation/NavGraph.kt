@@ -5,16 +5,29 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.compose.viewmodel.koinViewModel
+import ru.practicum.shoppinglist.feature.auth.ui.LoginScreen
+import ru.practicum.shoppinglist.feature.auth.ui.RecoveryScreen
+import ru.practicum.shoppinglist.feature.auth.ui.RegisterScreen
 import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailScreen
 import ru.practicum.shoppinglist.feature.lists.ui.ListsScreen
 import ru.practicum.shoppinglist.feature.onboarding.ui.OnboardingScreen
+import ru.practicum.shoppinglist.root.ui.InitialState
 
 @Composable
-fun NavGraph(navController: NavHostController, passedOnboarding: Boolean) {
-    NavHost(navController, startDestination = if (passedOnboarding) Screen.Lists else Screen.Onboarding) {
+fun NavGraph(navController: NavHostController, initialState: InitialState) {
+    NavHost(
+        navController,
+        startDestination = when (initialState) {
+            InitialState.ONBOARDING -> Screen.Onboarding
+            InitialState.AUTH -> Screen.Login
+            InitialState.CONTENT -> Screen.Lists
+        }
+    ) {
         composable<Screen.Onboarding> {
             OnboardingScreen {
-                navController.navigate(Screen.Lists)
+                navController.navigate(Screen.Login) {
+                    popUpTo(Screen.Onboarding) { inclusive = true }
+                }
             }
         }
         composable<Screen.Lists> {
@@ -31,6 +44,38 @@ fun NavGraph(navController: NavHostController, passedOnboarding: Boolean) {
             ) {
                 navController.popBackStack()
             }
+        }
+        composable<Screen.Login> {
+            LoginScreen(
+                onNavigateToRecovery = {
+                    navController.navigate(Screen.PasswordRecovery)
+                },
+                onNavigateToRegistration = {
+                    navController.navigate(Screen.Registration)
+                },
+                onNavigateToLists = {
+                    navController.navigate(Screen.Lists) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable<Screen.PasswordRecovery> {
+            RecoveryScreen {
+                navController.popBackStack()
+            }
+        }
+        composable<Screen.Registration> {
+            RegisterScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onNavigateToLists = {
+                    navController.navigate(Screen.Lists) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

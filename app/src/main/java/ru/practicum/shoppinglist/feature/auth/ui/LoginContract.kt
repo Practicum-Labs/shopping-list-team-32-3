@@ -1,0 +1,35 @@
+package ru.practicum.shoppinglist.feature.auth.ui
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.text.input.TextFieldState
+import ru.practicum.shoppinglist.core.mvi.UiEffect
+import ru.practicum.shoppinglist.core.mvi.UiIntent
+import ru.practicum.shoppinglist.core.mvi.UiState
+
+interface LoginContract {
+    data class State(
+        val isLoading: Boolean = false,
+        val email: TextFieldState = TextFieldState(""),
+        val password: TextFieldState = TextFieldState(""),
+        @StringRes val emailErrorId: Int? = null,
+        @StringRes val passwordErrorId: Int? = null,
+        val totalError: String? = null,
+        val enterEnabled: Boolean = false
+    ) : UiState
+
+    sealed interface Sheet
+
+    sealed interface Intent : UiIntent {
+        object ValidateEmail : Intent
+        object ValidatePassword : Intent
+        object Enter : Intent
+        object Register : Intent
+        object Recovery : Intent
+    }
+
+    sealed interface Effect : UiEffect {
+        object NavigateToRegistration : Effect
+        object NavigateToRecovery : Effect
+        object NavigateToLists : Effect
+    }
+}

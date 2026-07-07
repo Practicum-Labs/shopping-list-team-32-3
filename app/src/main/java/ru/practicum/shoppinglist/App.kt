@@ -4,6 +4,7 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ru.practicum.shoppinglist.core.di.coreModule
+import ru.practicum.shoppinglist.feature.auth.di.authModule
 import ru.practicum.shoppinglist.feature.listdetail.di.listDetailModule
 import ru.practicum.shoppinglist.feature.lists.di.listsModule
 import ru.practicum.shoppinglist.feature.onboarding.di.onboardingModule
@@ -18,6 +19,7 @@ class App : Application() {
             modules(
                 coreModule,
                 rootModule,
+                authModule,
                 listDetailModule,
                 listsModule,
                 onboardingModule

@@ -25,6 +25,23 @@ class ListsViewModel(
         when (intent) {
             is ListsContract.Intent.Load -> observeLists()
             is ListsContract.Intent.OpenList -> openList(intent.id)
+            is ListsContract.Intent.OpenAddSheet ->
+                setState { copy(activeSheet = ListsContract.Sheet.AddList) }
+            is ListsContract.Intent.DismissSheet ->
+                setState { copy(activeSheet = null) }
+            is ListsContract.Intent.CreateList -> createList(intent.name)
+            is ListsContract.Intent.RenameList -> Unit // TODO(T-24 #27): шторка переименования
+            is ListsContract.Intent.DuplicateList -> Unit // TODO(T-34 #36): дублирование списка
+            is ListsContract.Intent.RequestDelete -> Unit // TODO(T-25 #28): диалог подтверждения удаления
+        }
+    }
+
+    private fun createList(name: String) {
+        val trimmed = name.trim()
+        if (trimmed.isBlank()) return
+        viewModelScope.launch {
+            repository.create(trimmed)
+            setState { copy(activeSheet = null) }
         }
     }
 
