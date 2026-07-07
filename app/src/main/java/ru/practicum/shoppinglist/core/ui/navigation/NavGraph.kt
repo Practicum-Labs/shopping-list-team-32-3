@@ -35,6 +35,11 @@ fun NavGraph(navController: NavHostController, initialState: InitialState) {
                 onNavigateToDetail = { id ->
                     navController.navigate(Screen.ListDetail(id))
                 },
+                onNavigateToLogin = {
+                    navController.navigate(Screen.Login) {
+                        popUpTo(Screen.Lists) { inclusive = true }
+                    }
+                }
             )
         }
         composable<Screen.ListDetail> {

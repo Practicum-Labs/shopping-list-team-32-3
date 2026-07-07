@@ -9,6 +9,8 @@ data class ShoppingList(
     // Значок из набора Material Symbols, назначаемый списку для визуального различения.
     val iconKey: String,
     val sortMode: SortMode
-)
+) {
+    companion object
+}
 
 typealias ShoppingLists = List<ShoppingList>

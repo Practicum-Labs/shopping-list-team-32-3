@@ -4,15 +4,16 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
 import ru.practicum.shoppinglist.core.data.preferences.EncryptedAuthSerializer
+import ru.practicum.shoppinglist.core.data.repository.AuthRepositoryImpl
 import ru.practicum.shoppinglist.feature.auth.data.AuthNetworkClient
 import ru.practicum.shoppinglist.feature.auth.data.AuthStorage
 import ru.practicum.shoppinglist.feature.auth.data.network.AuthApi
 import ru.practicum.shoppinglist.feature.auth.data.network.RetrofitAuthApiNetworkClient
-import ru.practicum.shoppinglist.feature.auth.data.repository.AuthRepositoryImpl
 import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
 import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModel
 import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModelBase
@@ -49,11 +50,11 @@ val authModule = module {
         AuthRepositoryImpl(get(), get())
     }
 
-    factory<LoginViewModelBase> {
+    viewModel<LoginViewModelBase> {
         LoginViewModel(get(), get())
     }
 
-    factory<RegisterViewModelBase> {
+    viewModel<RegisterViewModelBase> {
         RegisterViewModel(get(), get())
     }
 }

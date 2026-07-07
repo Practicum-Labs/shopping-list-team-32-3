@@ -5,4 +5,5 @@ interface AuthRepository {
     suspend fun login(login: String, password: String)
     suspend fun recovery(email: String): String
     suspend fun check(): Boolean
+    suspend fun logout()
 }

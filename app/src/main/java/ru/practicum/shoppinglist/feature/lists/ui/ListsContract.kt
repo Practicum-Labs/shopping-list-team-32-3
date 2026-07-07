@@ -25,9 +25,13 @@ interface ListsContract {
         data object OpenAddSheet : Intent
         data object DismissSheet : Intent
         data class CreateList(val name: String) : Intent
+        data object OpenLogoutConfirm : Intent
+        data object Logout : Intent
     }
 
     sealed interface Effect : UiEffect {
         data class OpenList(val id: Long) : Effect
+        data object ShowLogoutDialog : Effect
+        data object NavigateToLogin : Effect
     }
 }

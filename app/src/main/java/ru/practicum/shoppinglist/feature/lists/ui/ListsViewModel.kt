@@ -7,11 +7,20 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
+import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
 import ru.practicum.shoppinglist.feature.lists.domain.api.ListsRepository
 
+abstract class ListsViewModelBase(
+    initial: ListsContract.State
+) : MviViewModel<
+    ListsContract.State,
+    ListsContract.Intent,
+    ListsContract.Effect
+    > (initial)
 class ListsViewModel(
     private val repository: ListsRepository,
-) : MviViewModel<ListsContract.State, ListsContract.Intent, ListsContract.Effect>(
+    private val authRepository: AuthRepository,
+) : ListsViewModelBase(
     initial = ListsContract.State(),
 ) {
 
@@ -30,6 +39,8 @@ class ListsViewModel(
             is ListsContract.Intent.DismissSheet ->
                 setState { copy(activeSheet = null) }
             is ListsContract.Intent.CreateList -> createList(intent.name)
+            is ListsContract.Intent.OpenLogoutConfirm -> openConfirm()
+            is ListsContract.Intent.Logout -> logout()
         }
     }
 
@@ -39,6 +50,18 @@ class ListsViewModel(
         viewModelScope.launch {
             repository.create(trimmed)
             setState { copy(activeSheet = null) }
+        }
+    }
+
+    private fun openConfirm() {
+        viewModelScope.launch {
+            sendEffect(ListsContract.Effect.ShowLogoutDialog)
+        }
+    }
+    private fun logout() {
+        viewModelScope.launch {
+            authRepository.logout()
+            sendEffect(ListsContract.Effect.NavigateToLogin)
         }
     }
 

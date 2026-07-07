@@ -4,36 +4,49 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
+import ru.practicum.shoppinglist.core.ui.components.AppPreview
+import ru.practicum.shoppinglist.core.ui.components.Dialog
 import ru.practicum.shoppinglist.core.ui.components.EmptyState
+import ru.practicum.shoppinglist.core.ui.components.TopAppBar
+import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
+import ru.practicum.shoppinglist.feature.lists.ui.preview.ListsPreviewProvider
 
 @Composable
 fun ListsScreen(
     onNavigateToDetail: (id: Long) -> Unit,
-    viewModel: ListsViewModel = koinViewModel(),
+    onNavigateToLogin: () -> Unit,
+    viewModel: ListsViewModelBase = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val showDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 is ListsContract.Effect.OpenList -> onNavigateToDetail(effect.id)
+                is ListsContract.Effect.ShowLogoutDialog -> showDialog.value = true
+                is ListsContract.Effect.NavigateToLogin -> onNavigateToLogin()
             }
         }
     }
@@ -42,6 +55,18 @@ fun ListsScreen(
         state = state,
         onIntent = viewModel::onIntent,
     )
+
+    if (showDialog.value) {
+        Dialog(
+            title = stringResource(R.string.lists_logout_dialog_title),
+            confirmTitle = stringResource(R.string.lists_logout_dialog_confirm),
+            onConfirm = {
+                viewModel.onIntent(ListsContract.Intent.Logout)
+                showDialog.value = false
+            },
+            onDismiss = { showDialog.value = false }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +77,18 @@ private fun ListsContent(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.lists_title)) })
+            TopAppBar(
+                stringResource(R.string.lists_title),
+                actions = {
+                    IconButton(onClick = { onIntent(ListsContract.Intent.OpenLogoutConfirm) }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_lists_exit_icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(Dimens.icon32)
+                        )
+                    }
+                }
+            )
         },
         floatingActionButton = {
             AddFab(onClick = { onIntent(ListsContract.Intent.OpenAddSheet) })
@@ -97,5 +133,15 @@ private fun ListsContent(
             onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
             onCreate = { onIntent(ListsContract.Intent.CreateList(it)) },
         )
+    }
+}
+
+@AppPreview
+@Composable
+private fun ListsScreenPreview(
+    @PreviewParameter(ListsPreviewProvider::class) model: ListsViewModelBase
+) {
+    AppTheme {
+        ListsScreen({}, {}, model)
     }
 }

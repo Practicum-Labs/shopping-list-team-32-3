@@ -1,4 +1,4 @@
-package ru.practicum.shoppinglist.feature.auth.data.repository
+package ru.practicum.shoppinglist.core.data.repository
 
 import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.feature.auth.data.AuthNetworkClient
@@ -44,8 +44,12 @@ class AuthRepositoryImpl(
             }
         }
 
-        storage.clearSession()
+        logout()
         return false
+    }
+
+    override suspend fun logout() {
+        storage.clearSession()
     }
 
     private suspend fun refresh(): Boolean {

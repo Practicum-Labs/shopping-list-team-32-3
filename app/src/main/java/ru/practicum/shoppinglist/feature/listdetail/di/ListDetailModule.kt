@@ -1,5 +1,6 @@
 package ru.practicum.shoppinglist.feature.listdetail.di
 
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import ru.practicum.shoppinglist.core.data.database.AppDatabase
 import ru.practicum.shoppinglist.feature.listdetail.data.dao.ProductDao
@@ -11,5 +12,7 @@ import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailViewModelBase
 val listDetailModule = module {
     single<ProductDao> { get<AppDatabase>().productDao() }
     single<ProductsRepository> { ProductsRepositoryImpl(get()) }
-    factory<ListDetailViewModelBase> { ListDetailViewModel(get(), get(), get()) }
+    viewModel<ListDetailViewModelBase> {
+        ListDetailViewModel(get(), get(), get())
+    }
 }
