@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -32,7 +31,7 @@ import ru.practicum.shoppinglist.feature.auth.domain.models.PasswordStrength
 
 @Composable
 fun StrengthLine(
-    state: MutableState<PasswordStrength>,
+    state: PasswordStrength,
     modifier: Modifier = Modifier,
 ) {
     var progress by remember { mutableFloatStateOf(0f) }
@@ -44,30 +43,28 @@ fun StrengthLine(
     val color: MutableState<Color> = remember { mutableStateOf(Color.Transparent) }
     val colorScheme = MaterialTheme.colorScheme
 
-    var strengthText by remember { mutableStateOf(0) }
+    var strengthText by remember { mutableStateOf(R.string.auth_password_strength_none) }
 
-    LaunchedEffect(state.value) {
-        when (state.value) {
-            PasswordStrength.NONE -> {
-                progress = 0f
-                color.value = Color.Transparent
-                strengthText = 0
-            }
-            PasswordStrength.WEAK -> {
-                progress = 0.333f
-                color.value = colorScheme.error
-                strengthText = R.string.auth_password_strength_weak
-            }
-            PasswordStrength.MEDIUM -> {
-                progress = 0.666f
-                color.value = colorScheme.primary
-                strengthText = R.string.auth_password_strength_medium
-            }
-            PasswordStrength.STRONG -> {
-                progress = 1f
-                color.value = colorScheme.primaryFixed
-                strengthText = R.string.auth_password_strength_strong
-            }
+    when (state) {
+        PasswordStrength.NONE -> {
+            progress = 0f
+            color.value = Color.Transparent
+            strengthText = R.string.auth_password_strength_none
+        }
+        PasswordStrength.WEAK -> {
+            progress = 0.333f
+            color.value = colorScheme.error
+            strengthText = R.string.auth_password_strength_weak
+        }
+        PasswordStrength.MEDIUM -> {
+            progress = 0.666f
+            color.value = colorScheme.primary
+            strengthText = R.string.auth_password_strength_medium
+        }
+        PasswordStrength.STRONG -> {
+            progress = 1f
+            color.value = colorScheme.primaryFixed
+            strengthText = R.string.auth_password_strength_strong
         }
     }
 
@@ -114,10 +111,10 @@ private fun StrengthLinePreview() {
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(Dimens.padding16)
         ) {
-            StrengthLine(state = remember { mutableStateOf(PasswordStrength.NONE) })
-            StrengthLine(state = remember { mutableStateOf(PasswordStrength.WEAK) })
-            StrengthLine(state = remember { mutableStateOf(PasswordStrength.MEDIUM) })
-            StrengthLine(state = remember { mutableStateOf(PasswordStrength.STRONG) })
+            StrengthLine(state = PasswordStrength.NONE)
+            StrengthLine(state = PasswordStrength.WEAK)
+            StrengthLine(state = PasswordStrength.MEDIUM)
+            StrengthLine(state = PasswordStrength.STRONG)
         }
     }
 }

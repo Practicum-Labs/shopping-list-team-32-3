@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import org.koin.compose.viewmodel.koinViewModel
 import ru.practicum.shoppinglist.feature.auth.ui.LoginScreen
 import ru.practicum.shoppinglist.feature.auth.ui.RecoveryScreen
-import ru.practicum.shoppinglist.feature.auth.ui.RegistrationScreen
+import ru.practicum.shoppinglist.feature.auth.ui.RegisterScreen
 import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailScreen
 import ru.practicum.shoppinglist.feature.lists.ui.ListsScreen
 import ru.practicum.shoppinglist.feature.onboarding.ui.OnboardingScreen
@@ -66,7 +66,7 @@ fun NavGraph(navController: NavHostController, initialState: InitialState) {
             }
         }
         composable<Screen.Registration> {
-            RegistrationScreen(
+            RegisterScreen(
                 onBack = {
                     navController.popBackStack()
                 },

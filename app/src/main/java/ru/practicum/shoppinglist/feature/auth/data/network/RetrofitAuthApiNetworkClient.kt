@@ -4,6 +4,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import ru.practicum.shoppinglist.core.data.network.NetworkResponse
 import ru.practicum.shoppinglist.feature.auth.data.AuthNetworkClient
+import ru.practicum.shoppinglist.feature.auth.data.dto.CheckDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.LoginRequestDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshRequestDto
@@ -33,7 +34,7 @@ class RetrofitAuthApiNetworkClient(val api: AuthApi) : AuthNetworkClient {
 
     override suspend fun check(
         token: String
-    ): NetworkResponse<Boolean?> = apiCall {
+    ): NetworkResponse<CheckDto?> = apiCall {
         api.check(token)
     }
 

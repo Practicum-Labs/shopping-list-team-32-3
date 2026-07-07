@@ -19,39 +19,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
 import ru.practicum.shoppinglist.core.ui.components.AppTextField
-import ru.practicum.shoppinglist.core.ui.components.DividerWithText
 import ru.practicum.shoppinglist.core.ui.components.FullScreenLoader
 import ru.practicum.shoppinglist.core.ui.components.PrimaryButton
-import ru.practicum.shoppinglist.core.ui.components.SecondaryButton
-import ru.practicum.shoppinglist.core.ui.components.TextButton
 import ru.practicum.shoppinglist.core.ui.components.TopAppBar
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
 import ru.practicum.shoppinglist.feature.auth.ui.components.AuthGreeting
 import ru.practicum.shoppinglist.feature.auth.ui.components.PasswordField
-import ru.practicum.shoppinglist.feature.auth.ui.preview.LoginPreviewProvider
+import ru.practicum.shoppinglist.feature.auth.ui.components.StrengthLine
+import ru.practicum.shoppinglist.feature.auth.ui.preview.RegisterPreviewProvider
 
 @Composable
-fun LoginScreen(
-    onNavigateToRegistration: () -> Unit,
-    onNavigateToRecovery: () -> Unit,
+fun RegisterScreen(
+    onBack: () -> Unit,
     onNavigateToLists: () -> Unit,
-    viewModel: LoginViewModelBase = koinViewModel(),
+    viewModel: RegisterViewModelBase = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LoginEffectsHandler(
+    RegisterEffectsHandler(
         viewModel,
-        onNavigateToRegistration,
-        onNavigateToRecovery,
+        onBack,
         onNavigateToLists
     )
-    LoginScreenContent(
+    RegisterScreenContent(
         state,
         viewModel::onIntent,
         onNavigateToLists
@@ -59,35 +56,37 @@ fun LoginScreen(
 }
 
 @Composable
-private fun LoginEffectsHandler(
-    viewModel: LoginViewModelBase,
-    onNavigateToRegistration: () -> Unit,
-    onNavigateToRecovery: () -> Unit,
+private fun RegisterEffectsHandler(
+    viewModel: RegisterViewModelBase,
+    onNavigateToBack: () -> Unit,
     onNavigateToLists: () -> Unit,
 ) {
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                is LoginContract.Effect.NavigateToRecovery -> onNavigateToRecovery()
-                is LoginContract.Effect.NavigateToRegistration -> onNavigateToRegistration()
-                is LoginContract.Effect.NavigateToLists -> onNavigateToLists()
+                is RegisterContract.Effect.NavigateToBack -> onNavigateToBack()
+                is RegisterContract.Effect.NavigateToLists -> onNavigateToLists()
             }
         }
     }
 }
 
 @Composable
-private fun LoginScreenContent(
-    state: LoginContract.State,
-    onIntent: (LoginContract.Intent) -> Unit,
+private fun RegisterScreenContent(
+    state: RegisterContract.State,
+    onIntent: (RegisterContract.Intent) -> Unit,
     onNavigateToLists: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
-
     FullScreenLoader(state.isLoading) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { TopAppBar(stringResource(R.string.auth_login_screen_title)) }
+            topBar = {
+                TopAppBar(
+                    stringResource(R.string.auth_register_screen_title),
+                    onBack = { onIntent(RegisterContract.Intent.Back) }
+                )
+            }
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -96,13 +95,13 @@ private fun LoginScreenContent(
                     .padding(horizontal = Dimens.padding24)
             ) {
                 AuthGreeting(
-                    R.drawable.image_auth_login,
-                    R.string.auth_login_title,
-                    R.string.auth_login_description,
+                    R.drawable.image_auth_register,
+                    R.string.auth_register_title,
+                    R.string.auth_register_description,
                     modifier = Modifier.padding(Dimens.padding20)
                 )
 
-                LoginFormFields(
+                RegisterFormFields(
                     state = state,
                     onIntent = onIntent,
                     onNavigateToLists = onNavigateToLists
@@ -112,14 +111,15 @@ private fun LoginScreenContent(
     }
 }
 
+@Suppress("CognitiveComplexMethod")
 @Composable
-private fun LoginFormFields(
-    state: LoginContract.State,
-    onIntent: (LoginContract.Intent) -> Unit,
+private fun RegisterFormFields(
+    state: RegisterContract.State,
+    onIntent: (RegisterContract.Intent) -> Unit,
     onNavigateToLists: () -> Unit,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(Dimens.padding16),
+        verticalArrangement = Arrangement.spacedBy(Dimens.padding16)
     ) {
         AppTextField(
             state = state.email,
@@ -128,35 +128,59 @@ private fun LoginFormFields(
             modifier = Modifier.fillMaxWidth(),
             onFocusChange = { focused ->
                 if (!focused) {
-                    onIntent(LoginContract.Intent.ValidateEmail)
+                    onIntent(RegisterContract.Intent.ValidateEmail)
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             onKeyboardAction = { imeAction ->
-                onIntent(LoginContract.Intent.ValidateEmail)
+                onIntent(RegisterContract.Intent.ValidateEmail)
                 imeAction()
             },
             errorTextId = state.emailErrorId
         )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(0.dp)
+        ) {
+            PasswordField(
+                state = state.password,
+                modifier = Modifier.fillMaxWidth(),
+                onFocusChange = { focused ->
+                    if (!focused) {
+                        onIntent(RegisterContract.Intent.ValidatePassword)
+                    }
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                onKeyboardAction = { imeAction ->
+                    onIntent(RegisterContract.Intent.ValidatePassword)
+                    imeAction()
+                },
+                errorTextId = state.passwordErrorId
+            )
+            if (state.passwordErrorId == null) {
+                StrengthLine(state.strength)
+            }
+        }
         PasswordField(
-            state = state.password,
+            labelId = R.string.auth_register_repeat_label,
+            placeholderId = R.string.auth_register_repeat_label,
+            state = state.repeat,
             modifier = Modifier.fillMaxWidth(),
             onFocusChange = { focused ->
                 if (!focused) {
-                    onIntent(LoginContract.Intent.ValidatePassword)
+                    onIntent(RegisterContract.Intent.ValidateRepeat)
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             onKeyboardAction = { imeAction ->
-                onIntent(LoginContract.Intent.ValidatePassword)
+                onIntent(RegisterContract.Intent.ValidateRepeat)
                 imeAction()
             },
-            errorTextId = state.passwordErrorId
+            errorTextId = state.repeatErrorId
         )
         if (!state.totalError.isNullOrEmpty()) {
             Text(
                 stringResource(
-                    R.string.auth_login_server_error,
+                    R.string.auth_register_server_error,
                     state.totalError ?: stringResource(R.string.core_exc_error_unknown)
                 ),
                 textAlign = TextAlign.Left,
@@ -165,34 +189,14 @@ private fun LoginFormFields(
             )
         }
         PrimaryButton(
-            R.string.auth_login_enter_title,
+            R.string.auth_register_title,
             {
                 onIntent(
-                    LoginContract.Intent.Enter
+                    RegisterContract.Intent.Register
                 )
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = state.enterEnabled
-        )
-        DividerWithText(R.string.auth_login_divider_label)
-        SecondaryButton(
-            R.string.auth_registration_title,
-            onClick = {
-                onIntent(
-                    LoginContract.Intent.Register
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        TextButton(
-            R.string.auth_login_recovery_title,
-            onClick = {
-                onIntent(
-                    LoginContract.Intent.Recovery
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
+            enabled = state.registerEnabled
         )
 
         // TODO убрать после настройки экрана регистрации
@@ -209,10 +213,10 @@ private fun LoginFormFields(
 
 @AppPreview
 @Composable
-fun LoginScreenPreview(
-    @PreviewParameter(LoginPreviewProvider::class) model: LoginViewModelBase
+fun RegisterScreenPreview(
+    @PreviewParameter(RegisterPreviewProvider::class) model: RegisterViewModelBase
 ) {
     AppTheme {
-        LoginScreen({}, {}, {}, model)
+        RegisterScreen({}, {}, model)
     }
 }
