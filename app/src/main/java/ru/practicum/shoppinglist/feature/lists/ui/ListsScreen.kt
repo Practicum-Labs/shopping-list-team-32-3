@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -109,7 +110,9 @@ private fun ListsContent(
                 }
 
                 else -> {
+                    val listState = rememberLazyListState()
                     LazyColumn(
+                        state = listState,
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(
                             top = padding.calculateTopPadding() + Dimens.padding16,
@@ -120,9 +123,13 @@ private fun ListsContent(
                         verticalArrangement = Arrangement.spacedBy(Dimens.padding16),
                     ) {
                         items(state.lists, key = { it.id }) { list ->
-                            ListCard(
+                            SwipeableListCard(
                                 list = list,
                                 onClick = { onIntent(ListsContract.Intent.OpenList(list.id)) },
+                                onRename = { onIntent(ListsContract.Intent.RenameList(list.id)) },
+                                onDuplicate = { onIntent(ListsContract.Intent.DuplicateList(list.id)) },
+                                onDelete = { onIntent(ListsContract.Intent.RequestDelete(list.id)) },
+                                resetSignal = listState.isScrollInProgress,
                             )
                         }
                     }

@@ -43,6 +43,9 @@ class ListsViewModel(
             is ListsContract.Intent.CreateList -> userId?.let { createList(intent.name, it) }
             is ListsContract.Intent.OpenLogoutConfirm -> openConfirm()
             is ListsContract.Intent.Logout -> logout()
+            is ListsContract.Intent.RenameList -> Unit // TODO(T-24 #27): шторка переименования
+            is ListsContract.Intent.DuplicateList -> Unit // TODO(T-34 #36): дублирование списка
+            is ListsContract.Intent.RequestDelete -> Unit // TODO(T-25 #28): диалог подтверждения удаления
         }
     }
 

@@ -27,6 +27,9 @@ interface ListsContract {
         data class CreateList(val name: String) : Intent
         data object OpenLogoutConfirm : Intent
         data object Logout : Intent
+        data class RenameList(val id: Long) : Intent
+        data class DuplicateList(val id: Long) : Intent
+        data class RequestDelete(val id: Long) : Intent
     }
 
     sealed interface Effect : UiEffect {
