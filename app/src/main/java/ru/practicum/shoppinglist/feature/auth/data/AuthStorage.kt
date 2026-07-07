@@ -11,11 +11,11 @@ class AuthStorage(private val dataStore: DataStore<AuthPreferences>) {
     }
 
     suspend fun accessToken(): String? {
-        return dataStore.data.first().accessToken
+        return dataStore.data.first().accessToken.ifEmpty { null }
     }
 
     suspend fun refreshToken(): String? {
-        return dataStore.data.first().refreshToken
+        return dataStore.data.first().refreshToken.ifEmpty { null }
     }
 
     suspend fun save(user: Long, access: String, refresh: String) {
