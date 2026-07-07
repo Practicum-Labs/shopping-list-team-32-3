@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_recovery_screen_title">Восстановление</string>
+    <string name="auth_recovery_title">Забыли пароль?</string>
+    <string name="auth_recovery_description">Введите email — пришлём ссылку для смены пароля</string>
+    <string name="auth_recovery_email_supporting">Адрес, на который зарегистрирован аккаунт</string>
+    <string name="auth_recovery_recover_title">Отправить письмо</string>
+    <string name="auth_recovery_success_title">Письмо отправлено</string>
+    <string name="auth_recovery_success_description">Проверьте почту %s и перейдите по ссылке для смены пароля</string>
+    <string name="auth_recovery_server_error">Не удалось запросить смену пароля: %s</string>
+</resources>

@@ -3,6 +3,7 @@ package ru.practicum.shoppinglist.feature.auth.data.network
 import retrofit2.HttpException
 import retrofit2.Response
 import ru.practicum.shoppinglist.core.data.network.NetworkResponse
+import ru.practicum.shoppinglist.core.data.network.StatusCodeException
 import ru.practicum.shoppinglist.feature.auth.data.AuthNetworkClient
 import ru.practicum.shoppinglist.feature.auth.data.dto.CheckDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.LoginRequestDto
@@ -40,7 +41,7 @@ class RetrofitAuthApiNetworkClient(val api: AuthApi) : AuthNetworkClient {
 
     override suspend fun recovery(
         email: String
-    ): NetworkResponse<Boolean?> = apiCall {
+    ): NetworkResponse<Unit?> = apiCall {
         api.recovery(email)
     }
 
@@ -52,8 +53,10 @@ class RetrofitAuthApiNetworkClient(val api: AuthApi) : AuthNetworkClient {
             NetworkResponse(response.body(), response.code().toString())
         } catch (e: HttpException) {
             NetworkResponse(null, e.code().toString(), e.response()?.errorBody()?.string())
+        } catch (e: StatusCodeException) {
+            NetworkResponse(null, e.code.toString(), e.message)
         } catch (e: Exception) {
-            NetworkResponse(null, "-1", e.message)
+            NetworkResponse(null, "-1", "System Error")//не раскрываем пользователю системные ошибки
         }
     }
 }
