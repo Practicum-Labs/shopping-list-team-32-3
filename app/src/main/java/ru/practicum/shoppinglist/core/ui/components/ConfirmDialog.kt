@@ -5,8 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,26 +51,16 @@ fun ConfirmDialog(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         titleContentColor = MaterialTheme.colorScheme.onBackground,
         confirmButton = {
-            Button(
-                onClick = onConfirm,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            ) {
-                Text(stringResource(R.string.core_confirm_dialog_delete))
-            }
+            PrimaryButton(
+                R.string.core_confirm_dialog_delete,
+                onConfirm
+            )
         },
         dismissButton = {
-            Button(
-                onClick = onDismiss,
-                colors = ButtonDefaults.textButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            ) {
-                Text(stringResource(R.string.core_confirm_dialog_cancel))
-            }
+            SecondaryButton(
+                R.string.core_confirm_dialog_cancel,
+                onDismiss
+            )
         }
     )
 }

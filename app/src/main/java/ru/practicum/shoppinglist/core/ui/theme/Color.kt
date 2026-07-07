@@ -74,3 +74,9 @@ val M3ElevationLight15 = Color(0x26000000)
 val M3ElevationLight30 = Color(0x4D000000)
 
 val ColorsGreen = Color(0xFF34C759)
+
+val ErrorDark = Color(0xFFFFB4AB)
+val ErrorLight = Color(0xFFBA1A1A)
+
+val SuccessDark = Color(0xFF4FD17E)
+val SuccessLight = Color(0xFF2E9E48)

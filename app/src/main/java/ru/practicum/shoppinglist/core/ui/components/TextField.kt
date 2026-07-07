@@ -4,16 +4,20 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -24,8 +28,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import ru.practicum.shoppinglist.R
@@ -42,6 +49,8 @@ fun AppTextField(
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onKeyboardAction: KeyboardActionHandler? = null,
+    @StringRes errorTextId: Int? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     val state = rememberTextFieldState(value)
     LaunchedEffect(state) {
@@ -54,7 +63,16 @@ fun AppTextField(
     LaunchedEffect(value) {
         if (state.text.toString() != value) state.setTextAndPlaceCursorAtEnd(value)
     }
-    AppTextField(state, labelId, placeholderId, modifier, keyboardOptions, onKeyboardAction)
+    AppTextField(
+        state,
+        labelId,
+        placeholderId,
+        modifier,
+        keyboardOptions,
+        onKeyboardAction,
+        errorTextId = errorTextId,
+        trailingIcon = trailingIcon
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,8 +86,9 @@ fun AppTextField(
     onKeyboardAction: KeyboardActionHandler? = null,
     readOnly: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
-    onFocusChange: ((Boolean) -> Unit)? = null
-
+    onFocusChange: ((Boolean) -> Unit)? = null,
+    @StringRes errorTextId: Int? = null,
+    outputTransformation: OutputTransformation? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -86,7 +105,7 @@ fun AppTextField(
             Text(
                 stringResource(labelId),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
+                // color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surface)
                     .padding(horizontal = Dimens.padding4),
@@ -105,10 +124,39 @@ fun AppTextField(
         },
         modifier = modifier,
         colors = OutlinedTextFieldDefaults.colors()
-            .copy(cursorColor = MaterialTheme.colorScheme.secondary),
+            .copy(
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                cursorColor = MaterialTheme.colorScheme.secondary,
+                focusedLabelColor = MaterialTheme.colorScheme.secondary,
+                unfocusedLabelColor = MaterialTheme.colorScheme.secondary,
+                errorSupportingTextColor = MaterialTheme.colorScheme.error,
+                errorLabelColor = MaterialTheme.colorScheme.error,
+            ),
         readOnly = readOnly,
         trailingIcon = trailingIcon,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
+        isError = errorTextId != null,
+        supportingText = {
+            if (errorTextId != null) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.padding4),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.offset(x = -Dimens.padding16),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_core_warning_icon),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error,
+                    )
+                    Text(
+                        stringResource(errorTextId),
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+            }
+        },
+        outputTransformation = outputTransformation
     )
 }
 
@@ -126,14 +174,16 @@ private fun AppTextFieldPreview() {
                     {},
                     R.string.lists_add_label,
                     R.string.lists_add_placeholder,
-                    Modifier.padding(Dimens.padding16)
+                    Modifier
+                        .padding(Dimens.padding16)
                         .weight(1f)
                 )
                 AppTextField(
                     state = rememberTextFieldState("123"),
                     R.string.lists_add_label,
                     R.string.lists_add_placeholder,
-                    Modifier.padding(Dimens.padding16)
+                    Modifier
+                        .padding(Dimens.padding16)
                         .weight(1f)
                 )
 
@@ -141,8 +191,10 @@ private fun AppTextFieldPreview() {
                     state = rememberTextFieldState("123"),
                     R.string.lists_add_label,
                     R.string.lists_add_placeholder,
-                    Modifier.padding(Dimens.padding16)
-                        .weight(1f)
+                    Modifier
+                        .padding(Dimens.padding16)
+                        .weight(1f),
+                    errorTextId = R.string.auth_login_recovery_title
                 )
             }
             AppTextField(
@@ -157,6 +209,13 @@ private fun AppTextFieldPreview() {
                 R.string.lists_add_label,
                 R.string.lists_add_placeholder,
                 Modifier.padding(Dimens.padding16)
+            )
+            AppTextField(
+                state = rememberTextFieldState("123"),
+                R.string.lists_add_label,
+                R.string.lists_add_placeholder,
+                Modifier.padding(Dimens.padding16),
+                errorTextId = R.string.auth_login_recovery_title
             )
         }
     }

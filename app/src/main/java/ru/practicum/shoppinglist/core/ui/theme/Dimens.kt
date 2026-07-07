@@ -10,6 +10,7 @@ object Dimens {
     val padding12 = 12.dp
     val padding14 = 14.dp
     val padding16 = 16.dp
+    val padding20 = 20.dp
     val padding24 = 24.dp
     val padding32 = 32.dp
     val padding36 = 36.dp
@@ -22,11 +23,13 @@ object Dimens {
     val radius12 = 12.dp
     val radius28 = 28.dp
 
+    val icon20 = 20.dp
     val icon24 = 24.dp
     val icon32 = 32.dp
     val icon48 = 48.dp
 
     val border1 = 1.dp
+    val border6 = 6.dp
 
     val elevation12 = 12.dp
 }
