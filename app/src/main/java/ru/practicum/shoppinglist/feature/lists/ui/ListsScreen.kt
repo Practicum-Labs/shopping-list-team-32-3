@@ -41,8 +41,7 @@ fun ListsScreen(
 
     ListsContent(
         state = state,
-        onIntent = viewModel::onIntent,
-        onNavigateToDetail = onNavigateToDetail,
+        onIntent = viewModel::onIntent
     )
 }
 
@@ -50,8 +49,7 @@ fun ListsScreen(
 @Composable
 private fun ListsContent(
     state: ListsContract.State,
-    onIntent: (ListsContract.Intent) -> Unit,
-    onNavigateToDetail: (id: Long) -> Unit,
+    onIntent: (ListsContract.Intent) -> Unit
 ) {
     Scaffold(
         topBar = {
