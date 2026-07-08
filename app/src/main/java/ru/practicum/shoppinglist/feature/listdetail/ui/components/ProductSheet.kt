@@ -30,15 +30,25 @@ import ru.practicum.shoppinglist.core.ui.components.DropdownTextField
 import ru.practicum.shoppinglist.core.ui.components.Fab
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.listdetail.ui.utils.UnitStringMapper
 
 @Composable
-fun ProductSheet(add: (String, Double?, ProductUnit?) -> Unit, onDismiss: () -> Unit) {
-    val product = rememberTextFieldState("")
-    val quantity = remember { mutableStateOf("") }
+fun ProductSheet(
+    initialProduct: Product? = null,
+    onSave: (String, Double?, ProductUnit?) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val product = rememberTextFieldState(initialProduct?.name ?: "")
+
+    val initialQuantity = initialProduct?.quantity?.let {
+        if (it % 1.0 == 0.0) it.toInt().toString() else it.toString()
+    } ?: ""
+    val quantity = remember { mutableStateOf(initialQuantity) }
+
     val unit = rememberTextFieldState("")
-    var allowAdd by remember { mutableStateOf(false) }
+    var allowAdd by remember { mutableStateOf(product.text.isNotEmpty()) }
     val mapper = UnitStringMapper(LocalContext.current)
 
     LaunchedEffect(product.text, quantity.value, unit.text) {
@@ -51,7 +61,11 @@ fun ProductSheet(add: (String, Double?, ProductUnit?) -> Unit, onDismiss: () -> 
                 Fab(
                     R.drawable.ic_core_ok_fab_icon,
                     onClick = {
-                        add(product.text.toString(), quantity.value.toDoubleOrNull(), mapper.map(unit.text.toString()))
+                        onSave(
+                            product.text.toString(),
+                            quantity.value.toDoubleOrNull(),
+                            mapper.map(unit.text.toString())
+                        )
                         onDismiss()
                     }
                 )
@@ -89,7 +103,7 @@ private fun ProductForm(
     ) {
         DropdownTextField(
             state = product,
-            items = emptyList(), // TODO T-41 — Detail: автоподсказки — UI подсказок (FR-LIST-07) #43
+            items = emptyList(),
             labelId = R.string.listdetail_productsheet_product_label,
             placeholderId = R.string.listdetail_productsheet_product_placeholder,
             expanded = expandedProduct,
@@ -155,7 +169,10 @@ fun getQuantity(quantity: String, add: Int): String {
 @Composable
 private fun ProductFormPreview() {
     AppTheme {
-        ProductSheet({ _, _, _ ->
-        }) {}
+        ProductSheet(
+            initialProduct = null,
+            onSave = { _, _, _ -> },
+            onDismiss = {}
+        )
     }
 }
