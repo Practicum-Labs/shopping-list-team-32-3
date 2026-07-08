@@ -19,7 +19,6 @@ object Dimens {
     val padding56 = 56.dp
     val padding94 = 94.dp
     val padding120 = 120.dp
-    val padding94 = 94.dp
 
     val radius12 = 12.dp
     val radius28 = 28.dp

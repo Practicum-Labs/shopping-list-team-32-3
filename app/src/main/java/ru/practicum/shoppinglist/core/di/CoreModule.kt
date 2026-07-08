@@ -2,9 +2,13 @@ package ru.practicum.shoppinglist.core.di
 
 import androidx.room.Room
 import com.google.crypto.tink.Aead
+import com.google.crypto.tink.KeyTemplates
+import com.google.crypto.tink.aead.AeadConfig
+import com.google.crypto.tink.integration.android.AndroidKeysetManager
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -26,5 +30,31 @@ val coreModule = module {
 
     single {
         PreferencesService(get())
+    }
+
+    single {
+        OkHttpClient.Builder().build()
+    }
+
+    single<Retrofit> {
+        val contentType = "application/json".toMediaType()
+        val json = Json { ignoreUnknownKeys = true }
+
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(get())
+            .addConverterFactory(json.asConverterFactory(contentType))
+            .build()
+    }
+
+    single<Aead> {
+        AeadConfig.register()
+        AndroidKeysetManager.Builder()
+            .withSharedPref(androidContext(), KEYSET_NAME, KEYSET_FILE)
+            .withKeyTemplate(KeyTemplates.get("AES256_GCM"))
+            .withMasterKeyUri(KEYSET_MASTERKEY_URI)
+            .build()
+            .keysetHandle
+            .getPrimitive(Aead::class.java)
     }
 }
