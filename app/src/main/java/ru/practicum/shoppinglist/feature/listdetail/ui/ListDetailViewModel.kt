@@ -18,11 +18,7 @@ import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
 abstract class ListDetailViewModelBase(
     initial: ListDetailContract.State
-) : MviViewModel<
-        ListDetailContract.State,
-        ListDetailContract.Intent,
-        ListDetailContract.Effect
-        >(initial)
+) : MviViewModel<ListDetailContract.State, ListDetailContract.Intent, ListDetailContract.Effect>(initial)
 
 class ListDetailViewModel(
     savedStateHandle: SavedStateHandle,
