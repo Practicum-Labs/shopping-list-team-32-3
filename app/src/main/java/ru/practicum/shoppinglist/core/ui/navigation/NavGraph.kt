@@ -9,6 +9,7 @@ import ru.practicum.shoppinglist.feature.auth.ui.LoginScreen
 import ru.practicum.shoppinglist.feature.auth.ui.RecoveryScreen
 import ru.practicum.shoppinglist.feature.auth.ui.RegisterScreen
 import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailScreen
+import ru.practicum.shoppinglist.feature.lists.ui.ListDetailContainer
 import ru.practicum.shoppinglist.feature.lists.ui.ListsScreen
 import ru.practicum.shoppinglist.feature.onboarding.ui.OnboardingScreen
 import ru.practicum.shoppinglist.root.ui.InitialState
@@ -30,21 +31,11 @@ fun NavGraph(navController: NavHostController, initialState: InitialState) {
                 }
             }
         }
+
         composable<Screen.Lists> {
-            ListsScreen(
-                onNavigateToDetail = { id ->
-                    navController.navigate(Screen.ListDetail(id))
-                },
-            )
+            ListDetailContainer()
         }
-        composable<Screen.ListDetail> {
-            // val args = it.toRoute<Screen.ListDetail>()
-            ListDetailScreen(
-                koinViewModel()
-            ) {
-                navController.popBackStack()
-            }
-        }
+
         composable<Screen.Login> {
             LoginScreen(
                 onNavigateToRecovery = {
