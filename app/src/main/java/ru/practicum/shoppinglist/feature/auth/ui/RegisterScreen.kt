@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -54,8 +53,7 @@ fun RegisterScreen(
     )
     RegisterScreenContent(
         state,
-        viewModel::onIntent,
-        onNavigateToLists
+        viewModel::onIntent
     )
 }
 
@@ -79,7 +77,6 @@ private fun RegisterEffectsHandler(
 private fun RegisterScreenContent(
     state: RegisterContract.State,
     onIntent: (RegisterContract.Intent) -> Unit,
-    onNavigateToLists: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     FullScreenLoader(state.isLoading) {
@@ -103,7 +100,6 @@ private fun RegisterScreenContent(
                         .verticalScroll(scrollState)
                         .padding(horizontal = Dimens.padding24)
                         .widthIn(max = Dimens.width400),
-
                     ) {
                     AuthGreeting(
                         R.drawable.image_auth_register,
@@ -111,11 +107,9 @@ private fun RegisterScreenContent(
                         R.string.auth_register_description,
                         modifier = Modifier.padding(Dimens.padding20)
                     )
-
                     RegisterFormFields(
                         state = state,
-                        onIntent = onIntent,
-                        onNavigateToLists = onNavigateToLists
+                        onIntent = onIntent
                     )
                 }
             }
@@ -127,8 +121,7 @@ private fun RegisterScreenContent(
 @Composable
 private fun RegisterFormFields(
     state: RegisterContract.State,
-    onIntent: (RegisterContract.Intent) -> Unit,
-    onNavigateToLists: () -> Unit,
+    onIntent: (RegisterContract.Intent) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(Dimens.padding16)
@@ -210,16 +203,6 @@ private fun RegisterFormFields(
             modifier = Modifier.fillMaxWidth(),
             enabled = state.registerEnabled
         )
-
-        // TODO убрать после настройки экрана регистрации
-        // и привязки списков к пользователю
-        // Быстрый переход к спискам
-        Button(
-            onClick = onNavigateToLists,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("К спискам без логина!")
-        }
     }
 }
 

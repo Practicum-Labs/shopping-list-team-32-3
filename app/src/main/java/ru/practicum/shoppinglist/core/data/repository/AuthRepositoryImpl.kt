@@ -1,16 +1,21 @@
-package ru.practicum.shoppinglist.feature.auth.data.repository
+package ru.practicum.shoppinglist.core.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import ru.practicum.shoppinglist.core.data.preferences.AuthStorage
+import ru.practicum.shoppinglist.core.domain.api.AuthRepository
 import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.feature.auth.data.AuthNetworkClient
-import ru.practicum.shoppinglist.feature.auth.data.AuthStorage
 import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.UserDto
-import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
 
 class AuthRepositoryImpl(
     val client: AuthNetworkClient,
     val storage: AuthStorage
 ) : AuthRepository {
+    override fun userId(): Flow<Long?> {
+        return storage.userId()
+    }
+
     override suspend fun register(login: String, password: String) {
         val response = client.register(login, password)
         if (response.data is UserDto) {
@@ -27,13 +32,12 @@ class AuthRepositoryImpl(
             throw DataException.Network(response.error ?: "")
         }
     }
-    override suspend fun recovery(email: String): String {
+    override suspend fun recovery(email: String): Boolean {
         val response = client.recovery(email)
-        if (response.data is String) {
-            return response.data
-        } else {
-            throw DataException.Network(response.error ?: "")
+        if (response.error != null) {
+            throw DataException.Network(response.error)
         }
+        return true
     }
 
     override suspend fun check(): Boolean {
@@ -44,8 +48,12 @@ class AuthRepositoryImpl(
             }
         }
 
-        storage.clearSession()
+        logout()
         return false
+    }
+
+    override suspend fun logout() {
+        storage.clearSession()
     }
 
     private suspend fun refresh(): Boolean {

@@ -30,6 +30,16 @@ fun ConfirmDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    Dialog(title, stringResource(R.string.core_confirm_dialog_delete), onConfirm, onDismiss)
+}
+
+@Composable
+fun Dialog(
+    title: String,
+    confirmTitle: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = {
@@ -52,7 +62,7 @@ fun ConfirmDialog(
         titleContentColor = MaterialTheme.colorScheme.onBackground,
         confirmButton = {
             PrimaryButton(
-                R.string.core_confirm_dialog_delete,
+                confirmTitle,
                 onConfirm
             )
         },

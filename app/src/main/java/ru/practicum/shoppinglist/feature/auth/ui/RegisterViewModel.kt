@@ -9,9 +9,9 @@ import androidx.lifecycle.viewmodel.compose.saveable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.practicum.shoppinglist.R
+import ru.practicum.shoppinglist.core.domain.api.AuthRepository
 import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
-import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
 import ru.practicum.shoppinglist.feature.auth.domain.extentions.isValidEmail
 import ru.practicum.shoppinglist.feature.auth.domain.extentions.isValidPassword
 import ru.practicum.shoppinglist.feature.auth.domain.models.PasswordValidation

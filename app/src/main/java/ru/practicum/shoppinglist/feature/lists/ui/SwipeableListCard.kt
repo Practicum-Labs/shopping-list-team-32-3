@@ -199,6 +199,7 @@ private fun SwipeableListCardPreview() {
         SwipeableListCard(
             list = ShoppingList(
                 id = 1L,
+                userId = 1L,
                 name = "Продукты",
                 iconKey = "shopping_cart",
                 sortMode = SortMode.MANUAL,
