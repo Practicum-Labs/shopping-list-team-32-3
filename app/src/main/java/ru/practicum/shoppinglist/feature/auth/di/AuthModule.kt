@@ -10,6 +10,8 @@ import ru.practicum.shoppinglist.feature.auth.data.network.AuthApi
 import ru.practicum.shoppinglist.feature.auth.data.network.RetrofitAuthApiNetworkClient
 import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModel
 import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModelBase
+import ru.practicum.shoppinglist.feature.auth.ui.RecoveryViewModel
+import ru.practicum.shoppinglist.feature.auth.ui.RecoveryViewModelBase
 import ru.practicum.shoppinglist.feature.auth.ui.RegisterViewModel
 import ru.practicum.shoppinglist.feature.auth.ui.RegisterViewModelBase
 
@@ -30,7 +32,11 @@ val authModule = module {
         LoginViewModel(get(), get())
     }
 
-    viewModel<RegisterViewModelBase> {
+    factory<RecoveryViewModelBase> {
+        RecoveryViewModel(get(), get())
+    }
+
+    factory<RegisterViewModelBase> {
         RegisterViewModel(get(), get())
     }
 }

@@ -66,9 +66,11 @@ fun NavGraph(navController: NavHostController, initialState: InitialState) {
             )
         }
         composable<Screen.PasswordRecovery> {
-            RecoveryScreen {
-                navController.popBackStack()
-            }
+            RecoveryScreen(
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
         }
         composable<Screen.Registration> {
             RegisterScreen(
