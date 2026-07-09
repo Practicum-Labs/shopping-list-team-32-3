@@ -83,6 +83,7 @@ private fun LoginScreenContent(
     onNavigateToLists: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
+
     FullScreenLoader(state.isLoading) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,

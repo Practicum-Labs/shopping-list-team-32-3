@@ -59,7 +59,7 @@ fun ConfirmDialog(
         dismissButton = {
             SecondaryButton(
                 R.string.core_confirm_dialog_cancel,
-                onConfirm
+                onDismiss
             )
         }
     )

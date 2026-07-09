@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,13 +22,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import ru.practicum.shoppinglist.R
@@ -42,8 +38,6 @@ import ru.practicum.shoppinglist.core.ui.components.TopAppBar
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
 import ru.practicum.shoppinglist.feature.auth.ui.components.AuthGreeting
-import ru.practicum.shoppinglist.feature.auth.ui.components.PasswordField
-import ru.practicum.shoppinglist.feature.auth.ui.components.StrengthLine
 import ru.practicum.shoppinglist.feature.auth.ui.preview.RecoveryPreviewProvider
 
 @Composable
@@ -175,19 +169,18 @@ private fun RecoveryFormFields(
             modifier = Modifier.fillMaxWidth(),
             enabled = state.recoveryEnabled
         )
-
     }
 }
 
 @Composable
-private fun SuccessCard (email: String) {
+private fun SuccessCard(email: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(top = Dimens.padding16)
 
-    ){
+    ) {
         Row(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(Dimens.padding12),
@@ -224,6 +217,6 @@ fun RecoveryScreenPreview(
     @PreviewParameter(RecoveryPreviewProvider::class) model: RecoveryViewModelBase
 ) {
     AppTheme {
-        RecoveryScreen({},  model)
+        RecoveryScreen({}, model)
     }
 }

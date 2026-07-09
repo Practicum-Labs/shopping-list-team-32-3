@@ -11,7 +11,7 @@ import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshRequestDto
 import ru.practicum.shoppinglist.feature.auth.data.dto.UserDto
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 class RetrofitAuthApiNetworkClient(val api: AuthApi) : AuthNetworkClient {
     override suspend fun register(
         email: String,
@@ -56,7 +56,7 @@ class RetrofitAuthApiNetworkClient(val api: AuthApi) : AuthNetworkClient {
         } catch (e: StatusCodeException) {
             NetworkResponse(null, e.code.toString(), e.message)
         } catch (e: Exception) {
-            NetworkResponse(null, "-1", "System Error")//не раскрываем пользователю системные ошибки
+            NetworkResponse(null, "-1", "System Error") // не раскрываем пользователю системные ошибки
         }
     }
 }

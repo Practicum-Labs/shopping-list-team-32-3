@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.input.TextFieldState
 import ru.practicum.shoppinglist.core.mvi.UiEffect
 import ru.practicum.shoppinglist.core.mvi.UiIntent
 import ru.practicum.shoppinglist.core.mvi.UiState
-import ru.practicum.shoppinglist.feature.auth.domain.models.PasswordStrength
 
 interface RecoveryContract {
     data class State(
