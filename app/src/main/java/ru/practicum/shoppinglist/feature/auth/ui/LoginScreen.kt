@@ -101,7 +101,8 @@ private fun LoginScreenContent(
                         .verticalScroll(scrollState)
                         .padding(horizontal = Dimens.padding24)
                         .widthIn(max = Dimens.width400),
-                    ) {
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     AuthGreeting(
                         R.drawable.image_auth_login,
                         R.string.auth_login_title,

@@ -1,17 +1,31 @@
 package ru.practicum.shoppinglist.feature.lists.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
-import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailContract
 import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailViewModelBase
-import ru.practicum.shoppinglist.feature.listdetail.ui.preview.mock1
-import ru.practicum.shoppinglist.feature.listdetail.ui.preview.mock2
-import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
+import ru.practicum.shoppinglist.feature.listdetail.ui.preview.ListDetailPreviewProvider
+import ru.practicum.shoppinglist.feature.lists.ui.DetailViewModelFactory
+import ru.practicum.shoppinglist.feature.lists.ui.ListsViewModelBase
 
-
-class ListDetailContainerPreviewProvider : PreviewParameterProvider<Long?> {
+data class ListDetailContainerPreviewData(
+    val listsViewModel: ListsViewModelBase,
+    val detailViewModelFactory: DetailViewModelFactory,
+    val initialId: Long?
+)
+class ListDetailContainerPreviewProvider : PreviewParameterProvider<ListDetailContainerPreviewData> {
     override val values = sequenceOf(
-        null,
-        1L
+        ListDetailContainerPreviewData(
+            listsViewModel = ListsPreviewProvider().values.first(),
+            detailViewModelFactory = MockDetailViewModelFactory(),
+            initialId = null
+        ),
+        ListDetailContainerPreviewData(
+            listsViewModel = ListsPreviewProvider().values.first(),
+            detailViewModelFactory = MockDetailViewModelFactory(),
+            initialId = 1
+        )
     )
+}
+
+class MockDetailViewModelFactory : DetailViewModelFactory {
+    override fun create(id: Long): ListDetailViewModelBase = ListDetailPreviewProvider().values.first()
 }

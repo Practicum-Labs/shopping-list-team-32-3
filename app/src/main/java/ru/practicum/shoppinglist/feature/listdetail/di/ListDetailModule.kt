@@ -12,7 +12,7 @@ import ru.practicum.shoppinglist.feature.listdetail.ui.ListDetailViewModelBase
 val listDetailModule = module {
     single<ProductDao> { get<AppDatabase>().productDao() }
     single<ProductsRepository> { ProductsRepositoryImpl(get()) }
-    viewModel<ListDetailViewModelBase> {
-        ListDetailViewModel(get(), get(), get())
+    viewModel<ListDetailViewModelBase> { parameters ->
+        ListDetailViewModel(parameters.get(), get(), get())
     }
 }

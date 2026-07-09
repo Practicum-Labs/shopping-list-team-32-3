@@ -100,7 +100,8 @@ private fun RegisterScreenContent(
                         .verticalScroll(scrollState)
                         .padding(horizontal = Dimens.padding24)
                         .widthIn(max = Dimens.width400),
-                    ) {
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     AuthGreeting(
                         R.drawable.image_auth_register,
                         R.string.auth_register_title,

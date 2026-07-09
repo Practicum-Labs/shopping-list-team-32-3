@@ -2,13 +2,15 @@ package ru.practicum.shoppinglist.feature.auth.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -87,33 +89,38 @@ private fun RecoveryScreenContent(
                 )
             }
         ) { paddingValues ->
-            Column(
+            Box(
                 modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxHeight()
-                    .verticalScroll(scrollState)
-                    .padding(horizontal = Dimens.padding24)
-                    .padding(bottom = Dimens.padding24)
-
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
             ) {
-                AuthGreeting(
-                    R.drawable.image_auth_recovery,
-                    R.string.auth_recovery_title,
-                    R.string.auth_recovery_description,
-                    modifier = Modifier.padding(Dimens.padding20)
-                )
-
-                RecoveryFormFields(
-                    state = state,
-                    onIntent = onIntent,
-                )
-
-                if (state.success) {
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(scrollState)
+                        .padding(horizontal = Dimens.padding24)
+                        .widthIn(max = Dimens.width400),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    AuthGreeting(
+                        R.drawable.image_auth_recovery,
+                        R.string.auth_recovery_title,
+                        R.string.auth_recovery_description,
+                        modifier = Modifier.padding(Dimens.padding20)
                     )
-                    SuccessCard(state.email.text.toString())
+
+                    RecoveryFormFields(
+                        state = state,
+                        onIntent = onIntent,
+                    )
+
+                    if (state.success) {
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+                        SuccessCard(state.email.text.toString())
+                    }
                 }
             }
         }

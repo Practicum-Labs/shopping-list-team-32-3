@@ -1,6 +1,5 @@
 package ru.practicum.shoppinglist.feature.listdetail.ui
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch

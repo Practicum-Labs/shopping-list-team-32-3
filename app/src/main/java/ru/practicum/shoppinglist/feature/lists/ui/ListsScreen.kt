@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.compose.viewmodel.koinViewModel
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
@@ -38,7 +37,7 @@ import ru.practicum.shoppinglist.feature.lists.ui.preview.ListsPreviewProvider
 fun ListsScreen(
     onNavigateToDetail: (id: Long) -> Unit,
     onNavigateToLogin: () -> Unit,
-    viewModel: ListsViewModelBase = koinViewModel(),
+    viewModel: ListsViewModelBase
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val showDialog = remember { mutableStateOf(false) }
