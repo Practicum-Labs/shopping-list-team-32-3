@@ -2,11 +2,11 @@ package ru.practicum.shoppinglist.root.ui
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.shoppinglist.core.domain.api.AuthRepository
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
 import ru.practicum.shoppinglist.core.mvi.UiEffect
 import ru.practicum.shoppinglist.core.mvi.UiIntent
 import ru.practicum.shoppinglist.core.mvi.UiState
-import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
 import ru.practicum.shoppinglist.root.domain.api.OnboardingRepository
 
 enum class InitialState {
