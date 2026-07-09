@@ -16,6 +16,8 @@ import ru.practicum.shoppinglist.feature.auth.data.repository.AuthRepositoryImpl
 import ru.practicum.shoppinglist.feature.auth.domain.api.AuthRepository
 import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModel
 import ru.practicum.shoppinglist.feature.auth.ui.LoginViewModelBase
+import ru.practicum.shoppinglist.feature.auth.ui.RecoveryViewModel
+import ru.practicum.shoppinglist.feature.auth.ui.RecoveryViewModelBase
 import ru.practicum.shoppinglist.feature.auth.ui.RegisterViewModel
 import ru.practicum.shoppinglist.feature.auth.ui.RegisterViewModelBase
 import java.io.File
@@ -51,6 +53,10 @@ val authModule = module {
 
     factory<LoginViewModelBase> {
         LoginViewModel(get(), get())
+    }
+
+    factory<RecoveryViewModelBase> {
+        RecoveryViewModel(get(), get())
     }
 
     factory<RegisterViewModelBase> {
