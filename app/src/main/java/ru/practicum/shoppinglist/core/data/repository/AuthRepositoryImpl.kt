@@ -56,6 +56,14 @@ class AuthRepositoryImpl(
         storage.clearSession()
     }
 
+    override suspend fun fakeLogin() {
+        storage.save(
+            -1,
+            "",
+            ""
+        )
+    }
+
     private suspend fun refresh(): Boolean {
         storage.refreshToken()?.let {
             val response = client.refresh(it)
