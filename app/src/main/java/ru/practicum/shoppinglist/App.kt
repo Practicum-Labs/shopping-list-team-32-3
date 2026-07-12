@@ -20,7 +20,6 @@ var appModules: List<Module> = listOf(
     onboardingModule
 )
 
-
 class App : Application() {
 
     override fun onCreate() {
