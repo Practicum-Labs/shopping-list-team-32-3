@@ -39,7 +39,7 @@ class ProductDaoTest {
 
     @Test
     fun deletingListCascadesToProducts() = runBlocking {
-        val listId = listDao.upsert(ListEntity(name = "Тестовый список"))
+        val listId = listDao.upsert(ListEntity(name = "Тестовый список", userId = 1))
 
         productDao.upsert(
             ProductEntity(
