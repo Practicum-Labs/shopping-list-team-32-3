@@ -51,6 +51,7 @@ private enum class SwipeAnchor { Closed, Open, Dismiss }
 fun SwipeableListCard(
     list: ShoppingList,
     onClick: () -> Unit,
+    onIconClick: () -> Unit,
     onRename: () -> Unit,
     onDuplicate: () -> Unit,
     onDelete: () -> Unit,
@@ -114,6 +115,7 @@ fun SwipeableListCard(
                     scope.launch { state.animateTo(SwipeAnchor.Closed) }
                 }
             },
+            onIconClick = onIconClick,
             modifier = Modifier
                 .offset { IntOffset(x = state.requireOffset().roundToInt(), y = 0) }
                 .anchoredDraggable(state, Orientation.Horizontal),
@@ -205,6 +207,7 @@ private fun SwipeableListCardPreview() {
                 sortMode = SortMode.MANUAL,
             ),
             onClick = {},
+            onIconClick = {},
             onRename = {},
             onDuplicate = {},
             onDelete = {},

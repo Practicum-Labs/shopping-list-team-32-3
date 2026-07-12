@@ -125,6 +125,7 @@ private fun ListsContent(
                             SwipeableListCard(
                                 list = list,
                                 onClick = { onIntent(ListsContract.Intent.OpenList(list.id)) },
+                                onIconClick = { onIntent(ListsContract.Intent.OpenIconsSheet(list.id)) },
                                 onRename = { onIntent(ListsContract.Intent.RenameList(list.id)) },
                                 onDuplicate = { onIntent(ListsContract.Intent.DuplicateList(list.id)) },
                                 onDelete = { onIntent(ListsContract.Intent.RequestDelete(list.id)) },
@@ -135,13 +136,29 @@ private fun ListsContent(
                 }
             }
         }
+        if (state.activeSheet != null) {
+            ListsSheet(state.activeSheet, onIntent)
+        }
+    }
+}
 
-        if (state.activeSheet is ListsContract.Sheet.AddList) {
+@Composable
+private fun ListsSheet(
+    sheet: ListsContract.Sheet,
+    onIntent: (ListsContract.Intent) -> Unit,
+) {
+    when (sheet) {
+        is ListsContract.Sheet.AddList ->
             AddListSheet(
                 onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
                 onCreate = { onIntent(ListsContract.Intent.CreateList(it)) },
             )
-        }
+
+        is ListsContract.Sheet.SelectIcon ->
+            ListIconsBottomSheet(
+                onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+                onSelect = { onIntent(ListsContract.Intent.ChangeIcon(it.value, sheet.id)) },
+            )
     }
 }
 

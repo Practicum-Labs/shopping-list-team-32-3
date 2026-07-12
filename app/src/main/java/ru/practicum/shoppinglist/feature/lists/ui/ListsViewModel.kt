@@ -46,6 +46,9 @@ class ListsViewModel(
             is ListsContract.Intent.RenameList -> Unit // TODO(T-24 #27): шторка переименования
             is ListsContract.Intent.DuplicateList -> Unit // TODO(T-34 #36): дублирование списка
             is ListsContract.Intent.RequestDelete -> Unit // TODO(T-25 #28): диалог подтверждения удаления
+            is ListsContract.Intent.OpenIconsSheet ->
+                setState { copy(activeSheet = ListsContract.Sheet.SelectIcon(intent.id)) }
+            is ListsContract.Intent.ChangeIcon -> changeIcon(intent.icon, intent.id)
         }
     }
 
@@ -101,6 +104,13 @@ class ListsViewModel(
     private fun openList(id: Long) {
         viewModelScope.launch {
             sendEffect(ListsContract.Effect.OpenList(id))
+        }
+    }
+
+    private fun changeIcon(key: String, id: Long) {
+        viewModelScope.launch {
+            repository.changeIcon(id, key)
+            setState { copy(activeSheet = null) }
         }
     }
 }
