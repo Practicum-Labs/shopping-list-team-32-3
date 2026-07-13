@@ -3,7 +3,6 @@ package ru.practicum.shoppinglist.core.di
 import androidx.room.Room
 import com.google.crypto.tink.Aead
 import com.google.crypto.tink.KeyTemplates
-import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -17,38 +16,30 @@ import ru.practicum.shoppinglist.core.data.preferences.PreferencesService
 
 private const val DB_NAME = "shoppinglist.db"
 private const val BASE_URL = "https://practicumopbackend-production.up.railway.app"
-
 private const val KEYSET_NAME = "shoppinglist_datastore_keyset"
 private const val KEYSET_FILE = "shoppinglist_datastore_crypto_prefs"
 private const val KEYSET_MASTERKEY_URI = "android-keystore://shoppinglist_datastore_master_key"
 
 val coreModule = module {
     single<AppDatabase> {
-        Room.databaseBuilder(get(), AppDatabase::class.java, DB_NAME)
-            .build()
+        Room.databaseBuilder(get(), AppDatabase::class.java, DB_NAME).build()
     }
 
-    single {
-        PreferencesService(get())
-    }
-
-    single {
-        OkHttpClient.Builder().build()
-    }
+    single { PreferencesService(get()) }
 
     single<Retrofit> {
-        val contentType = "application/json".toMediaType()
-        val json = Json { ignoreUnknownKeys = true }
-
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(get())
-            .addConverterFactory(json.asConverterFactory(contentType))
+            .client(OkHttpClient.Builder().build())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 
     single<Aead> {
-        AeadConfig.register()
         AndroidKeysetManager.Builder()
             .withSharedPref(androidContext(), KEYSET_NAME, KEYSET_FILE)
             .withKeyTemplate(KeyTemplates.get("AES256_GCM"))
