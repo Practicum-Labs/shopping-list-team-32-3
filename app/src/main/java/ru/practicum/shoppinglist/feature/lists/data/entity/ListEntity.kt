@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class ListEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    val userId: Long,
     val name: String,
     val iconKey: String = "list_alt",
     val sortMode: String = "manual",

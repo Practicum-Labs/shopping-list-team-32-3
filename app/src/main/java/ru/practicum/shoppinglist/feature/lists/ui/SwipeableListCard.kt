@@ -51,15 +51,19 @@ private enum class SwipeAnchor { Closed, Open, Dismiss }
 fun SwipeableListCard(
     list: ShoppingList,
     onClick: () -> Unit,
+    onIconClick: () -> Unit,
     onRename: () -> Unit,
     onDuplicate: () -> Unit,
     onDelete: () -> Unit,
+    collapse: Boolean = false,
+    onExpandedChange: (Boolean) -> Unit = {},
     resetSignal: Any? = null,
     modifier: Modifier = Modifier,
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
     val currentOnDelete by rememberUpdatedState(onDelete)
+    val currentOnExpandedChange by rememberUpdatedState(onExpandedChange)
 
     val actionsWidthPx = with(density) {
         (Dimens.icon48 * 3 + Dimens.padding8 * 3 + Dimens.padding16).toPx()
@@ -76,8 +80,20 @@ fun SwipeableListCard(
         }
     }
 
+    LaunchedEffect(state) {
+        snapshotFlow { state.targetValue }.collect { target ->
+            currentOnExpandedChange(target != SwipeAnchor.Closed)
+        }
+    }
+
     LaunchedEffect(resetSignal) {
         if (state.currentValue != SwipeAnchor.Closed) {
+            state.animateTo(SwipeAnchor.Closed)
+        }
+    }
+
+    LaunchedEffect(collapse) {
+        if (collapse && state.currentValue != SwipeAnchor.Closed) {
             state.animateTo(SwipeAnchor.Closed)
         }
     }
@@ -114,6 +130,7 @@ fun SwipeableListCard(
                     scope.launch { state.animateTo(SwipeAnchor.Closed) }
                 }
             },
+            onIconClick = onIconClick,
             modifier = Modifier
                 .offset { IntOffset(x = state.requireOffset().roundToInt(), y = 0) }
                 .anchoredDraggable(state, Orientation.Horizontal),
@@ -199,11 +216,13 @@ private fun SwipeableListCardPreview() {
         SwipeableListCard(
             list = ShoppingList(
                 id = 1L,
+                userId = 1L,
                 name = "Продукты",
                 iconKey = "shopping_cart",
                 sortMode = SortMode.MANUAL,
             ),
             onClick = {},
+            onIconClick = {},
             onRename = {},
             onDuplicate = {},
             onDelete = {},

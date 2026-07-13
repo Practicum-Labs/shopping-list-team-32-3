@@ -25,5 +25,5 @@ interface AuthApi {
     suspend fun check(@Header("Authorization") bearer: String): Response<CheckDto>
 
     @POST("/auth/recovery")
-    suspend fun recovery(@Header("email") email: String): Response<Boolean> // не работает на текущий момент
+    suspend fun recovery(@Header("email") email: String): Response<Unit>
 }
