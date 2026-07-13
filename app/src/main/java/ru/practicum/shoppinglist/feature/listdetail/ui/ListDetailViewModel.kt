@@ -20,7 +20,6 @@ abstract class ListDetailViewModelBase(
 ) : MviViewModel<ListDetailContract.State, ListDetailContract.Intent, ListDetailContract.Effect>(initial)
 
 class ListDetailViewModel(
-    savedStateHandle: SavedStateHandle,
     private val listId: Long,
     private val listRepository: ListsRepository,
     private val productsRepository: ProductsRepository
