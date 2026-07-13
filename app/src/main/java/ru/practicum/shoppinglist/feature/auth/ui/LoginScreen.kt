@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +35,7 @@ import ru.practicum.shoppinglist.core.ui.theme.Dimens
 import ru.practicum.shoppinglist.feature.auth.ui.components.AuthGreeting
 import ru.practicum.shoppinglist.feature.auth.ui.components.PasswordField
 import ru.practicum.shoppinglist.feature.auth.ui.preview.LoginPreviewProvider
+import ru.practicum.shoppinglist.feature.auth.ui.tags.LoginTags
 
 @Composable
 fun LoginScreen(
@@ -120,7 +122,9 @@ private fun LoginFormFields(
             state = state.email,
             labelId = R.string.auth_email_label,
             placeholderId = R.string.auth_email_label,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(LoginTags.EMAIL_FIELD),
             onFocusChange = { focused ->
                 if (!focused) {
                     onIntent(LoginContract.Intent.ValidateEmail)
@@ -135,7 +139,9 @@ private fun LoginFormFields(
         )
         PasswordField(
             state = state.password,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(LoginTags.PASSWORD_FIELD),
             onFocusChange = { focused ->
                 if (!focused) {
                     onIntent(LoginContract.Intent.ValidatePassword)
@@ -156,7 +162,9 @@ private fun LoginFormFields(
                 ),
                 textAlign = TextAlign.Left,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.error
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .testTag(LoginTags.SERVER_ERROR),
             )
         }
         PrimaryButton(
@@ -166,7 +174,9 @@ private fun LoginFormFields(
                     LoginContract.Intent.Enter
                 )
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(LoginTags.LOGIN_BUTTON),
             enabled = state.enterEnabled
         )
         DividerWithText(R.string.auth_login_divider_label)
@@ -177,7 +187,9 @@ private fun LoginFormFields(
                     LoginContract.Intent.Register
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(LoginTags.REGISTER_BUTTON),
         )
 
         TextButton(
@@ -187,7 +199,9 @@ private fun LoginFormFields(
                     LoginContract.Intent.Recovery
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(LoginTags.RECOVERY_BUTTON),
         )
     }
 }

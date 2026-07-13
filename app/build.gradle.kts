@@ -93,6 +93,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.runtime)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.ui.test.junit4)
+    implementation(libs.okhttp3.idling)
 
     // Compose
     val composeBom = platform(libs.androidx.compose.bom)
@@ -133,6 +136,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.okhttp.tls)
+    androidTestImplementation(libs.koin.test)
+    androidTestImplementation(libs.okhttp3.idling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Network
@@ -157,6 +165,21 @@ protobuf {
                 create("java") {
                     option("lite")
                 }
+            }
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.group == "androidx.test.espresso" && requested.name == "espresso-core") {
+                useVersion("3.7.0")
+                because("Force upgrade to fix conflict with Compose UI Test")
+            }
+            if (requested.group == "androidx.test.espresso" && requested.name == "espresso-idling-resource") {
+                useVersion("3.7.0")
+                because("Force upgrade to fix conflict")
             }
         }
     }
