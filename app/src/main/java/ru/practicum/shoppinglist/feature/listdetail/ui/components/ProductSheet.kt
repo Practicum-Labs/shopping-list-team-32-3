@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -38,6 +43,7 @@ import ru.practicum.shoppinglist.feature.listdetail.ui.utils.UnitStringMapper
 fun ProductSheet(
     initialProduct: Product? = null,
     onSave: (String, Double?, ProductUnit?) -> Unit,
+    onDelete: (() -> Unit)? = null,
     onDismiss: () -> Unit
 ) {
     val product = rememberTextFieldState(initialProduct?.name ?: "")
@@ -57,18 +63,33 @@ fun ProductSheet(
 
     AppModalBottomSheet(
         fab = {
-            if (allowAdd) {
-                Fab(
-                    R.drawable.ic_core_ok_fab_icon,
-                    onClick = {
-                        onSave(
-                            product.text.toString(),
-                            quantity.value.toDoubleOrNull(),
-                            mapper.map(unit.text.toString())
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (initialProduct != null && onDelete != null) {
+                    IconButton(
+                        onClick = onDelete,
+                        modifier = Modifier.padding(end = Dimens.padding16)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
                         )
-                        onDismiss()
                     }
-                )
+                }
+
+                if (allowAdd) {
+                    Fab(
+                        R.drawable.ic_core_ok_fab_icon,
+                        onClick = {
+                            onSave(
+                                product.text.toString(),
+                                quantity.value.toDoubleOrNull(),
+                                mapper.map(unit.text.toString())
+                            )
+                            onDismiss()
+                        }
+                    )
+                }
             }
         },
         onDismiss = onDismiss
@@ -103,7 +124,7 @@ private fun ProductForm(
     ) {
         DropdownTextField(
             state = product,
-            items = emptyList(),
+            items = emptyList(), // TODO T-41 — Detail: автоподсказки — UI подсказок (FR-LIST-07) #43
             labelId = R.string.listdetail_productsheet_product_label,
             placeholderId = R.string.listdetail_productsheet_product_placeholder,
             expanded = expandedProduct,

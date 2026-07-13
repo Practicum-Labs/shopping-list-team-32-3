@@ -207,6 +207,12 @@ private fun ProductSheetOverlay(
                     )
                 }
             },
+            onDelete = {
+                if (productToEdit != null) {
+                    viewModel.onIntent(ListDetailContract.Intent.DeleteProduct(productToEdit.id))
+                }
+                onDismiss()
+            },
             onDismiss = onDismiss
         )
     }
