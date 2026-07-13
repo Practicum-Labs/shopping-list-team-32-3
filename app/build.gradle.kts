@@ -34,10 +34,13 @@ android {
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
-                storeFile = file(keystoreProperties["release.storeFile"] as String)
-                storePassword = keystoreProperties["release.storePassword"] as String
-                keyAlias = keystoreProperties["release.keyAlias"] as String
-                keyPassword = keystoreProperties["release.keyPassword"] as String
+                val releaseStoreFile = keystoreProperties.getProperty("release.storeFile")
+                if (releaseStoreFile != null) {
+                    storeFile = file(releaseStoreFile)
+                    storePassword = keystoreProperties.getProperty("release.storePassword")
+                    keyAlias = keystoreProperties.getProperty("release.keyAlias")
+                    keyPassword = keystoreProperties.getProperty("release.keyPassword")
+                }
             }
         }
     }
@@ -45,6 +48,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
