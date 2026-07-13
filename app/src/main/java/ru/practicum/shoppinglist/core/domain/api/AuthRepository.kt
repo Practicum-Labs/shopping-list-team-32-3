@@ -9,4 +9,6 @@ interface AuthRepository {
     suspend fun recovery(email: String): Boolean
     suspend fun check(): Boolean
     suspend fun logout()
+
+    suspend fun fakeLogin()
 }

@@ -32,4 +32,6 @@ object Dimens {
     val border6 = 6.dp
 
     val elevation12 = 12.dp
+
+    val width400 = 400.dp
 }
