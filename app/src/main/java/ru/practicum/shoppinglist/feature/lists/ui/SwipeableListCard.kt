@@ -55,12 +55,15 @@ fun SwipeableListCard(
     onRename: () -> Unit,
     onDuplicate: () -> Unit,
     onDelete: () -> Unit,
+    collapse: Boolean = false,
+    onExpandedChange: (Boolean) -> Unit = {},
     resetSignal: Any? = null,
     modifier: Modifier = Modifier,
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
     val currentOnDelete by rememberUpdatedState(onDelete)
+    val currentOnExpandedChange by rememberUpdatedState(onExpandedChange)
 
     val actionsWidthPx = with(density) {
         (Dimens.icon48 * 3 + Dimens.padding8 * 3 + Dimens.padding16).toPx()
@@ -77,8 +80,20 @@ fun SwipeableListCard(
         }
     }
 
+    LaunchedEffect(state) {
+        snapshotFlow { state.targetValue }.collect { target ->
+            currentOnExpandedChange(target != SwipeAnchor.Closed)
+        }
+    }
+
     LaunchedEffect(resetSignal) {
         if (state.currentValue != SwipeAnchor.Closed) {
+            state.animateTo(SwipeAnchor.Closed)
+        }
+    }
+
+    LaunchedEffect(collapse) {
+        if (collapse && state.currentValue != SwipeAnchor.Closed) {
             state.animateTo(SwipeAnchor.Closed)
         }
     }

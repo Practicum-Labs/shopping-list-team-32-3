@@ -110,6 +110,7 @@ private fun ListsContent(
 
                 else -> {
                     val listState = rememberLazyListState()
+                    val openCardId = remember { mutableStateOf<Long?>(null) }
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize(),
@@ -129,7 +130,12 @@ private fun ListsContent(
                                 onRename = { onIntent(ListsContract.Intent.RenameList(list.id)) },
                                 onDuplicate = { onIntent(ListsContract.Intent.DuplicateList(list.id)) },
                                 onDelete = { onIntent(ListsContract.Intent.RequestDelete(list.id)) },
-                                resetSignal = listState.isScrollInProgress,
+                                collapse = openCardId.value != null && openCardId.value != list.id,
+                                onExpandedChange = { expanded ->
+                                    openCardId.value =
+                                        resolveOpenCardId(openCardId.value, list.id, expanded)
+                                },
+                                resetSignal = listState.isScrollInProgress to state.swipeResetToken,
                             )
                         }
                     }
@@ -148,18 +154,32 @@ private fun ListsSheet(
     onIntent: (ListsContract.Intent) -> Unit,
 ) {
     when (sheet) {
-        is ListsContract.Sheet.AddList ->
-            AddListSheet(
-                onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
-                onCreate = { onIntent(ListsContract.Intent.CreateList(it)) },
-            )
+        is ListsContract.Sheet.AddList -> ListNameSheet(
+            titleId = R.string.lists_add_title,
+            confirmLabelId = R.string.lists_add_button_create,
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onConfirm = { onIntent(ListsContract.Intent.CreateList(it)) },
+        )
 
-        is ListsContract.Sheet.SelectIcon ->
-            ListIconsBottomSheet(
-                onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
-                onSelect = { onIntent(ListsContract.Intent.ChangeIcon(it.value, sheet.id)) },
-            )
+        is ListsContract.Sheet.Rename -> ListNameSheet(
+            titleId = R.string.lists_rename_title,
+            confirmLabelId = R.string.lists_rename_button,
+            initialName = sheet.currentName,
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onConfirm = { onIntent(ListsContract.Intent.ConfirmRename(sheet.id, it)) },
+        )
+
+        is ListsContract.Sheet.SelectIcon -> ListIconsBottomSheet(
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onSelect = { onIntent(ListsContract.Intent.ChangeIcon(it.value, sheet.id)) },
+        )
     }
+}
+
+private fun resolveOpenCardId(current: Long?, cardId: Long, expanded: Boolean): Long? = when {
+    expanded -> cardId
+    current == cardId -> null
+    else -> current
 }
 
 @AppPreview

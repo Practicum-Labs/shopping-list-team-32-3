@@ -11,6 +11,8 @@
     <string name="lists_add_title">Добавление списка</string>
     <string name="lists_add_button_create">Создать</string>
     <string name="lists_add_button_cancel">Отмена</string>
+    <string name="lists_rename_title">Переименование списка</string>
+    <string name="lists_rename_button">Переименовать</string>
     <string name="lists_logout_dialog_title">Выйти из аккаунта?</string>
     <string name="lists_logout_dialog_confirm">Выйти</string>
     <string name="lists_action_rename">Переименовать</string>
