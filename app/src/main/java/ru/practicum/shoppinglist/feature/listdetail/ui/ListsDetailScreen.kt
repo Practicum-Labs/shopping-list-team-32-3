@@ -3,7 +3,7 @@ package ru.practicum.shoppinglist.feature.listdetail.ui
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
+import ru.practicum.shoppinglist.core.ui.components.AppModalBottomSheet
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
 import ru.practicum.shoppinglist.core.ui.components.EmptyState
 import ru.practicum.shoppinglist.core.ui.components.TopAppBar
@@ -40,85 +42,26 @@ import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductCard
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductSheet
 import ru.practicum.shoppinglist.feature.listdetail.ui.preview.ListDetailPreviewProvider
 
+@Suppress("CognitiveComplexMethod")
 @Composable
 fun ListDetailScreen(
     viewModel: ListDetailViewModelBase,
     onBack: () -> Unit
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state = viewModel.state.collectAsStateWithLifecycle()
     var isSheetVisible by remember { mutableStateOf(false) }
     var productToEdit by remember { mutableStateOf<Product?>(null) }
-
-    ListDetailEffectHandler(
-        viewModel = viewModel,
-        onBack = onBack,
-        onShowSheet = { isSheetVisible = true }
-    )
-
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.background,
-            topBar = {
-                TopAppBar(
-                    title = state.listName,
-                    onBack = onBack,
-                    actions = {
-                        ListDetailMenuIcon { viewModel.onIntent(ListDetailContract.Intent.OpenMenu) }
-                    }
-                )
-            },
-            floatingActionButton = {
-                ListDetailFab(
-                    isLoading = state.isLoading,
-                    onClick = {
-                        productToEdit = null
-                        isSheetVisible = true
-                    }
-                )
-            }
-        ) { innerPadding ->
-            ListDetailScreenContent(
-                state = state,
-                innerPadding = innerPadding,
-                onProductClick = { product ->
-                    productToEdit = product
-                    isSheetVisible = true
-                },
-                onTogglePurchased = { product ->
-                    viewModel.onIntent(
-                        ListDetailContract.Intent.TogglePurchased(product.id, !product.isPurchased)
-                    )
-                }
-            )
-        }
-
-        if (isSheetVisible) {
-            ProductSheetWrapper(
-                productToEdit = productToEdit,
-                viewModel = viewModel,
-                onDismiss = {
-                    isSheetVisible = false
-                    productToEdit = null
-                }
-            )
-        }
-
-        ListDetailBottomSheet(state, viewModel)
-    }
-}
-
-@Composable
-private fun ListDetailEffectHandler(
-    viewModel: ListDetailViewModelBase,
-    onBack: () -> Unit,
-    onShowSheet: () -> Unit
-) {
     val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                is ListDetailContract.Effect.NavigateBack -> onBack()
-                is ListDetailContract.Effect.NavigateToProductDetail -> onShowSheet()
+                is ListDetailContract.Effect.NavigateBack -> {
+                    onBack()
+                }
+                is ListDetailContract.Effect.NavigateToProductDetail -> {
+                    isSheetVisible = true
+                }
                 is ListDetailContract.Effect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
@@ -128,82 +71,110 @@ private fun ListDetailEffectHandler(
             }
         }
     }
-}
 
-@Composable
-private fun ListDetailFab(isLoading: Boolean, onClick: () -> Unit) {
-    if (!isLoading) {
-        AddFab(
-            onClick = onClick,
-            modifier = Modifier.padding(
-                end = Dimens.padding16,
-                bottom = Dimens.padding56
+    Box(modifier = Modifier.fillMaxWidth()) {
+        val topBarActions: @Composable RowScope.() -> Unit = {
+            ListDetailMenuIcon(
+                onClick = { viewModel.onIntent(ListDetailContract.Intent.OpenMenu) }
             )
-        )
-    }
-}
+        }
 
-@Composable
-private fun ListDetailScreenContent(
-    state: ListDetailContract.State,
-    innerPadding: PaddingValues,
-    onProductClick: (Product) -> Unit,
-    onTogglePurchased: (Product) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
-    ) {
-        if (!state.isLoading) {
-            if (state.products.isEmpty()) {
-                Column {
-                    EmptyState(
-                        imageId = R.drawable.image_listdetail_empty_state,
-                        titleId = R.string.listdetail_empty_state_title,
-                        descriptionId = R.string.listdetail_empty_state_description,
-                        modifier = Modifier
-                            .padding(horizontal = Dimens.padding44)
-                            .padding(top = Dimens.padding120)
-                    )
-                    Spacer(modifier = Modifier.height(0.dp).weight(1f))
-                }
-            } else {
-                LazyColumn {
-                    items(state.products, key = { it.id }) { product ->
-                        ProductCard(
-                            product = product,
-                            onClick = { onProductClick(product) },
-                            onCheck = { onTogglePurchased(product) }
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.background,
+            topBar = {
+                TopAppBar(
+                    title = state.value.listName,
+                    onBack = onBack,
+                    actions = topBarActions
+                )
+            },
+            floatingActionButton = {
+                if (!state.value.isLoading) {
+                    AddFab(
+                        onClick = {
+                            productToEdit = null
+                            isSheetVisible = true
+                        },
+                        modifier = Modifier.padding(
+                            end = Dimens.padding16,
+                            bottom = Dimens.padding56
                         )
+                    )
+                    AddFab({ isSheetVisible = true })
+                }
+            }
+        ) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+
+            ) {
+                if (!state.value.isLoading) {
+                    if (state.value.products.isEmpty()) {
+                        Column {
+                            EmptyState(
+                                imageId = R.drawable.image_listdetail_empty_state,
+                                titleId = R.string.listdetail_empty_state_title,
+                                descriptionId = R.string.listdetail_empty_state_description,
+                                modifier = Modifier
+                                    .padding(horizontal = Dimens.padding44)
+                                    .padding(top = Dimens.padding120)
+                            )
+                            Spacer(modifier = Modifier.height(0.dp).weight(1f))
+                        }
+                    } else {
+                        LazyColumn {
+                            items(state.value.products, key = { it.id }) { product ->
+                                ProductCard(
+                                    product = product,
+                                    onClick = {
+                                        productToEdit = product
+                                        isSheetVisible = true
+                                    },
+                                    onCheck = {
+                                        viewModel.onIntent(
+                                            ListDetailContract.Intent.TogglePurchased(
+                                                productId = product.id,
+                                                isPurchased = !product.isPurchased
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-}
 
-@Composable
-private fun ProductSheetWrapper(
-    productToEdit: Product?,
-    viewModel: ListDetailViewModelBase,
-    onDismiss: () -> Unit
-) {
-    ProductSheet(
-        initialProduct = productToEdit,
-        onSave = { name, quantity, unit ->
-            if (productToEdit == null) {
-                viewModel.onIntent(ListDetailContract.Intent.AddProduct(name, quantity, unit))
-            } else {
-                viewModel.onIntent(
-                    ListDetailContract.Intent.EditProduct(
-                        productToEdit.copy(name = name, quantity = quantity, unit = unit)
-                    )
-                )
-            }
-        },
-        onDismiss = onDismiss
-    )
+        if (isSheetVisible) {
+            ProductSheet(
+                initialProduct = productToEdit,
+                onSave = { name, quantity, unit ->
+                    if (productToEdit == null) {
+                        viewModel.onIntent(ListDetailContract.Intent.AddProduct(name, quantity, unit))
+                    } else {
+                        viewModel.onIntent(
+                            ListDetailContract.Intent.EditProduct(
+                                productToEdit!!.copy(
+                                    name = name,
+                                    quantity = quantity,
+                                    unit = unit
+                                )
+                            )
+                        )
+                    }
+                },
+                onDismiss = {
+                    isSheetVisible = false
+                    productToEdit = null
+                }
+            )
+        }
+
+        ListDetailBottomSheet(state.value, viewModel)
+    }
 }
 
 @Composable
@@ -211,16 +182,19 @@ private fun ListDetailBottomSheet(
     state: ListDetailContract.State,
     viewModel: ListDetailViewModelBase
 ) {
-    if (state.activeSheet is ListDetailContract.Sheet.Menu) {
-        ListMenuSheet(
-            currentSortMode = state.sortMode,
-            onSortClick = { viewModel.onIntent(ListDetailContract.Intent.OpenSort) },
-            onDeleteAllClick = { viewModel.onIntent(ListDetailContract.Intent.DeleteAllItems) },
-            onClearPurchasedClick = {
-                viewModel.onIntent(ListDetailContract.Intent.ClearPurchased(state.listId))
-            },
-            onDismiss = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }
-        )
+    when (state.activeSheet) {
+        is ListDetailContract.Sheet.Menu -> {
+            ListMenuSheet(
+                currentSortMode = state.sortMode,
+                onSortClick = { viewModel.onIntent(ListDetailContract.Intent.OpenSort) },
+                onDeleteAllClick = { viewModel.onIntent(ListDetailContract.Intent.DeleteAllItems) },
+                onClearPurchasedClick = {
+                    viewModel.onIntent(ListDetailContract.Intent.ClearPurchased(state.listId))
+                },
+                onDismiss = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }
+            )
+        }
+        else -> {}
     }
 }
 
@@ -228,7 +202,9 @@ private fun ListDetailBottomSheet(
 private fun ListDetailMenuIcon(onClick: () -> Unit) {
     IconButton(onClick = onClick) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_core_menu_icon),
+            painter = painterResource(
+                id = R.drawable.ic_core_menu_icon
+            ),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier

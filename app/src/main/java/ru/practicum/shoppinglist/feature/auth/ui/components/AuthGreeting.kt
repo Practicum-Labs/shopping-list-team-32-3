@@ -3,6 +3,7 @@ package ru.practicum.shoppinglist.feature.auth.ui.components
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -66,7 +67,10 @@ fun AuthGreetingPreview() {
             R.drawable.image_auth_login,
             R.string.auth_login_title,
             R.string.auth_login_description,
-            modifier = Modifier.padding(Dimens.padding20)
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Dimens.padding20)
+
         )
     }
 }

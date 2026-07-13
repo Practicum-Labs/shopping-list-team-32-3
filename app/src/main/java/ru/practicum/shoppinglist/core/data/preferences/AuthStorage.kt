@@ -1,13 +1,20 @@
-package ru.practicum.shoppinglist.feature.auth.data
+package ru.practicum.shoppinglist.core.data.preferences
 
 import androidx.datastore.core.DataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
+import kotlinx.coroutines.flow.map
 
 class AuthStorage(private val dataStore: DataStore<AuthPreferences>) {
 
-    suspend fun userId(): Long? {
-        return if (dataStore.data.first().hasUserId()) dataStore.data.first().userId else null
+    fun userId(): Flow<Long?> {
+        return dataStore.data.map { preferences ->
+            if (preferences.hasUserId()) {
+                preferences.userId
+            } else {
+                null
+            }
+        }
     }
 
     suspend fun accessToken(): String? {

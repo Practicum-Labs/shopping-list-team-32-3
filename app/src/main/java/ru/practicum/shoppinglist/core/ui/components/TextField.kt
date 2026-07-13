@@ -89,6 +89,7 @@ fun AppTextField(
     onFocusChange: ((Boolean) -> Unit)? = null,
     @StringRes errorTextId: Int? = null,
     outputTransformation: OutputTransformation? = null,
+    @StringRes supportingTextId: Int? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -137,27 +138,42 @@ fun AppTextField(
         interactionSource = interactionSource,
         isError = errorTextId != null,
         supportingText = {
-            if (errorTextId != null) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.padding4),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.offset(x = -Dimens.padding16),
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_core_warning_icon),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error,
-                    )
-                    Text(
-                        stringResource(errorTextId),
-                        textAlign = TextAlign.Left,
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                }
-            }
+            if (errorTextId != null) ErrorText(errorTextId) else SupportingText(supportingTextId)
         },
         outputTransformation = outputTransformation
     )
+}
+
+@Composable
+private fun ErrorText(@StringRes value: Int) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(Dimens.padding4),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.offset(x = -Dimens.padding16),
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_core_warning_icon),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.error,
+        )
+        Text(
+            stringResource(value),
+            textAlign = TextAlign.Left,
+            style = MaterialTheme.typography.labelSmall
+        )
+    }
+}
+
+@Composable
+private fun SupportingText(@StringRes value: Int?) {
+    value?.let {
+        Text(
+            stringResource(value),
+            textAlign = TextAlign.Left,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.offset(x = -Dimens.padding16),
+        )
+    }
 }
 
 @AppPreview
