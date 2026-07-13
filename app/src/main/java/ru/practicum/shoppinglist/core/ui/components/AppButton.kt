@@ -22,6 +22,16 @@ fun PrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
+    PrimaryButton(stringResource(titleId), onClick, modifier, enabled)
+}
+
+@Composable
+fun PrimaryButton(
+    title: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
@@ -34,7 +44,7 @@ fun PrimaryButton(
         modifier = modifier
     ) {
         Text(
-            stringResource(titleId),
+            title,
             style = MaterialTheme.typography.labelLarge
         )
     }

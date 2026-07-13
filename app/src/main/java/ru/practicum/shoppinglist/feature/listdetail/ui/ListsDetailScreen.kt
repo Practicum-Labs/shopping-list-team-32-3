@@ -103,6 +103,11 @@ fun ListDetailScreen(
                     onClick = { },
                     modifier = fabModifier
                 )
+            },
+            floatingActionButton = {
+                if (!state.value.isLoading) {
+                    AddFab({ isSheetVisible = true })
+                }
             }
         }
     ) { innerPadding ->

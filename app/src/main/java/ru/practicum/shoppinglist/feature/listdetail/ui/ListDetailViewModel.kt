@@ -1,6 +1,5 @@
 package ru.practicum.shoppinglist.feature.listdetail.ui
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -22,6 +21,7 @@ abstract class ListDetailViewModelBase(
 
 class ListDetailViewModel(
     savedStateHandle: SavedStateHandle,
+    private val listId: Long,
     private val listRepository: ListsRepository,
     private val productsRepository: ProductsRepository
 ) : ListDetailViewModelBase(
@@ -30,10 +30,7 @@ class ListDetailViewModel(
     private var observeJob: Job? = null
 
     init {
-        val listId = savedStateHandle.get<Long>(LIST_ID) ?: -1L
-        if (listId != -1L) {
-            onIntent(ListDetailContract.Intent.Load(listId))
-        }
+        onIntent(ListDetailContract.Intent.Load(listId))
     }
 
     @Suppress("CyclomaticComplexMethod")
