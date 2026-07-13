@@ -52,4 +52,8 @@ class ListsRepositoryImpl(
             throw DataException.InvalidData(e.message.toString(), e)
         }
     }
+
+    override suspend fun changeIcon(listId: Long, key: String) {
+        dao.changeIcon(listId, key)
+    }
 }
