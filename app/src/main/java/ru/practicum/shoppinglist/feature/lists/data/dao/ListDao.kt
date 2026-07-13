@@ -9,8 +9,8 @@ import ru.practicum.shoppinglist.feature.lists.data.entity.ListEntity
 
 @Dao
 interface ListDao {
-    @Query("SELECT * FROM lists ORDER BY createdAt DESC")
-    fun observeAll(): Flow<List<ListEntity>>
+    @Query("SELECT * FROM lists WHERE userId = :userId ORDER BY createdAt DESC")
+    fun observeAll(userId: Long): Flow<List<ListEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(list: ListEntity): Long
@@ -21,12 +21,15 @@ interface ListDao {
     @Query("DELETE FROM lists WHERE id = :listId")
     suspend fun deleteById(listId: Long)
 
-    @Query("DELETE FROM lists")
-    suspend fun deleteAll()
+    @Query("DELETE FROM lists WHERE userId = :userId")
+    suspend fun deleteAll(userId: Long)
 
     @Query("SELECT * FROM lists WHERE id = :listId LIMIT 1")
     suspend fun getListById(listId: Long): ListEntity?
 
     @Query("UPDATE lists SET sortMode = :sortMode WHERE id = :listId")
     suspend fun updateSortMode(listId: Long, sortMode: String)
+
+    @Query("UPDATE lists SET iconKey = :newKey WHERE id = :listId")
+    suspend fun changeIcon(listId: Long, newKey: String)
 }

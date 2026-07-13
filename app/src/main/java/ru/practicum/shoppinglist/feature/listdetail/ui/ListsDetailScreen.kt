@@ -100,6 +100,7 @@ fun ListDetailScreen(
                             bottom = Dimens.padding56
                         )
                     )
+                    AddFab({ isSheetVisible = true })
                 }
             }
         ) { innerPadding ->

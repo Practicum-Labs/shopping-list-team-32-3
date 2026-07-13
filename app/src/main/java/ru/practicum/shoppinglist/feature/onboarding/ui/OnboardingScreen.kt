@@ -3,9 +3,11 @@ package ru.practicum.shoppinglist.feature.onboarding.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -33,31 +35,38 @@ fun OnboardingScreen(
         containerColor = MaterialTheme.colorScheme.background,
     ) { innerPadding ->
 
-        Column(
+        Box(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(top = Dimens.padding16)
+                .fillMaxSize()
                 .clickable(onClick = onNavigateToLists),
-            verticalArrangement = Arrangement.spacedBy(
-                space = Dimens.padding94,
-                alignment = Alignment.CenterVertically
-            ),
-
+            contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.image_onboarding_logo),
-                contentDescription = null,
+            Column(
                 modifier = Modifier
-                    .padding(horizontal = Dimens.padding36),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-            )
-            EmptyState(
-                R.drawable.image_onboarding_empty_state,
-                R.string.onboarding_title,
-                R.string.onboarding_description,
-                modifier = Modifier.padding(horizontal = Dimens.padding44)
-            )
-            Spacer(modifier = Modifier.weight(1f))
+                    .padding(horizontal = Dimens.padding16)
+                    .widthIn(max = Dimens.width400),
+
+                verticalArrangement = Arrangement.spacedBy(
+                    space = Dimens.padding94,
+                    alignment = Alignment.CenterVertically
+                ),
+
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.image_onboarding_logo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(horizontal = Dimens.padding36),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+                )
+                EmptyState(
+                    R.drawable.image_onboarding_empty_state,
+                    R.string.onboarding_title,
+                    R.string.onboarding_description,
+                    modifier = Modifier.padding(horizontal = Dimens.padding44)
+                )
+            }
         }
     }
 }

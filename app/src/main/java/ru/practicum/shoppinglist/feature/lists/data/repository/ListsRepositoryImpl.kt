@@ -16,11 +16,11 @@ class ListsRepositoryImpl(
     private val dao: ListDao
 ) : ListsRepository {
 
-    override fun observeLists(): Flow<List<ShoppingList>> =
-        dao.observeAll().map { entities -> entities.toDomainList() }
+    override fun observeLists(userId: Long): Flow<List<ShoppingList>> =
+        dao.observeAll(userId).map { entities -> entities.toDomainList() }
 
-    override suspend fun create(name: String) {
-        dao.upsert(ListEntity(name = name))
+    override suspend fun create(name: String, userId: Long) {
+        dao.upsert(ListEntity(name = name, userId = userId))
     }
 
     override suspend fun rename(id: Long, name: String) {
@@ -31,8 +31,8 @@ class ListsRepositoryImpl(
         dao.deleteById(id)
     }
 
-    override suspend fun deleteAll() {
-        dao.deleteAll()
+    override suspend fun deleteAll(userId: Long) {
+        dao.deleteAll(userId)
     }
 
     override suspend fun getListById(listId: Long): ShoppingList? {
@@ -51,5 +51,9 @@ class ListsRepositoryImpl(
         } catch (e: IllegalArgumentException) {
             throw DataException.InvalidData(e.message.toString(), e)
         }
+    }
+
+    override suspend fun changeIcon(listId: Long, key: String) {
+        dao.changeIcon(listId, key)
     }
 }
