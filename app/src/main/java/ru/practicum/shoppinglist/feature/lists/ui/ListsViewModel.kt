@@ -43,7 +43,8 @@ class ListsViewModel(
             is ListsContract.Intent.CreateList -> userId?.let { createList(intent.name, it) }
             is ListsContract.Intent.OpenLogoutConfirm -> openConfirm()
             is ListsContract.Intent.Logout -> logout()
-            is ListsContract.Intent.RenameList -> Unit // TODO(T-24 #27): шторка переименования
+            is ListsContract.Intent.RenameList -> openRename(intent.id)
+            is ListsContract.Intent.ConfirmRename -> renameList(intent.id, intent.name)
             is ListsContract.Intent.DuplicateList -> Unit // TODO(T-34 #36): дублирование списка
             is ListsContract.Intent.RequestDelete -> Unit // TODO(T-25 #28): диалог подтверждения удаления
         }
@@ -55,6 +56,20 @@ class ListsViewModel(
         viewModelScope.launch {
             repository.create(trimmed, userId)
             setState { copy(activeSheet = null) }
+        }
+    }
+
+    private fun openRename(id: Long) {
+        val name = currentState().lists.find { it.id == id }?.name ?: return
+        setState { copy(activeSheet = ListsContract.Sheet.Rename(id, name)) }
+    }
+
+    private fun renameList(id: Long, name: String) {
+        val trimmed = name.trim()
+        if (trimmed.isBlank()) return
+        viewModelScope.launch {
+            repository.rename(id, trimmed)
+            setState { copy(activeSheet = null, swipeResetToken = swipeResetToken + 1) }
         }
     }
 

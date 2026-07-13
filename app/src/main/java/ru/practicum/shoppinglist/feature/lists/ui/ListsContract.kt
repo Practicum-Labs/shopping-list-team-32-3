@@ -13,10 +13,12 @@ interface ListsContract {
         val activeSheet: Sheet? = null,
         val query: String = "",
         val error: String? = null,
+        val swipeResetToken: Int = 0,
     ) : UiState
 
     sealed interface Sheet {
         data object AddList : Sheet
+        data class Rename(val id: Long, val currentName: String) : Sheet
     }
 
     sealed interface Intent : UiIntent {
@@ -28,6 +30,7 @@ interface ListsContract {
         data object OpenLogoutConfirm : Intent
         data object Logout : Intent
         data class RenameList(val id: Long) : Intent
+        data class ConfirmRename(val id: Long, val name: String) : Intent
         data class DuplicateList(val id: Long) : Intent
         data class RequestDelete(val id: Long) : Intent
     }
