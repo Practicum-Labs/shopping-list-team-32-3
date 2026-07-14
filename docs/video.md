@@ -56,6 +56,7 @@ https://github.com/user-attachments/assets/76beb4f9-ab84-4204-bcfd-0cbf487eddbd
 //TODO
 
 
+# Отображение на больших экранах
 ## Списки
 <img width="906" height="567" alt="Снимок экрана — 2026-07-11 в 16 54 09" src="https://github.com/user-attachments/assets/3d8b760e-ff14-4264-a563-3d1b6694a667" />
 <img width="906" height="567" alt="Снимок экрана — 2026-07-11 в 12 36 53" src="https://github.com/user-attachments/assets/dcac027d-a82d-4faa-9606-ef030a8fbaa6" />
