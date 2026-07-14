@@ -42,6 +42,7 @@ import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ListMenuSheet
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductCard
 import ru.practicum.shoppinglist.feature.listdetail.ui.components.ProductSheet
+import ru.practicum.shoppinglist.feature.listdetail.ui.components.SortSelectionSheet
 import ru.practicum.shoppinglist.feature.listdetail.ui.preview.ListDetailPreviewProvider
 
 @Composable
@@ -264,6 +265,15 @@ private fun ListDetailBottomSheet(
                         Text(stringResource(R.string.cancel))
                     }
                 }
+            )
+        }
+        is ListDetailContract.Sheet.SortSelection -> {
+            SortSelectionSheet(
+                currentSortMode = state.sortMode,
+                onSortModeSelected = { selectedMode ->
+                    viewModel.onIntent(ListDetailContract.Intent.SetSortMode(selectedMode))
+                },
+                onDismiss = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }
             )
         }
         else -> {}
