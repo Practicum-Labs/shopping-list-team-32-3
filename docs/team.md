@@ -10,6 +10,7 @@
 ## Задачи
 ### Юрий Арестов
 
+T-00 — Формирование требований, подготовка задач
 T-01 — Скелет приложения и структура папок 	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/5  
 T-10 — Lists: repository + listsModule	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/14  
 T-11 — Lists: MVI-контракт + ViewModel	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/15  
