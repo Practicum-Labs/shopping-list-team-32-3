@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import ru.practicum.shoppinglist.core.domain.api.AuthRepository
+import ru.practicum.shoppinglist.root.domain.api.ShakeRepository
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RootViewModelTest {
@@ -30,6 +31,7 @@ class RootViewModelTest {
 
     private var mockOnboardingRepo = mockk<OnboardingRepository>(relaxed = true)
     private val mockAuthRepo = mockk<AuthRepository>(relaxed = true)
+    private val mockShakeRepo = mockk<ShakeRepository>(relaxed = true)
 
     @Before
     fun setup() {
@@ -46,7 +48,7 @@ class RootViewModelTest {
         coEvery { mockOnboardingRepo.getOnboardPassed() } returns false
         coEvery { mockAuthRepo.check() } returns false
 
-        val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo)
+        val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo, mockShakeRepo)
         advanceUntilIdle()
         vm.state.test {
 
@@ -61,7 +63,7 @@ class RootViewModelTest {
         coEvery { mockOnboardingRepo.getOnboardPassed() } returns true
         coEvery { mockAuthRepo.check() } returns false
 
-        val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo)
+        val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo, mockShakeRepo)
 
         advanceUntilIdle()
         vm.state.test {
@@ -76,7 +78,7 @@ class RootViewModelTest {
         coEvery { mockOnboardingRepo.getOnboardPassed() } returns true
         coEvery { mockAuthRepo.check() } returns true
 
-        val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo)
+        val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo, mockShakeRepo)
 
         advanceUntilIdle()
         vm.state.test {
@@ -89,7 +91,7 @@ class RootViewModelTest {
     @Test
     fun setOnboardPassedOnce() = runTest {
         coEvery { mockOnboardingRepo.getOnboardPassed() } returns false
-        RootViewModel(mockOnboardingRepo, mockAuthRepo)
+        RootViewModel(mockOnboardingRepo, mockAuthRepo, mockShakeRepo)
 
         advanceUntilIdle()
         coVerify(exactly = 1) { mockOnboardingRepo.setOnboardPassed() }
