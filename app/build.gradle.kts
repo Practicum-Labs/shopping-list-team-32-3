@@ -66,6 +66,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     room {
@@ -75,6 +76,8 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -96,6 +99,7 @@ dependencies {
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.ui.test.junit4)
     implementation(libs.okhttp3.idling)
+    implementation(libs.androidx.compose.adaptive.navigation)
 
     // Compose
     val composeBom = platform(libs.androidx.compose.bom)
@@ -133,6 +137,8 @@ dependencies {
 
     // Tests
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

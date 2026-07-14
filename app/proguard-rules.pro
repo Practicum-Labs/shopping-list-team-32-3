@@ -15,3 +15,9 @@
 
 # Корутины.
 -keepclassmembers class kotlinx.coroutines.** { volatile <fields>; }
+
+# DataStore + protobuf
+-keep class * extends com.google.protobuf.GeneratedMessageLite {
+    <fields>;
+}
+

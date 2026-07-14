@@ -8,7 +8,7 @@ fun ShoppingList.Companion.mock(): ShoppingList {
         id = 1,
         userId = 1,
         name = "Список продуктов",
-        iconKey = "",
+        iconKey = "home",
         sortMode = SortMode.ALPHABETICAL
     )
 }

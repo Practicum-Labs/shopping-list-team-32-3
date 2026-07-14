@@ -18,6 +18,7 @@ interface ListsContract {
 
     sealed interface Sheet {
         data object AddList : Sheet
+        data class SelectIcon(val id: Long) : Sheet
         data class Rename(val id: Long, val currentName: String) : Sheet
     }
 
@@ -33,6 +34,9 @@ interface ListsContract {
         data class ConfirmRename(val id: Long, val name: String) : Intent
         data class DuplicateList(val id: Long) : Intent
         data class RequestDelete(val id: Long) : Intent
+
+        data class OpenIconsSheet(val id: Long) : Intent
+        data class ChangeIcon(val icon: String, val id: Long) : Intent
     }
 
     sealed interface Effect : UiEffect {

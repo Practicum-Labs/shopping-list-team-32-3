@@ -29,4 +29,7 @@ interface ListDao {
 
     @Query("UPDATE lists SET sortMode = :sortMode WHERE id = :listId")
     suspend fun updateSortMode(listId: Long, sortMode: String)
+
+    @Query("UPDATE lists SET iconKey = :newKey WHERE id = :listId")
+    suspend fun changeIcon(listId: Long, newKey: String)
 }

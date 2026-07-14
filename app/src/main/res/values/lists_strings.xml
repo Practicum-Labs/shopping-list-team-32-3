@@ -18,4 +18,6 @@
     <string name="lists_action_rename">Переименовать</string>
     <string name="lists_action_duplicate">Дублировать</string>
     <string name="lists_action_delete">Удалить</string>
+    <string name="lists_container_empty_title">Список не выбран</string>
+    <string name="lists_container_empty_description">Выберите список покупок</string>
 </resources>

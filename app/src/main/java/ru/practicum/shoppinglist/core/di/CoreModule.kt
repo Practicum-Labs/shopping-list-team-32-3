@@ -32,11 +32,8 @@ private const val KEYSET_MASTERKEY_URI = "android-keystore://shoppinglist_datast
 
 private const val AUTH_FILE = "shoppinglist_datastore/auth_prefs.pb"
 
-
-class CoreDiKeys {
-    companion object {
-        const val BASE_URL_KEY = "BASE_URL_KEY"
-    }
+object CoreDiKeys {
+    const val BASE_URL_KEY = "BASE_URL_KEY"
 }
 
 val coreModule = module {

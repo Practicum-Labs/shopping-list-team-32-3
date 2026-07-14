@@ -1,9 +1,12 @@
 package ru.practicum.shoppinglist.feature.auth.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -13,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -85,23 +89,30 @@ private fun RegisterScreenContent(
                 )
             }
         ) { paddingValues ->
-            Column(
+            Box(
                 modifier = Modifier
-                    .verticalScroll(scrollState)
-                    .padding(paddingValues)
-                    .padding(horizontal = Dimens.padding24)
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
             ) {
-                AuthGreeting(
-                    R.drawable.image_auth_register,
-                    R.string.auth_register_title,
-                    R.string.auth_register_description,
-                    modifier = Modifier.padding(Dimens.padding20)
-                )
-
-                RegisterFormFields(
-                    state = state,
-                    onIntent = onIntent
-                )
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(scrollState)
+                        .padding(horizontal = Dimens.padding24)
+                        .widthIn(max = Dimens.width400),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    AuthGreeting(
+                        R.drawable.image_auth_register,
+                        R.string.auth_register_title,
+                        R.string.auth_register_description,
+                        modifier = Modifier.padding(Dimens.padding20)
+                    )
+                    RegisterFormFields(
+                        state = state,
+                        onIntent = onIntent
+                    )
+                }
             }
         }
     }
