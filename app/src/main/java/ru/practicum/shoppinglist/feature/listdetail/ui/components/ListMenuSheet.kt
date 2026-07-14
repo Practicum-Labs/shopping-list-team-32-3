@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AppModalBottomSheet
+import ru.practicum.shoppinglist.core.ui.theme.Dimens
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
 @Composable
@@ -32,7 +32,7 @@ fun ListMenuSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = Dimens.padding8)
         ) {
             val sortSubtitle = when (currentSortMode) {
                 SortMode.ALPHABETICAL -> stringResource(R.string.sort_mode_alphabetical)
@@ -81,7 +81,7 @@ private fun MenuRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .padding(horizontal = Dimens.padding16, vertical = Dimens.padding16),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -89,7 +89,7 @@ private fun MenuRow(
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(Dimens.padding16))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
