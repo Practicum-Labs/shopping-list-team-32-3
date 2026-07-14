@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ru.practicum.shoppinglist.R
@@ -23,6 +24,7 @@ import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 @Composable
 fun ListMenuSheet(
     currentSortMode: SortMode,
+    hasPurchasedItems: Boolean,
     onSortClick: () -> Unit,
     onDeleteAllClick: () -> Unit,
     onClearPurchasedClick: () -> Unit,
@@ -61,6 +63,7 @@ fun ListMenuSheet(
             MenuRow(
                 title = stringResource(R.string.action_clear_purchased),
                 icon = R.drawable.ic_list_clear,
+                enabled = hasPurchasedItems,
                 onClick = {
                     onClearPurchasedClick()
                     onDismiss()
@@ -76,12 +79,16 @@ private fun MenuRow(
     icon: Int,
     onClick: () -> Unit,
     subtitle: String? = null,
+    enabled: Boolean = true
 ) {
+    val alpha = if (enabled) 1f else 0.38f
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = Dimens.padding16, vertical = Dimens.padding16),
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = Dimens.padding16, vertical = Dimens.padding16)
+            .alpha(alpha),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

@@ -20,6 +20,7 @@ interface ListDetailContract {
     sealed interface Sheet {
         data object Menu : Sheet
         data object SortSelection : Sheet
+        data object ConfirmClearPurchased : Sheet
     }
 
     sealed interface Intent : UiIntent {
@@ -31,6 +32,7 @@ interface ListDetailContract {
         data class ClearPurchased(val listId: Long) : Intent
         data class SetSortMode(val sortMode: SortMode) : Intent
         data class ReorderProducts(val fromPosition: Int, val toPosition: Int) : Intent
+        data class RequestClearPurchased(val listId: Long) : Intent
 
         data object OpenMenu : Intent
         data object CloseSheet : Intent
@@ -41,7 +43,7 @@ interface ListDetailContract {
     sealed interface Effect : UiEffect {
         data class ShowToast(val message: String) : Effect
         data class ShowToastRes(val stringId: Int, val message: String = "") : Effect
-        object NavigateBack : Effect
+        data object NavigateBack : Effect
         data class NavigateToProductDetail(val productId: Long) : Effect
     }
 }

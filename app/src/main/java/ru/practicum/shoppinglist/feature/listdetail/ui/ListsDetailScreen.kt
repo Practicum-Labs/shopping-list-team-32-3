@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -227,12 +231,39 @@ private fun ListDetailBottomSheet(
         is ListDetailContract.Sheet.Menu -> {
             ListMenuSheet(
                 currentSortMode = state.sortMode,
+                hasPurchasedItems = state.products.any { it.isPurchased },
                 onSortClick = { viewModel.onIntent(ListDetailContract.Intent.OpenSort) },
                 onDeleteAllClick = { viewModel.onIntent(ListDetailContract.Intent.DeleteAllItems) },
                 onClearPurchasedClick = {
-                    viewModel.onIntent(ListDetailContract.Intent.ClearPurchased(state.listId))
+                    viewModel.onIntent(ListDetailContract.Intent.RequestClearPurchased(state.listId))
                 },
                 onDismiss = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }
+            )
+        }
+        is ListDetailContract.Sheet.ConfirmClearPurchased -> {
+            AlertDialog(
+                onDismissRequest = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.dialog_clear_purchased_title),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.onIntent(ListDetailContract.Intent.ClearPurchased(state.listId))
+                            viewModel.onIntent(ListDetailContract.Intent.CloseSheet)
+                        }
+                    ) {
+                        Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { viewModel.onIntent(ListDetailContract.Intent.CloseSheet) }) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                }
             )
         }
         else -> {}

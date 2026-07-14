@@ -6,4 +6,7 @@
     <string name="action_sort">Сортировка</string>
     <string name="action_delete_all_items">Удалить всё</string>
     <string name="action_clear_purchased">Очистить купленные</string>
+    <string name="dialog_clear_purchased_title">Удалить все купленные товары?</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
 </resources>

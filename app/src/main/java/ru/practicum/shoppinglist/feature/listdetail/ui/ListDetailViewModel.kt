@@ -47,7 +47,11 @@ class ListDetailViewModel(
                 intent.productId,
                 intent.isPurchased
             )
+            is ListDetailContract.Intent.RequestClearPurchased -> {
+                setState { copy(activeSheet = ListDetailContract.Sheet.ConfirmClearPurchased) }
+            }
             is ListDetailContract.Intent.ClearPurchased -> clearPurchased(intent.listId)
+
             is ListDetailContract.Intent.SetSortMode -> setSortMode(intent.sortMode)
             is ListDetailContract.Intent.ReorderProducts -> reorderProducts(
                 intent.fromPosition,
