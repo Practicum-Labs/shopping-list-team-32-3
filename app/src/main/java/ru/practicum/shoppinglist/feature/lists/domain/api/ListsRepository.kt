@@ -13,4 +13,6 @@ interface ListsRepository {
     suspend fun deleteAll(userId: Long)
     suspend fun getListById(listId: Long): ShoppingList?
     suspend fun setSortMode(listId: Long, sortMode: SortMode)
+
+    suspend fun changeIcon(listId: Long, key: String)
 }

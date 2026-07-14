@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.compose.viewmodel.koinViewModel
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
@@ -38,7 +37,7 @@ import ru.practicum.shoppinglist.feature.lists.ui.preview.ListsPreviewProvider
 fun ListsScreen(
     onNavigateToDetail: (id: Long) -> Unit,
     onNavigateToLogin: () -> Unit,
-    viewModel: ListsViewModelBase = koinViewModel(),
+    viewModel: ListsViewModelBase
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val showDialog = remember { mutableStateOf(false) }
@@ -111,6 +110,7 @@ private fun ListsContent(
 
                 else -> {
                     val listState = rememberLazyListState()
+                    val openCardId = remember { mutableStateOf<Long?>(null) }
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize(),
@@ -126,24 +126,60 @@ private fun ListsContent(
                             SwipeableListCard(
                                 list = list,
                                 onClick = { onIntent(ListsContract.Intent.OpenList(list.id)) },
+                                onIconClick = { onIntent(ListsContract.Intent.OpenIconsSheet(list.id)) },
                                 onRename = { onIntent(ListsContract.Intent.RenameList(list.id)) },
                                 onDuplicate = { onIntent(ListsContract.Intent.DuplicateList(list.id)) },
                                 onDelete = { onIntent(ListsContract.Intent.RequestDelete(list.id)) },
-                                resetSignal = listState.isScrollInProgress,
+                                collapse = openCardId.value != null && openCardId.value != list.id,
+                                onExpandedChange = { expanded ->
+                                    openCardId.value =
+                                        resolveOpenCardId(openCardId.value, list.id, expanded)
+                                },
+                                resetSignal = listState.isScrollInProgress to state.swipeResetToken,
                             )
                         }
                     }
                 }
             }
         }
-
-        if (state.activeSheet is ListsContract.Sheet.AddList) {
-            AddListSheet(
-                onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
-                onCreate = { onIntent(ListsContract.Intent.CreateList(it)) },
-            )
+        if (state.activeSheet != null) {
+            ListsSheet(state.activeSheet, onIntent)
         }
     }
+}
+
+@Composable
+private fun ListsSheet(
+    sheet: ListsContract.Sheet,
+    onIntent: (ListsContract.Intent) -> Unit,
+) {
+    when (sheet) {
+        is ListsContract.Sheet.AddList -> ListNameSheet(
+            titleId = R.string.lists_add_title,
+            confirmLabelId = R.string.lists_add_button_create,
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onConfirm = { onIntent(ListsContract.Intent.CreateList(it)) },
+        )
+
+        is ListsContract.Sheet.Rename -> ListNameSheet(
+            titleId = R.string.lists_rename_title,
+            confirmLabelId = R.string.lists_rename_button,
+            initialName = sheet.currentName,
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onConfirm = { onIntent(ListsContract.Intent.ConfirmRename(sheet.id, it)) },
+        )
+
+        is ListsContract.Sheet.SelectIcon -> ListIconsBottomSheet(
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+            onSelect = { onIntent(ListsContract.Intent.ChangeIcon(it.value, sheet.id)) },
+        )
+    }
+}
+
+private fun resolveOpenCardId(current: Long?, cardId: Long, expanded: Boolean): Long? = when {
+    expanded -> cardId
+    current == cardId -> null
+    else -> current
 }
 
 @AppPreview

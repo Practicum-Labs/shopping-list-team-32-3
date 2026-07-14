@@ -34,3 +34,6 @@
 
 **Проверить, что APK подписан:**
 >apksigner verify -v app/build/outputs/apk/release/app-release.apk
+
+**Установить релизную сборку на девайс/симулятор:**
+- "./gradlew app:installRelease" (создаст APK и установит)

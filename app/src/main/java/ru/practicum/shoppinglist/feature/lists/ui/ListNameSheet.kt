@@ -1,5 +1,6 @@
 package ru.practicum.shoppinglist.feature.lists.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,12 +38,15 @@ import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
 
 @Composable
-fun AddListSheet(
+fun ListNameSheet(
+    @StringRes titleId: Int,
+    @StringRes confirmLabelId: Int,
     onDismiss: () -> Unit,
-    onCreate: (String) -> Unit,
+    onConfirm: (String) -> Unit,
+    initialName: String = "",
 ) {
     Dialog(onDismissRequest = onDismiss) {
-        var name by rememberSaveable { mutableStateOf("") }
+        var name by rememberSaveable { mutableStateOf(initialName) }
         val focusRequester = remember { FocusRequester() }
         val keyboard = LocalSoftwareKeyboardController.current
 
@@ -71,7 +75,7 @@ fun AddListSheet(
                 )
 
                 Text(
-                    text = stringResource(R.string.lists_add_title),
+                    text = stringResource(titleId),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center,
@@ -87,7 +91,7 @@ fun AddListSheet(
                         .focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     onKeyboardAction = { imeAction ->
-                        if (name.isNotBlank()) onCreate(name)
+                        if (name.isNotBlank()) onConfirm(name)
                         imeAction()
                     }
                 )
@@ -100,10 +104,10 @@ fun AddListSheet(
                         Text(stringResource(R.string.lists_add_button_cancel))
                     }
                     TextButton(
-                        onClick = { onCreate(name) },
+                        onClick = { onConfirm(name) },
                         enabled = name.isNotBlank(),
                     ) {
-                        Text(stringResource(R.string.lists_add_button_create))
+                        Text(stringResource(confirmLabelId))
                     }
                 }
             }
@@ -113,8 +117,13 @@ fun AddListSheet(
 
 @AppPreview
 @Composable
-private fun AddListSheetPreview() {
+private fun ListNameSheetPreview() {
     AppTheme {
-        AddListSheet(onDismiss = {}, onCreate = {})
+        ListNameSheet(
+            titleId = R.string.lists_add_title,
+            confirmLabelId = R.string.lists_add_button_create,
+            onDismiss = {},
+            onConfirm = {},
+        )
     }
 }
