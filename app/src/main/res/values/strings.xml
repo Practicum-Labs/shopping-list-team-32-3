@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Список покупок</string>
+    <string name="sort_mode_alphabetical">По алфавиту</string>
+    <string name="sort_mode_manual">Пользовательская</string>
+    <string name="action_sort">Сортировка</string>
+    <string name="action_delete_all_items">Удалить всё</string>
+    <string name="action_clear_purchased">Очистить купленные</string>
+    <string name="dialog_clear_purchased_title">Удалить все купленные товары?</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
 </resources>

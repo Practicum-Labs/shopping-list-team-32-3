@@ -30,6 +30,7 @@ fun EmptyState(
         modifier = modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Dimens.padding48),
+
     ) {
         Image(
             painter = painterResource(id = imageId),

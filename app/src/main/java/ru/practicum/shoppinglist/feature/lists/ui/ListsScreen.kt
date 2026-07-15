@@ -54,7 +54,7 @@ fun ListsScreen(
 
     ListsContent(
         state = state,
-        onIntent = viewModel::onIntent,
+        onIntent = viewModel::onIntent
     )
 
     if (showDialog.value) {
@@ -74,7 +74,7 @@ fun ListsScreen(
 @Composable
 private fun ListsContent(
     state: ListsContract.State,
-    onIntent: (ListsContract.Intent) -> Unit,
+    onIntent: (ListsContract.Intent) -> Unit
 ) {
     FullScreenLoader(isLoading = state.isLoading) {
         Scaffold(

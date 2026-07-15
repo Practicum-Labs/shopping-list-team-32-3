@@ -14,6 +14,7 @@ import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 import java.io.IOException
 
+@Suppress("SwallowedException")
 class ProductsRepositoryImpl(
     private val dao: ProductDao
 ) : ProductsRepository {
