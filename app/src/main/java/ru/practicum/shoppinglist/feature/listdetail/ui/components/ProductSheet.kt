@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -30,15 +35,26 @@ import ru.practicum.shoppinglist.core.ui.components.DropdownTextField
 import ru.practicum.shoppinglist.core.ui.components.Fab
 import ru.practicum.shoppinglist.core.ui.theme.AppTheme
 import ru.practicum.shoppinglist.core.ui.theme.Dimens
+import ru.practicum.shoppinglist.feature.listdetail.domain.models.Product
 import ru.practicum.shoppinglist.feature.listdetail.domain.models.ProductUnit
 import ru.practicum.shoppinglist.feature.listdetail.ui.utils.UnitStringMapper
 
 @Composable
-fun ProductSheet(add: (String, Double?, ProductUnit?) -> Unit, onDismiss: () -> Unit) {
-    val product = rememberTextFieldState("")
-    val quantity = remember { mutableStateOf("") }
+fun ProductSheet(
+    initialProduct: Product? = null,
+    onSave: (String, Double?, ProductUnit?) -> Unit,
+    onDelete: (() -> Unit)? = null,
+    onDismiss: () -> Unit
+) {
+    val product = rememberTextFieldState(initialProduct?.name ?: "")
+
+    val initialQuantity = initialProduct?.quantity?.let {
+        if (it % 1.0 == 0.0) it.toInt().toString() else it.toString()
+    } ?: ""
+    val quantity = remember { mutableStateOf(initialQuantity) }
+
     val unit = rememberTextFieldState("")
-    var allowAdd by remember { mutableStateOf(false) }
+    var allowAdd by remember { mutableStateOf(product.text.isNotEmpty()) }
     val mapper = UnitStringMapper(LocalContext.current)
 
     LaunchedEffect(product.text, quantity.value, unit.text) {
@@ -47,14 +63,33 @@ fun ProductSheet(add: (String, Double?, ProductUnit?) -> Unit, onDismiss: () -> 
 
     AppModalBottomSheet(
         fab = {
-            if (allowAdd) {
-                Fab(
-                    R.drawable.ic_core_ok_fab_icon,
-                    onClick = {
-                        add(product.text.toString(), quantity.value.toDoubleOrNull(), mapper.map(unit.text.toString()))
-                        onDismiss()
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (initialProduct != null && onDelete != null) {
+                    IconButton(
+                        onClick = onDelete,
+                        modifier = Modifier.padding(end = Dimens.padding16)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
                     }
-                )
+                }
+
+                if (allowAdd) {
+                    Fab(
+                        R.drawable.ic_core_ok_fab_icon,
+                        onClick = {
+                            onSave(
+                                product.text.toString(),
+                                quantity.value.toDoubleOrNull(),
+                                mapper.map(unit.text.toString())
+                            )
+                            onDismiss()
+                        }
+                    )
+                }
             }
         },
         onDismiss = onDismiss
@@ -155,7 +190,10 @@ fun getQuantity(quantity: String, add: Int): String {
 @Composable
 private fun ProductFormPreview() {
     AppTheme {
-        ProductSheet({ _, _, _ ->
-        }) {}
+        ProductSheet(
+            initialProduct = null,
+            onSave = { _, _, _ -> },
+            onDismiss = {}
+        )
     }
 }

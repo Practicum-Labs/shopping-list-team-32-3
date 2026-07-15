@@ -40,21 +40,22 @@ val coreModule = module {
         PreferencesService(get())
     }
 
-    single<Retrofit> {
-        val httpClientBuilder = OkHttpClient.Builder()
-        httpClientBuilder.addInterceptor(SuccessCheckInterceptor())
-        val client: OkHttpClient = httpClientBuilder.build()
+    single<OkHttpClient> {
+        OkHttpClient.Builder()
+            .addInterceptor(SuccessCheckInterceptor())
+            .build()
+    }
 
+    single<Retrofit> {
+        val contentType = "application/json".toMediaType()
         val json = Json {
             ignoreUnknownKeys = true
             coerceInputValues = true
         }
 
-        val contentType = "application/json".toMediaType()
-
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(client)
+            .client(get())
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }
