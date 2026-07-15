@@ -3,8 +3,8 @@ package ru.practicum.shoppinglist.testUtils
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import okhttp3.OkHttpClient
+import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.QueueDispatcher
 import okhttp3.tls.HandshakeCertificates
 import okhttp3.tls.HeldCertificate
 import org.koin.core.context.loadKoinModules
@@ -13,14 +13,13 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
 import ru.practicum.shoppinglist.core.di.CoreDiKeys
-import okhttp3.mockwebserver.Dispatcher
 
-class MockServer: KoinTest {
+class MockServer : KoinTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var okHttpClient: OkHttpClient
     private lateinit var idlingResource: IdlingResource
 
-    fun setUp(forRule: ComposeContentTestRule ) {
+    fun setUp(forRule: ComposeContentTestRule) {
         mockWebServer = MockWebServer().apply {
             useHttps(serverCertificates.sslSocketFactory(), false)
             dispatcher = LoginSuccessDispatcher()
@@ -38,7 +37,7 @@ class MockServer: KoinTest {
         mockWebServer.dispatcher = dispatcher
     }
 
-    fun tearDown(forRule: ComposeContentTestRule ) {
+    fun tearDown(forRule: ComposeContentTestRule) {
         mockWebServer.shutdown()
         forRule.unregisterIdlingResource(idlingResource)
     }
@@ -68,7 +67,6 @@ class MockServer: KoinTest {
                     .build()
             }
         }
-
     }
 }
 

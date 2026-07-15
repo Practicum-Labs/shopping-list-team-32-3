@@ -1,7 +1,5 @@
 package ru.practicum.shoppinglist.testUtils
 
-import androidx.compose.ui.test.performTextInput
-
 object TestConstants {
     const val VALID_EMAIL = "user@example.com"
     const val VALID_PASSWORD = "Password123!"

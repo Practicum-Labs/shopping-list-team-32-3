@@ -50,5 +50,4 @@ class LoginScreenTestObject(val composeTestRule: ComposeContentTestRule) {
         passwordInput.performTextInput(text)
         passwordInput.performImeAction()
     }
-
 }

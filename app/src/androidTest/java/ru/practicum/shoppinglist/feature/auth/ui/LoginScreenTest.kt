@@ -1,62 +1,33 @@
 package ru.practicum.shoppinglist.feature.auth.ui
 
 import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.isEnabled
 import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.junit4.v2.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
-import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import okhttp3.OkHttpClient
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
 import org.koin.test.KoinTest
-import ru.practicum.shoppinglist.core.di.CoreDiKeys
-import okhttp3.mockwebserver.MockWebServer
-import okhttp3.tls.HandshakeCertificates
-import okhttp3.tls.HeldCertificate
-import org.junit.After
-import org.junit.Before
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
 import org.koin.test.get
-import ru.practicum.shoppinglist.feature.auth.ui.tags.LoginTags
-import ru.practicum.shoppinglist.testUtils.LoginSuccessDispatcher
-import okhttp3.mockwebserver.Dispatcher
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
 import ru.practicum.shoppinglist.testUtils.LoginErrorDispatcher
+import ru.practicum.shoppinglist.testUtils.LoginSuccessDispatcher
 import ru.practicum.shoppinglist.testUtils.MockServer
 import ru.practicum.shoppinglist.testUtils.TestConstants
 import ru.practicum.shoppinglist.testUtils.waitUntilMatches
-import kotlin.concurrent.atomics.AtomicBoolean
-import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.test.assertTrue
-
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
-class LoginScreenTest: KoinTest {
+class LoginScreenTest : KoinTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -100,7 +71,7 @@ class LoginScreenTest: KoinTest {
 
         loginScreenTestObject.serverError.assert(
             hasText(TestConstants.SERVER_ERROR_TEXT, substring = true),
-                 { "Server error must be shown on failed login" }
+            { "Server error must be shown on failed login" }
         )
     }
 
@@ -157,7 +128,6 @@ class LoginScreenTest: KoinTest {
         loginScreenTestObject.loginButton.assert(isEnabled()) {
             "Login button must be enabled when all data correct"
         }
-
     }
 
     @Test
@@ -198,7 +168,7 @@ class LoginScreenTest: KoinTest {
 
         composeTestRule.awaitIdle()
         composeTestRule.waitUntil(timeoutMillis = 2000) {
-           loginScreenTestObject.navigatedToRegister
+            loginScreenTestObject.navigatedToRegister
         }
         assertTrue(
             loginScreenTestObject.navigatedToRegister,

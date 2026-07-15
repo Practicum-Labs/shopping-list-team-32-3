@@ -4,6 +4,7 @@ import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.junit4.ComposeTestRule
 
+@Suppress("SwallowedException")
 fun ComposeTestRule.waitUntilMatches(
     interaction: SemanticsNodeInteraction,
     matcher: androidx.compose.ui.test.SemanticsMatcher,
