@@ -34,26 +34,19 @@ https://github.com/user-attachments/assets/1e868e39-fa14-47f1-815a-cd38ae85bcf0
 ### Смена иконки
 https://github.com/user-attachments/assets/24e65dac-d069-477f-a9ef-0c5cfd62ba4d
 
-### Удаление списка
-//TODO
-
-
 
 ## Детализация списка
 ### Создание товара
 https://github.com/user-attachments/assets/1c3fb6fe-540c-48cc-963c-8bced667af2e
 
 ### Редактирование товара
-//TODO
+https://github.com/user-attachments/assets/9b5b699a-1d96-40f3-8f32-febb0d70e7bc
 
 ### Отметка купленным
 https://github.com/user-attachments/assets/76beb4f9-ab84-4204-bcfd-0cbf487eddbd
 
 ### Удалить товар
-//TODO
-
-### Удалить все товары
-//TODO
+https://github.com/user-attachments/assets/4771c1ba-f956-47eb-bb20-cf84af4f5a83
 
 
 # Отображение на больших экранах
