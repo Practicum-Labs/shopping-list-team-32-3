@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.androidTest
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
@@ -15,6 +16,7 @@ plugins {
 android {
     namespace = "ru.practicum.shoppinglist"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    testBuildType  = "instrumentedTest"
 
     defaultConfig {
         applicationId = "ru.practicum.shoppinglist"
@@ -22,6 +24,7 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "BASE_URL", "\"https://practicumopbackend-production.up.railway.app\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -57,6 +60,12 @@ android {
             isMinifyEnabled = false
             isDebuggable = true
         }
+
+        create("instrumentedTest") {
+            initWith(getByName("debug"))
+            buildConfigField("String", "BASE_URL", "\"https://localhost:8080/\"")
+        }
+
     }
 
     compileOptions {
@@ -147,7 +156,8 @@ dependencies {
     androidTestImplementation(libs.okhttp.tls)
     androidTestImplementation(libs.koin.test)
     androidTestImplementation(libs.okhttp3.idling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation(libs.androidx.compose.ui.test.manifest)
 
     // Network
     implementation(libs.retrofit)

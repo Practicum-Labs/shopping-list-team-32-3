@@ -8,11 +8,9 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.tls.HandshakeCertificates
 import okhttp3.tls.HeldCertificate
 import org.koin.core.context.loadKoinModules
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
-import ru.practicum.shoppinglist.core.di.CoreDiKeys
 
 class MockServer : KoinTest {
     private lateinit var mockWebServer: MockWebServer
@@ -56,11 +54,6 @@ class MockServer : KoinTest {
             .build()
 
         private val testNetworkModule = module {
-
-            single(createdAtStart = true, qualifier = named(CoreDiKeys.BASE_URL_KEY)) {
-                "https://localhost:8080/"
-            }
-
             single {
                 get<OkHttpClient.Builder>()
                     .sslSocketFactory(clientCertificates.sslSocketFactory(), clientCertificates.trustManager)

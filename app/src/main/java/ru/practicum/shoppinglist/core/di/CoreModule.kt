@@ -9,11 +9,11 @@ import com.google.crypto.tink.Aead
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import ru.practicum.shoppinglist.BuildConfig
 import ru.practicum.shoppinglist.core.data.database.AppDatabase
 import ru.practicum.shoppinglist.core.data.network.SuccessCheckInterceptor
 import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
@@ -24,17 +24,12 @@ import ru.practicum.shoppinglist.core.data.preferences.PreferencesService
 import java.io.File
 
 private const val DB_NAME = "shoppinglist.db"
-private const val BASE_URL = "https://practicumopbackend-production.up.railway.app"
 
 private const val KEYSET_NAME = "shoppinglist_datastore_keyset"
 private const val KEYSET_FILE = "shoppinglist_datastore_crypto_prefs"
 private const val KEYSET_MASTERKEY_URI = "android-keystore://shoppinglist_datastore_master_key"
 
 private const val AUTH_FILE = "shoppinglist_datastore/auth_prefs.pb"
-
-object CoreDiKeys {
-    const val BASE_URL_KEY = "BASE_URL_KEY"
-}
 
 val coreModule = module {
     single<AppDatabase> {
@@ -66,13 +61,9 @@ val coreModule = module {
         json.asConverterFactory(contentType)
     }
 
-    single(named(CoreDiKeys.BASE_URL_KEY)) {
-        BASE_URL
-    }
-
     single<Retrofit> {
         Retrofit.Builder()
-            .baseUrl(get<String>(named(CoreDiKeys.BASE_URL_KEY)))
+            .baseUrl(BuildConfig.BASE_URL)
             .client(get())
             .addConverterFactory(get())
             .build()
