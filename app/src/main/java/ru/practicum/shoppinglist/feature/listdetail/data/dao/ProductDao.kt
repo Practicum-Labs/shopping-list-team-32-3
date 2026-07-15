@@ -58,7 +58,7 @@ interface ProductDao {
     @Query("UPDATE products SET isPurchased = 1 WHERE listId = :listId")
     suspend fun markAllPurchased(listId: Long)
 
-    @Query("UPDATE products SET isPurchased = 0 WHERE listId = :listId")
+    @Query("DELETE FROM products WHERE listId = :listId AND isPurchased = 1")
     suspend fun clearPurchased(listId: Long)
 
     @Query("UPDATE products SET position = :newPosition WHERE id = :productId")

@@ -17,11 +17,8 @@ import ru.practicum.shoppinglist.feature.lists.domain.models.SortMode
 
 abstract class ListDetailViewModelBase(
     initial: ListDetailContract.State
-) : MviViewModel<
-    ListDetailContract.State,
-    ListDetailContract.Intent,
-    ListDetailContract.Effect
-    > (initial)
+) : MviViewModel<ListDetailContract.State, ListDetailContract.Intent, ListDetailContract.Effect>(initial)
+
 class ListDetailViewModel(
     private val listId: Long,
     private val listRepository: ListsRepository,
@@ -35,6 +32,7 @@ class ListDetailViewModel(
         onIntent(ListDetailContract.Intent.Load(listId))
     }
 
+    @Suppress("CyclomaticComplexMethod")
     override fun onIntent(intent: ListDetailContract.Intent) {
         when (intent) {
             is ListDetailContract.Intent.Load -> loadList(intent.listId)
@@ -49,12 +47,28 @@ class ListDetailViewModel(
                 intent.productId,
                 intent.isPurchased
             )
+            is ListDetailContract.Intent.RequestClearPurchased -> {
+                setState { copy(activeSheet = ListDetailContract.Sheet.ConfirmClearPurchased) }
+            }
             is ListDetailContract.Intent.ClearPurchased -> clearPurchased(intent.listId)
+
             is ListDetailContract.Intent.SetSortMode -> setSortMode(intent.sortMode)
             is ListDetailContract.Intent.ReorderProducts -> reorderProducts(
                 intent.fromPosition,
                 intent.toPosition
             )
+            is ListDetailContract.Intent.OpenMenu -> {
+                setState { copy(activeSheet = ListDetailContract.Sheet.Menu) }
+            }
+            is ListDetailContract.Intent.CloseSheet -> {
+                setState { copy(activeSheet = null) }
+            }
+            is ListDetailContract.Intent.OpenSort -> {
+                setState { copy(activeSheet = ListDetailContract.Sheet.SortSelection) }
+            }
+            is ListDetailContract.Intent.DeleteAllItems -> {
+                deleteAllItems()
+            }
         }
     }
 
@@ -155,6 +169,7 @@ class ListDetailViewModel(
             try {
                 productsRepository.clearPurchased(listId)
                 sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.listdetail_item_cleared))
+                setState { copy(activeSheet = null) }
             } catch (e: DataException.Database) {
                 sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_error_db, e.message.toString()))
             } catch (e: DataException.InvalidData) {
@@ -195,6 +210,10 @@ class ListDetailViewModel(
                 sendEffect(ListDetailContract.Effect.ShowToastRes(R.string.core_exc_invalid_data, e.message.toString()))
             }
         }
+    }
+
+    private fun deleteAllItems() {
+        setState { copy(activeSheet = null) }
     }
 
     companion object {
