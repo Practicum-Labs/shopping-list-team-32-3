@@ -139,10 +139,6 @@ private fun ListDetailFab(isLoading: Boolean, onClick: () -> Unit) {
     if (!isLoading) {
         AddFab(
             onClick = onClick,
-            modifier = Modifier.padding(
-                end = Dimens.padding16,
-                bottom = Dimens.padding56
-            )
         )
     }
 }
