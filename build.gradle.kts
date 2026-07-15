@@ -18,3 +18,4 @@ detekt {
 dependencies {
     detektPlugins(libs.detekt.formatting)
 }
+
