@@ -18,7 +18,6 @@ T-12 — Lists: экран отображения списков (FR-MAIN-02)	ht
 T-22 — Lists: создание списка (FR-MAIN-01)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/25  
 T-23 — Lists: свайп-ряд действий карточки (FR-MAIN-05)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/26  
 T-24 — Lists: переименование списка (FR-MAIN-03)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/27  
-T-25 — Lists: удаление + подтверждение (FR-MAIN-03/04)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/28  
 
 ### Вадим Кривенок
 T-19 — Detail: контекстное меню списка (FR-LIST-04)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/22  
@@ -40,8 +39,6 @@ T-18 — Detail: добавление товара (FR-LIST-01)	https://github.c
 T-30 — Релиз: R8-правила + подписанный AAB (NFR-07)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/33  
 T-31 — Lists: иконка — поле + маппинг ключ→иконка (FR-MAIN-07)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/34  
 T-32 — Lists: шторка выбора иконки (FR-MAIN-07)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/4  
-T-40 — Detail: автоподсказки — таблица + сохранение (FR-LIST-07)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/42  
-T-41 — Detail: автоподсказки — UI подсказок (FR-LIST-07)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/43  
 T-42 — Onboarding: репозиторий флага (DataStore) (FR-ONB-01)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/44  
 T-43 — Onboarding: экран + навигация по флагу (FR-ONB-01)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/45  
 T-47 — NFR: планшеты — адаптивный каркас (NFR-05)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/49  
