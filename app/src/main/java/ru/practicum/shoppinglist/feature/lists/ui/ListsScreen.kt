@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
+import ru.practicum.shoppinglist.core.ui.components.ConfirmDialog
 import ru.practicum.shoppinglist.core.ui.components.Dialog
 import ru.practicum.shoppinglist.core.ui.components.EmptyState
 import ru.practicum.shoppinglist.core.ui.components.FullScreenLoader
@@ -167,6 +168,12 @@ private fun ListsSheet(
             initialName = sheet.currentName,
             onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
             onConfirm = { onIntent(ListsContract.Intent.ConfirmRename(sheet.id, it)) },
+        )
+
+        is ListsContract.Sheet.ConfirmDelete -> ConfirmDialog(
+            title = stringResource(R.string.lists_delete_dialog_title, sheet.name),
+            onConfirm = { onIntent(ListsContract.Intent.ConfirmDelete(sheet.id)) },
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
         )
 
         is ListsContract.Sheet.SelectIcon -> ListIconsBottomSheet(

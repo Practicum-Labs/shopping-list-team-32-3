@@ -46,10 +46,11 @@ class ListsViewModel(
             is ListsContract.Intent.RenameList -> openRename(intent.id)
             is ListsContract.Intent.ConfirmRename -> renameList(intent.id, intent.name)
             is ListsContract.Intent.DuplicateList -> Unit // TODO(T-34 #36): дублирование списка
-            is ListsContract.Intent.RequestDelete -> Unit // TODO(T-25 #28): диалог подтверждения удаления
             is ListsContract.Intent.OpenIconsSheet ->
                 setState { copy(activeSheet = ListsContract.Sheet.SelectIcon(intent.id)) }
             is ListsContract.Intent.ChangeIcon -> changeIcon(intent.icon, intent.id)
+            is ListsContract.Intent.RequestDelete -> openDeleteConfirm(intent.id)
+            is ListsContract.Intent.ConfirmDelete -> deleteList(intent.id)
         }
     }
 
@@ -72,6 +73,18 @@ class ListsViewModel(
         if (trimmed.isBlank()) return
         viewModelScope.launch {
             repository.rename(id, trimmed)
+            setState { copy(activeSheet = null, swipeResetToken = swipeResetToken + 1) }
+        }
+    }
+
+    private fun openDeleteConfirm(id: Long) {
+        val name = currentState().lists.find { it.id == id }?.name ?: return
+        setState { copy(activeSheet = ListsContract.Sheet.ConfirmDelete(id, name)) }
+    }
+
+    private fun deleteList(id: Long) {
+        viewModelScope.launch {
+            repository.delete(id)
             setState { copy(activeSheet = null, swipeResetToken = swipeResetToken + 1) }
         }
     }
