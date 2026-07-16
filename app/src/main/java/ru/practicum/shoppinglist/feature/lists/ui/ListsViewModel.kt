@@ -51,6 +51,9 @@ class ListsViewModel(
             is ListsContract.Intent.ChangeIcon -> changeIcon(intent.icon, intent.id)
             is ListsContract.Intent.RequestDelete -> openDeleteConfirm(intent.id)
             is ListsContract.Intent.ConfirmDelete -> deleteList(intent.id)
+            is ListsContract.Intent.RequestDeleteAll ->
+                setState { copy(activeSheet = ListsContract.Sheet.ConfirmDeleteAll) }
+            is ListsContract.Intent.DeleteAllLists -> userId?.let { deleteAllLists(it) }
         }
     }
 
@@ -86,6 +89,13 @@ class ListsViewModel(
         viewModelScope.launch {
             repository.delete(id)
             setState { copy(activeSheet = null, swipeResetToken = swipeResetToken + 1) }
+        }
+    }
+
+    private fun deleteAllLists(userId: Long) {
+        viewModelScope.launch {
+            repository.deleteAll(userId)
+            setState { copy(activeSheet = null) }
         }
     }
 
