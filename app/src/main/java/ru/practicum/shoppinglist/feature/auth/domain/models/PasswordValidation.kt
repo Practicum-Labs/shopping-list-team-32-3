@@ -8,7 +8,7 @@ data class PasswordValidation(
     val hasSpecialChar: Boolean
 ) {
     val isValid: Boolean
-        get() = isLengthValid && hasUppercase && hasLowercase && hasDigit && hasSpecialChar
+        get() = isLengthValid
 
     fun getStrength(): PasswordStrength {
         val booleans = listOf(
@@ -19,18 +19,16 @@ data class PasswordValidation(
             hasSpecialChar
         )
 
-        var packedBits = 0
+        var trueCount = 0.0
         for (i in booleans.indices) {
             if (booleans[i]) {
-                packedBits = packedBits or (1 shl i)
+                trueCount += 1
             }
         }
-
-        val trueCount = packedBits.countOneBits().toDouble()
         return when (trueCount / booleans.count()) {
             0.0 -> PasswordStrength.NONE
             1.0 -> PasswordStrength.STRONG
-            in 0.0..0.333 -> PasswordStrength.WEAK
+            in 0.0..0.41 -> PasswordStrength.WEAK
             else -> PasswordStrength.MEDIUM
         }
     }

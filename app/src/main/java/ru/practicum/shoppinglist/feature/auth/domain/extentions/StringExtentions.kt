@@ -2,9 +2,10 @@ package ru.practicum.shoppinglist.feature.auth.domain.extentions
 
 import android.util.Patterns
 import ru.practicum.shoppinglist.feature.auth.domain.models.PasswordValidation
+import java.util.regex.Pattern
 
-fun String.isValidEmail(): Boolean {
-    return this.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+fun String.isValidEmail(pattern: Pattern = Patterns.EMAIL_ADDRESS): Boolean {
+    return this.isNotEmpty() && pattern.matcher(this).matches()
 }
 
 fun String.isValidPassword(): PasswordValidation {
