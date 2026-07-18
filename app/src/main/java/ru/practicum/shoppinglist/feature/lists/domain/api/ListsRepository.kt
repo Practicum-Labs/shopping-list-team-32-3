@@ -8,6 +8,7 @@ interface ListsRepository {
     fun observeLists(userId: Long): Flow<List<ShoppingList>>
 
     suspend fun create(name: String, userId: Long)
+    suspend fun duplicate(listId: Long)
     suspend fun rename(id: Long, name: String)
     suspend fun delete(id: Long)
     suspend fun deleteAll(userId: Long)
