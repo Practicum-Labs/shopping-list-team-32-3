@@ -45,12 +45,15 @@ class ListsViewModel(
             is ListsContract.Intent.Logout -> logout()
             is ListsContract.Intent.RenameList -> openRename(intent.id)
             is ListsContract.Intent.ConfirmRename -> renameList(intent.id, intent.name)
-            is ListsContract.Intent.DuplicateList -> Unit // TODO(T-34 #36): дублирование списка
+            is ListsContract.Intent.DuplicateList -> duplicateList(intent.id)
             is ListsContract.Intent.OpenIconsSheet ->
                 setState { copy(activeSheet = ListsContract.Sheet.SelectIcon(intent.id)) }
             is ListsContract.Intent.ChangeIcon -> changeIcon(intent.icon, intent.id)
             is ListsContract.Intent.RequestDelete -> openDeleteConfirm(intent.id)
             is ListsContract.Intent.ConfirmDelete -> deleteList(intent.id)
+            is ListsContract.Intent.RequestDeleteAll ->
+                setState { copy(activeSheet = ListsContract.Sheet.ConfirmDeleteAll) }
+            is ListsContract.Intent.DeleteAllLists -> userId?.let { deleteAllLists(it) }
         }
     }
 
@@ -86,6 +89,20 @@ class ListsViewModel(
         viewModelScope.launch {
             repository.delete(id)
             setState { copy(activeSheet = null, swipeResetToken = swipeResetToken + 1) }
+        }
+    }
+
+    private fun duplicateList(id: Long) {
+        viewModelScope.launch {
+            repository.duplicate(id)
+            setState { copy(swipeResetToken = swipeResetToken + 1) }
+        }
+    }
+
+    private fun deleteAllLists(userId: Long) {
+        viewModelScope.launch {
+            repository.deleteAll(userId)
+            setState { copy(activeSheet = null) }
         }
     }
 

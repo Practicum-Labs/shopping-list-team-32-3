@@ -21,6 +21,7 @@ interface ListsContract {
         data class SelectIcon(val id: Long) : Sheet
         data class Rename(val id: Long, val currentName: String) : Sheet
         data class ConfirmDelete(val id: Long, val name: String) : Sheet
+        data object ConfirmDeleteAll : Sheet
     }
 
     sealed interface Intent : UiIntent {
@@ -36,6 +37,8 @@ interface ListsContract {
         data class DuplicateList(val id: Long) : Intent
         data class RequestDelete(val id: Long) : Intent
         data class ConfirmDelete(val id: Long) : Intent
+        data object RequestDeleteAll : Intent
+        data object DeleteAllLists : Intent
         data class OpenIconsSheet(val id: Long) : Intent
         data class ChangeIcon(val icon: String, val id: Long) : Intent
     }

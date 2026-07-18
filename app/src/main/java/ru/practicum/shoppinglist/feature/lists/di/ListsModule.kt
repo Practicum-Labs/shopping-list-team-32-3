@@ -16,7 +16,7 @@ import ru.practicum.shoppinglist.feature.lists.ui.ListsViewModelBase
 
 val listsModule = module {
     single<ListDao> { get<AppDatabase>().listDao() }
-    single<ListsRepository> { ListsRepositoryImpl(get()) }
+    single<ListsRepository> { ListsRepositoryImpl(get(), get(), get()) }
     viewModel<ListsViewModelBase> {
         ListsViewModel(get(), get())
     }
