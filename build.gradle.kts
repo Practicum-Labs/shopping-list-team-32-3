@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.devtools.ksp) apply false
     alias(libs.plugins.androidx.room) apply false
     alias(libs.plugins.detekt)
+    alias(libs.plugins.protobuf) apply false
 }
 
 detekt {
@@ -17,3 +18,4 @@ detekt {
 dependencies {
     detektPlugins(libs.detekt.formatting)
 }
+

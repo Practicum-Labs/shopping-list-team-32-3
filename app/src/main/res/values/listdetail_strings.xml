@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="listdetail_unit_liter">л</string>
+    <string name="listdetail_unit_milliliter">мл</string>
+    <string name="listdetail_unit_pack">уп</string>
+    <string name="listdetail_unit_packet">пач</string>
+    <string name="listdetail_unit_piece">шт</string>
+    <string name="listdetail_unit_kilogram">кг</string>
+    <string name="listdetail_unit_gram">г</string>
+    <string name="listdetail_empty_state_title">В списке покупок пока пусто</string>
+    <string name="listdetail_empty_state_description">Нажмите на кнопку + ниже,\nчтобы добавить товары</string>
+    <string name="listdetail_list">Список</string>
+    <string name="listdetail_load_error">Ошибка загрузки:</string>
+    <string name="listdetail_sorting">Сортировка:</string>
+    <string name="listdetail_item_added">Товар добавлен</string>
+    <string name="listdetail_item_updated">Товар обновлён</string>
+    <string name="listdetail_item_removed">Товар удалён</string>
+    <string name="listdetail_item_cleared">Покупки очищены</string>
+</resources>

@@ -16,6 +16,7 @@ activityCompose = "1.12.3"
 composeBom = "2024.09.00"
 composeMaterial3 = "1.4.0"
 composeRuntime = "1.11.1"
+lifecycleRuntimeCompose = "2.9.4"
 navigationCompose = "2.9.7"
 
 # Data / DI / async
@@ -26,13 +27,31 @@ coroutines = "1.10.2"
 # Serialization (type-safe navigation)
 kotlinxSerialization = "1.7.0"
 
+# SplashScreen
+splashscreen = "1.0.1"
+
 # Quality
 detekt = "1.23.8"
 
 # Tests
 junit = "4.13.2"
 junitExt = "1.1.5"
-espresso = "3.5.1"
+espresso = "3.7.0"
+runtime = "1.11.3"
+mockk = "1.13.12"
+turbine = "1.1.0"
+
+#Network
+retrofit = "3.0.0"
+
+#Secure DataStore
+datastore = "1.3.0-alpha09"
+tink-android = "1.13.0"
+protobuf-javalite = "4.26.1"
+protobuf = "0.9.4"
+junitKtx = "1.3.0"
+uiTestJunit4 = "1.11.4"
+adaptiveNavigation = "1.2.0"
 
 [libraries]
 # AndroidX core
@@ -48,6 +67,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "composeRuntime" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
@@ -67,6 +87,9 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
+#SplashScreen
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+
 # Detekt (ktlint-обёртка для ruleset formatting)
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 
@@ -76,6 +99,27 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+#Network
+retrofit =  { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-json = {group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+
+#Secure DataStore
+datastore =  { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+datastore-tink =  { group = "androidx.datastore", name = "datastore-tink", version.ref = "datastore" }
+tink-android = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink-android" }
+protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf-javalite" }
+protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf-javalite" }
+androidx-compose-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "adaptiveNavigation" }
+
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -85,3 +129,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+protobuf =  { id = "com.google.protobuf", version.ref = "protobuf" }
+

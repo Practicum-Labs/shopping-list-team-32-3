@@ -1,0 +1,14 @@
+package ru.practicum.shoppinglist.feature.auth.data
+
+import ru.practicum.shoppinglist.core.data.network.NetworkResponse
+import ru.practicum.shoppinglist.feature.auth.data.dto.CheckDto
+import ru.practicum.shoppinglist.feature.auth.data.dto.RefreshDto
+import ru.practicum.shoppinglist.feature.auth.data.dto.UserDto
+
+interface AuthNetworkClient {
+    suspend fun register(email: String, password: String): NetworkResponse<UserDto?>
+    suspend fun login(email: String, password: String): NetworkResponse<UserDto?>
+    suspend fun refresh(token: String): NetworkResponse<RefreshDto?>
+    suspend fun check(token: String): NetworkResponse<CheckDto?>
+    suspend fun recovery(email: String): NetworkResponse<Unit?>
+}
