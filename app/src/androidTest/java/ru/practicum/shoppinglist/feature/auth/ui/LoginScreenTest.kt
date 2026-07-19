@@ -10,6 +10,8 @@ import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.elkabelaya.shared_tests.testUtils.TestConstants
+import com.elkabelaya.shared_tests.testUtils.waitUntilMatches
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -22,8 +24,6 @@ import org.koin.test.get
 import ru.practicum.shoppinglist.testUtils.LoginErrorDispatcher
 import ru.practicum.shoppinglist.testUtils.LoginSuccessDispatcher
 import ru.practicum.shoppinglist.testUtils.MockServer
-import ru.practicum.shoppinglist.testUtils.TestConstants
-import ru.practicum.shoppinglist.testUtils.waitUntilMatches
 import kotlin.test.assertTrue
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)

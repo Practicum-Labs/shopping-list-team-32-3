@@ -1,50 +1,30 @@
 package ru.practicum.shoppinglist.feature.auth.domain.extensions
 
-import io.mockk.coEvery
-import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import ru.practicum.shoppinglist.feature.auth.domain.extentions.isValidEmail
-import ru.practicum.shoppinglist.feature.auth.domain.extentions.isValidPassword
 import ru.practicum.shoppinglist.feature.auth.domain.models.PasswordStrength
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
-class StringExtentionsTest {
-    private var mockEmailPattern = mockk<Pattern>(relaxed = true)
-    private var emailMatcher = mockk<Matcher>(relaxed = true)
-
-    private fun setUpMatcher(value: Boolean) {
-        coEvery {
-            emailMatcher.matches()
-        } returns value
-        coEvery {
-            mockEmailPattern.matcher(any())
-        } returns emailMatcher
-    }
+class StringExtensionsTest {
 
     @Test
     fun isValidEmailReturnsTrueForCorrectAddress() = runTest {
         val email = "user@example.com"
-        setUpMatcher(true)
-        assertTrue(email.isValidEmail(mockEmailPattern))
+        assertTrue(email.isValidEmail())
     }
 
     @Test
     fun isValidEmailReturnsFalseForEmptyString() = runTest {
         val email = ""
-        setUpMatcher(true)
-        assertFalse(email.isValidEmail(mockEmailPattern))
+        assertFalse(email.isValidEmail())
     }
 
     @Test
     fun isValidEmailReturnsFalseIfNotMatches() = runTest {
         val email = "userexample.com"
-        setUpMatcher(false)
-        assertFalse(email.isValidEmail(mockEmailPattern))
+        assertFalse(email.isValidEmail())
     }
 
     @Test

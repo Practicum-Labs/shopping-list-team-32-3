@@ -5,8 +5,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
+import com.elkabelaya.shared_tests.testUtils.TestConstants
 import ru.practicum.shoppinglist.feature.auth.ui.tags.LoginTags
-import ru.practicum.shoppinglist.testUtils.TestConstants
 
 class LoginScreenTestObject(val composeTestRule: ComposeContentTestRule) {
     val emailInput = composeTestRule.onNodeWithTag(LoginTags.EMAIL_FIELD)

@@ -17,6 +17,7 @@ android {
     namespace = "ru.practicum.shoppinglist"
     compileSdk = libs.versions.compileSdk.get().toInt()
     testBuildType  = "instrumentedTest"
+    dynamicFeatures += setOf(":shared_tests")
 
     defaultConfig {
         applicationId = "ru.practicum.shoppinglist"
@@ -160,6 +161,10 @@ dependencies {
     androidTestImplementation(libs.okhttp.tls)
     androidTestImplementation(libs.koin.test)
     androidTestImplementation(libs.okhttp3.idling)
+    testImplementation(project(":shared_tests"))
+    androidTestImplementation(project(":shared_tests"))
+    androidTestImplementation(libs.material)
+
 
     implementation(libs.androidx.compose.ui.test.manifest)
 
@@ -189,7 +194,6 @@ protobuf {
         }
     }
 }
-
 configurations.all {
     resolutionStrategy {
         eachDependency {
@@ -202,5 +206,9 @@ configurations.all {
                 because("Force upgrade to fix conflict")
             }
         }
+
+        // Force upgrade to fix conflict in AndroidTest
+        force("androidx.drawerlayout:drawerlayout:1.1.1")
+
     }
 }

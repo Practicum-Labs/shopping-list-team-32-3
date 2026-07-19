@@ -1,8 +1,9 @@
-package ru.practicum.shoppinglist.testUtils
+package com.elkabelaya.shared_tests.testUtils
 
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.junit4.ComposeTestRule
+
 
 @Suppress("SwallowedException")
 fun ComposeTestRule.waitUntilMatches(
