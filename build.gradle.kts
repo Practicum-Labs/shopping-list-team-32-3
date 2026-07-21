@@ -12,10 +12,19 @@ plugins {
 detekt {
     buildUponDefaultConfig = true
     config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
-    source.setFrom(files("app/src/main/java"))
+    source.setFrom(
+        files(
+            "app/src/main/java",
+            "app/src/androidTest/java",
+            "app/src/test/java"
+        )
+    )
 }
 
 dependencies {
     detektPlugins(libs.detekt.formatting)
 }
+
+
+
 

@@ -75,6 +75,7 @@ exceptions:
     active: true
     ignoredExceptionTypes: ['InterruptedException', 'NumberFormatException', 'ParseException']
     allowedExceptionNameRegex: '_|(ignore|expected|ignored).*'
+    ignoreAnnotated: ['Test']
   TooGenericExceptionCaught:
     active: true
     allowedExceptionNameRegex: '_|(ignore|expected|ignored).*'

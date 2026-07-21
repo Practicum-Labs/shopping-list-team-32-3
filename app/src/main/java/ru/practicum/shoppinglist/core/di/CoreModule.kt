@@ -10,8 +10,10 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import ru.practicum.shoppinglist.BuildConfig
 import ru.practicum.shoppinglist.core.data.database.AppDatabase
 import ru.practicum.shoppinglist.core.data.network.SuccessCheckInterceptor
 import ru.practicum.shoppinglist.core.data.preferences.AuthPreferences
@@ -22,7 +24,6 @@ import ru.practicum.shoppinglist.core.data.preferences.PreferencesService
 import java.io.File
 
 private const val DB_NAME = "shoppinglist.db"
-private const val BASE_URL = "https://practicumopbackend-production.up.railway.app"
 
 private const val KEYSET_NAME = "shoppinglist_datastore_keyset"
 private const val KEYSET_FILE = "shoppinglist_datastore_crypto_prefs"
@@ -40,23 +41,31 @@ val coreModule = module {
         PreferencesService(get())
     }
 
-    single<OkHttpClient> {
-        OkHttpClient.Builder()
-            .addInterceptor(SuccessCheckInterceptor())
-            .build()
+    single<OkHttpClient.Builder> {
+        val httpClientBuilder = OkHttpClient.Builder()
+        httpClientBuilder.addInterceptor(SuccessCheckInterceptor())
+        httpClientBuilder
     }
 
-    single<Retrofit> {
-        val contentType = "application/json".toMediaType()
+    single<OkHttpClient> {
+        get<OkHttpClient.Builder>().build()
+    }
+
+    single<Converter.Factory> {
         val json = Json {
             ignoreUnknownKeys = true
             coerceInputValues = true
         }
 
+        val contentType = "application/json".toMediaType()
+        json.asConverterFactory(contentType)
+    }
+
+    single<Retrofit> {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(get())
-            .addConverterFactory(json.asConverterFactory(contentType))
+            .addConverterFactory(get())
             .build()
     }
 

@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Shopping List"
 include(":app")
+include(":shared_tests")
