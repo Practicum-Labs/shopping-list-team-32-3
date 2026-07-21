@@ -12,8 +12,8 @@ import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.domain.api.AuthRepository
 import ru.practicum.shoppinglist.core.domain.exception.DataException
 import ru.practicum.shoppinglist.core.mvi.MviViewModel
-import ru.practicum.shoppinglist.feature.auth.domain.extentions.isValidEmail
-import ru.practicum.shoppinglist.feature.auth.domain.extentions.isValidPassword
+import ru.practicum.shoppinglist.feature.auth.domain.extensions.isValidEmail
+import ru.practicum.shoppinglist.feature.auth.domain.extensions.isValidPassword
 
 abstract class LoginViewModelBase(
     initial: LoginContract.State
@@ -117,7 +117,7 @@ class LoginViewModel(
             copy(
                 totalError = null,
                 enterEnabled = state.value.email.text.toString().isValidEmail() &&
-                    state.value.password.text.toString().isValidPassword().isLengthValid
+                    state.value.password.text.toString().isValidPassword().isValid
             )
         }
     }

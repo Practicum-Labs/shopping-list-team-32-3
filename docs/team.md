@@ -1,14 +1,5 @@
-# Команда
-
-| Имя                  | Аккаунт     |
-|----------------------|-------------|
-| Юрий Арестов         | @arestovv   |
-| Вадим Кривенок       | @Azrael3MU  |
-| Кира Богова          | @elkabelaya |
-| Александр Поплавский | @rainfirex  |
-
-## Задачи
-### Юрий Арестов
+# Команда и  Задачи
+### @arestovv
 
 T-00 — Формирование требований, подготовка задач  
 T-01 — Скелет приложения и структура папок 	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/5  
@@ -19,14 +10,14 @@ T-22 — Lists: создание списка (FR-MAIN-01)	https://github.com/Pr
 T-23 — Lists: свайп-ряд действий карточки (FR-MAIN-05)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/26  
 T-24 — Lists: переименование списка (FR-MAIN-03)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/27  
 
-### Вадим Кривенок
+### @Azrael3MU
 T-19 — Detail: контекстное меню списка (FR-LIST-04)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/22  
 T-26 — Detail: редактирование товара (FR-LIST-02)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/29  
 T-27 — Detail: удаление товара (FR-LIST-02)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/30  
 T-28 — Detail: очистить купленные (FR-LIST-04)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/31  
 T-29 — Detail: сортировка по алфавиту (FR-LIST-05)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/32  
 
-### Кира Богова
+### @elkabelaya
 
 T-02 — Доменные модели	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/6  
 T-05 — DI: coreModule + подключение Koin	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/9  
@@ -57,7 +48,7 @@ T-59 — Выход из аккаунта (logout)	https://github.com/Practicum-
 T-60 — Авто-обновление токена (refresh) + принудительный logout	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/80  
 T-61 — Дизайн-токены auth (success) + фирменные иллюстрации (light/dark)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/81  
 
-### Александр Поплавский
+### @rainfirex
 
 T-03 — Базовый MVI (core/mvi)	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/7  
 T-04 — Room: AppDatabase + Converters	https://github.com/Practicum-Labs/shopping-list-team-32-3/issues/8  

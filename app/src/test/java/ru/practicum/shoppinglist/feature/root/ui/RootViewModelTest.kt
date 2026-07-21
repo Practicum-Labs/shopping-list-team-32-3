@@ -1,29 +1,25 @@
 package ru.practicum.shoppinglist.feature.root.ui
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
-import ru.practicum.shoppinglist.root.domain.api.OnboardingRepository
-import ru.practicum.shoppinglist.root.ui.InitialState
-import ru.practicum.shoppinglist.root.ui.RootViewModel
-
-
 import app.cash.turbine.test
-import io.mockk.clearAllMocks
 import io.mockk.clearMocks
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
-import org.junit.After
-import org.junit.Test
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
+import org.junit.Test
 import ru.practicum.shoppinglist.core.domain.api.AuthRepository
+import ru.practicum.shoppinglist.root.domain.api.OnboardingRepository
 import ru.practicum.shoppinglist.root.domain.api.ShakeRepository
+import ru.practicum.shoppinglist.root.ui.InitialState
+import ru.practicum.shoppinglist.root.ui.RootViewModel
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RootViewModelTest {
@@ -37,6 +33,7 @@ class RootViewModelTest {
     fun setup() {
         Dispatchers.setMain(testDispatcher)
     }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
@@ -51,7 +48,6 @@ class RootViewModelTest {
         val vm = RootViewModel(mockOnboardingRepo, mockAuthRepo, mockShakeRepo)
         advanceUntilIdle()
         vm.state.test {
-
             val state = awaitItem()
             assert(state.initialState == InitialState.ONBOARDING)
             cancelAndIgnoreRemainingEvents()

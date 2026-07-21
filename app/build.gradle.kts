@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.androidTest
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
@@ -15,6 +16,8 @@ plugins {
 android {
     namespace = "ru.practicum.shoppinglist"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    testBuildType  = "instrumentedTest"
+    dynamicFeatures += setOf(":shared_tests")
 
     defaultConfig {
         applicationId = "ru.practicum.shoppinglist"
@@ -22,6 +25,7 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "BASE_URL", "\"https://practicumopbackend-production.up.railway.app\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,6 +65,12 @@ android {
             isMinifyEnabled = false
             isDebuggable = true
         }
+
+        create("instrumentedTest") {
+            initWith(getByName("debug"))
+            buildConfigField("String", "BASE_URL", "\"https://localhost:8080/\"")
+        }
+
     }
 
     compileOptions {
@@ -102,6 +112,7 @@ dependencies {
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.ui.test.junit4)
+    implementation(libs.okhttp3.idling)
     implementation(libs.androidx.compose.adaptive.navigation)
 
     // Compose
@@ -146,7 +157,16 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.mockk.android)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.okhttp.tls)
+    androidTestImplementation(libs.koin.test)
+    androidTestImplementation(libs.okhttp3.idling)
+    testImplementation(project(":shared_tests"))
+    androidTestImplementation(project(":shared_tests"))
+    androidTestImplementation(libs.material)
+
+
+    implementation(libs.androidx.compose.ui.test.manifest)
 
     // Network
     implementation(libs.retrofit)
@@ -174,7 +194,6 @@ protobuf {
         }
     }
 }
-
 configurations.all {
     resolutionStrategy {
         eachDependency {
@@ -182,7 +201,14 @@ configurations.all {
                 useVersion("3.7.0")
                 because("Force upgrade to fix conflict with Compose UI Test")
             }
+            if (requested.group == "androidx.test.espresso" && requested.name == "espresso-idling-resource") {
+                useVersion("3.7.0")
+                because("Force upgrade to fix conflict")
+            }
         }
+
+        // Force upgrade to fix conflict in AndroidTest
+        force("androidx.drawerlayout:drawerlayout:1.1.1")
+
     }
 }
-

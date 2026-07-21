@@ -3,9 +3,7 @@ package ru.practicum.shoppinglist.feature.lists.data.dao
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import junit.framework.TestCase
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -13,9 +11,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.practicum.shoppinglist.core.data.database.AppDatabase
-import ru.practicum.shoppinglist.feature.listdetail.data.dao.ProductDao
-import ru.practicum.shoppinglist.feature.listdetail.data.entity.ProductEntity
-import ru.practicum.shoppinglist.feature.lists.data.dao.ListDao
 import ru.practicum.shoppinglist.feature.lists.data.entity.ListEntity
 import kotlin.collections.emptyList
 
@@ -41,40 +36,43 @@ class ListDaoTest {
 
     @Test
     fun user1CannotSeeUser2Lists() = runTest {
-        //Given
+        // Given
         listDao.upsert(TEST_OBJECT_0.lists[0])
         listDao.upsert(TEST_OBJECT_1.lists[0])
 
-        //When
+        // When
         val result = listDao.observeAll(TEST_OBJECT_0.userId).first().map { it.name }
 
-        //Then
+        // Then
         assertEquals(
             "Пользователь 0 должен видеть только свои списки",
-            listOf(TEST_OBJECT_0.lists[0].name), result
+            listOf(TEST_OBJECT_0.lists[0].name),
+            result
         )
     }
 
     @Test
     fun deleteAllDeletesOnlyForUser1() = runTest {
-        //Given
+        // Given
         listDao.upsert(TEST_OBJECT_0.lists[0])
         listDao.upsert(TEST_OBJECT_1.lists[0])
 
-        //When
+        // When
         listDao.deleteAll(TEST_OBJECT_0.userId)
         val result1 = listDao.observeAll(TEST_OBJECT_0.userId).first().map { it.name }
         val result2 = listDao.observeAll(TEST_OBJECT_1.userId).first().map { it.name }
 
-        //Then
+        // Then
         assertEquals(
             "Списки пользователя 0 должны быть удаллены",
-            emptyList<String>(), result1
+            emptyList<String>(),
+            result1
         )
 
         assertEquals(
             "Списки пользователя 1 должны быть сохранены",
-            listOf(TEST_OBJECT_1.lists[0].name), result2
+            listOf(TEST_OBJECT_1.lists[0].name),
+            result2
         )
     }
 
@@ -97,6 +95,5 @@ class ListDaoTest {
                 ListEntity(name = "Wines", userId = 1),
             )
         )
-
     }
 }
