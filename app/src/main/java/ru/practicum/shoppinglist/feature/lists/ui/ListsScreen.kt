@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.practicum.shoppinglist.R
 import ru.practicum.shoppinglist.core.ui.components.AddFab
 import ru.practicum.shoppinglist.core.ui.components.AppPreview
+import ru.practicum.shoppinglist.core.ui.components.ConfirmDialog
 import ru.practicum.shoppinglist.core.ui.components.Dialog
 import ru.practicum.shoppinglist.core.ui.components.EmptyState
 import ru.practicum.shoppinglist.core.ui.components.FullScreenLoader
@@ -82,6 +83,16 @@ private fun ListsContent(
                 TopAppBar(
                     stringResource(R.string.lists_title),
                     actions = {
+                        IconButton(
+                            onClick = { onIntent(ListsContract.Intent.RequestDeleteAll) },
+                            enabled = state.lists.isNotEmpty(),
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_lists_delete_icon),
+                                contentDescription = null,
+                                modifier = Modifier.size(Dimens.icon32)
+                            )
+                        }
                         IconButton(onClick = { onIntent(ListsContract.Intent.OpenLogoutConfirm) }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_lists_exit_icon),
@@ -167,6 +178,18 @@ private fun ListsSheet(
             initialName = sheet.currentName,
             onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
             onConfirm = { onIntent(ListsContract.Intent.ConfirmRename(sheet.id, it)) },
+        )
+
+        is ListsContract.Sheet.ConfirmDelete -> ConfirmDialog(
+            title = stringResource(R.string.lists_delete_dialog_title, sheet.name),
+            onConfirm = { onIntent(ListsContract.Intent.ConfirmDelete(sheet.id)) },
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
+        )
+
+        is ListsContract.Sheet.ConfirmDeleteAll -> ConfirmDialog(
+            titleId = R.string.lists_alert_delete_title,
+            onConfirm = { onIntent(ListsContract.Intent.DeleteAllLists) },
+            onDismiss = { onIntent(ListsContract.Intent.DismissSheet) },
         )
 
         is ListsContract.Sheet.SelectIcon -> ListIconsBottomSheet(

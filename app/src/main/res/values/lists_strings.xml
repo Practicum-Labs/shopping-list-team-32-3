@@ -6,6 +6,7 @@
     <string name="lists_card_icon_description">Иконка списка</string>
     <string name="lists_fab_description">Создать список</string>
     <string name="lists_alert_delete_title">Удалить все списки?</string>
+    <string name="lists_delete_dialog_title">Удалить список "%1$s"?</string>
     <string name="lists_add_label">Название списка</string>
     <string name="lists_add_placeholder">Новый список</string>
     <string name="lists_add_title">Добавление списка</string>
